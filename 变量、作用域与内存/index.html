@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 单列选择框和自定义多列选择框</title>
+    <title>摸鱼日志 || 变量、作用域与内存</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content=" ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>单列选择框和自定义多列选择框 </h1>
+        <h1>变量、作用域与内存 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/2
+            2021/11/29
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#ff7d73>
-                    微信小程序
+                <a href="/tags/JavaScript" style=color:#00a596>
+                    JavaScript
                 </a>
             </span>
             
@@ -153,120 +153,30 @@
 
     <div class="content" v-pre>
         <ul>
-<li><strong>单列选择框：</strong></li>
+<li><p>ES 变量可以包含两种不同类型的数据：原始值和引用值。原始值是最简单的数据，引用值是多个值构成的对象。</p>
+</li>
+<li><p>保存原始值的变量是按值访问的，因为操作的就是存储在变量中的实际值；保存引用值的变量是按引用访问的：在操作对象时，实际上操作的是对该对象的引用而非实际的对象本身。</p>
+</li>
+<li><p>引用值可以随时添加、修改和删除属性，而原始值不可以。</p>
+</li>
+<li><p>在通过变量把一个原始值赋值到另一个变量时，原始值会被复制到新变量的位置，两个变量完全独立，互不干扰；在把引用值从一个变量赋值给另一个变量的时候，存储在变量中的值（值为指针，指向存储在堆内存中的对象）也会被复制到新变量所在的位置，操作完成后两个变量指向同一个对象。</p>
+</li>
+<li><p>ES 中<strong>所有函数的参数都是按值传递的</strong>，这意味着函数外的值会被复制到函数内部的参数中（原始值参照原始值复制，引用值参照引用值复制）</p>
+<pre><code class="js">function setName(obj) &#123; 
+ obj.name = &quot;Nicholas&quot;; 
+ obj = new Object(); 
+ obj.name = &quot;Greg&quot;; 
+ console.log(obj.name);  //&quot;Grey&quot;
+&#125; 
+let person = new Object(); 
+setName(person); 
+console.log(person.name); // &quot;Nicholas&quot; 
+</code></pre>
+<p>从以上例子可以看出，当函数的参数为对象时，参数是<strong>按值传递</strong>的，即 obj = person 的引用（<strong>形参复制的是实参的一份引用</strong>），改变 obj.name，由于改变的是 person 的引用，所以 person 的 name 属性也会改变；</p>
+<p>若 person 是按引用传递的，那么当把 obj 重写时，obj 和 person 都应自动指向 name 为 Grey 的对象；但由于是按值传递，所以 obj 的原始引用未改变，只是在函数内部重新创建了 obj 对象，作用域为函数内部，函数执行结束后就会被销毁。</p>
+<p><strong>综上，函数按值传参，当实参为引用值时，形参复制一份实参的引用，所以改变形参的属性会影响到实参，重写形参相当于把形参变成了一个局部的对象，函数结束后就会销毁。</strong></p>
+</li>
 </ul>
-<pre><code class="html">&lt;picker 
-        mode=&quot;selector&quot; 
-        bindchange=&quot;setDuration&quot;      
-        value=&quot;&#123;&#123;durationIndex&#125;&#125;&quot;     
-        range=&quot;&#123;&#123;durationRange&#125;&#125;&quot;&gt;   
-        &#123;&#123;durationRange[durationIndex]&#125;&#125;
-&lt;/picker&gt;
-&lt;!-- 参数依次为模式、改变时的回调函数、所选下标、可选项 --&gt;
-</code></pre>
-<pre><code class="js">data:&#123;
-    durationIndex:0,
-    durationRange:[&#39;15 分钟&#39;,&#39;1 小时&#39;,&#39;12 小时&#39;,&#39;1 天&#39;,&#39;3 天&#39;,&#39;7 天&#39;],   
-&#125;,
-setDuration(e)&#123;
-    this.setData(&#123;durationIndex: e.detail.value&#125;);
-    var date = new Date();
-    switch(this.data.durationIndex)&#123;
-        case &#39;0&#39;:
-            date.setMinutes(date.getMinutes()+15);
-            break;
-        case &#39;1&#39;:
-            date.setHours(date.getHours()+1);
-            break;
-        case &#39;2&#39;:
-            date.setHours(date.getHours()+12);
-            break;
-        case &#39;3&#39;:
-            date.setDate(date.getDate()+1);
-            break;
-        case &#39;4&#39;:
-            date.setDate(date.getDate()+3);
-            break;
-        case &#39;5&#39;:
-            date.setDate(date.getDate()+7);
-            break;
-    &#125;
-    this.setData(&#123;duration:date.getTime()&#125;);  //获取时间戳
-&#125;,  //根据选择的时间对设置的时间进行处理
-</code></pre>
-<ul>
-<li><strong>多列选择框</strong></li>
-</ul>
-<pre><code class="html">&lt;picker
-    mode=&quot;multiSelector&quot; 
-    bindchange=&quot;deadlineChange&quot; 
-    bindcolumnchange=&quot;deadlineColumnChange&quot; 
-    value=&quot;&#123;&#123;deadlineIndex2&#125;&#125;&quot; 
-    range=&quot;&#123;&#123;deadlineRange&#125;&#125;&quot;&gt;
-    &#123;&#123;deadlineRange[0][deadlineIndex[0]]&#125;&#125; &#123;&#123;deadlineRange[1][deadlineIndex[1]]&#125;&#125; &#123;&#123;deadlineRange[2][deadlineIndex[2]]&#125;&#125; &#123;&#123;deadlineRange[3][deadlineIndex[3]]&#125;&#125; &#123;&#123;deadlineRange[4][deadlineIndex[4]]&#125;&#125;
-&lt;/picker&gt;
-&lt;!-- 参数依次为模式、改变时的回调函数、列改变时的回调函数、下标、可选范围 --&gt;
-</code></pre>
-<pre><code class="js">data:&#123;
-    deadline:null,
-    timeIndex:0,
-    timeRange:[&#39;永久&#39;,&#39;临时&#39;],
-    deadlineIndex: [0,0,0,0,0],
-    deadlineRange: [[], [], [], [], []],
-    monthNum:[],
-&#125;,
-onLoad:function(option)&#123;
-    this.setMonthNum();
-    this.setDeadlineRange();
-&#125;,
-//获取此年份每月天数
-setMonthNum(year)&#123;
-    var Num = [31,28,31,30,31,30,31,31,30,31,30,31];
-    if(year%100 ==0 &amp;&amp; year%400 == 0)&#123;
-        Num[1] = 29;
-    &#125;
-    else if(year%4 == 0)&#123;
-        Num[1] = 29;
-    &#125;
-    this.setData(&#123;monthNum:Num&#125;);
-&#125;,
-//设置可选范围
-setDeadlineRange(year,month)&#123;
-    var arr = [[],[],[],[],[],[]];
-    this.setMonthNum(year);
-    for(let i = 0; i &lt;= 10; i++)&#123;
-        arr[0].push(`$&#123;2021+i&#125; 年`);
-    &#125;
-    for(let i = 0; i &lt;= 11; i++)&#123;
-        arr[1].push(`$&#123;i+1&#125; 月`)
-    &#125;
-    for(let i = 1; i&lt;= this.data.monthNum[month]; i++)&#123;
-        arr[2].push(`$&#123;i&#125; 日`)
-    &#125;
-    for(let i = 0; i&lt;= 24; i++)&#123;
-        arr[3].push(`$&#123;i&#125; 时`)
-    &#125;
-    for(let i = 0; i&lt;= 60; i++)&#123;
-        arr[4].push(`$&#123;i&#125; 分`)
-    &#125;
-    this.setData(&#123;deadlineRange:arr&#125;);
-&#125;,
-//提交修改的回调函数（根据选择的项转化为时间戳）
-deadlineChange(e) &#123;
-    this.setData(&#123;deadlineIndex: e.detail.value&#125;);
-    var deadlineRange = this.data.deadlineRange;
-    var deadlineIndex = this.data.deadlineIndex;
-    var deadline = `$&#123;parseInt(deadlineRange[0][deadlineIndex[0]])&#125;-$&#123;parseInt(deadlineRange[1][deadlineIndex[1]])&#125;-$&#123;parseInt(deadlineRange[2][deadlineIndex[2]])&#125; $&#123;parseInt(deadlineRange[3][deadlineIndex[3]])&#125;:$&#123;parseInt(deadlineRange[4][deadlineIndex[4]])&#125;:00`;
-    var date = new Date(deadline);
-    this.setData(&#123;deadline:date.getTime()&#125;);
-&#125;,
-//当选择的列改变时，更改可选列表
-deadlineColumnChange(e) &#123;
-    this.data.deadlineIndex[e.detail.column]=e.detail.value;
-    this.setDeadlineRange(parseInt(this.data.deadlineRange[0][this.data.deadlineIndex[0]]),parseInt(this.data.deadlineRange[1][this.data.deadlineIndex[1]])-1)
-    this.upData(this.data.deadlineIndex);
-&#125;,
-</code></pre>
 
     </div>
 
@@ -348,7 +258,7 @@ deadlineColumnChange(e) &#123;
         repo: 'comment',      // The repository of store comments,
         owner: 'LikeFrost',
         admin: ['LikeFrost'],
-        language: 'en',
+        language: 'zh-CN',
         id: location.pathname,      // Ensure uniqueness and length less than 50
         distractionFreeMode: true  // Facebook-like distraction free mode
     })

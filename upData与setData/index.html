@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
+    <title>摸鱼日志 || upData 与 setData</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content=" ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>小程序自定义组件生命周期 </h1>
+        <h1>upData 与 setData </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/4
+            2021/12/1
         </span>
 
         
@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#00a596>
+                <a href="/tags/微信小程序" style=color:#ff7d73>
                     微信小程序
                 </a>
             </span>
@@ -152,25 +152,39 @@
     </div>
 
     <div class="content" v-pre>
-        <pre><code class="js">  lifetimes: &#123;
-    created: function () &#123;
-      // 组件实例化，但节点树还未导入，因此这时不能用setData
-    &#125;,
-    attached: function () &#123;
-      // 在组件实例进入页面节点树时执行 
-      // 节点树完成，可以用setData渲染节点，但无法操作节点
-    &#125;,
-    ready: function () &#123;
-      // 组件布局完成，这时可以获取节点信息，也可以操作节点
-    &#125;,
-    move: function () &#123;
-      // 组件实例被移动到树的另一个位置
-    &#125;,
-    detached: function () &#123;
-      // 在组件实例被从页面节点树移除时执行
-    &#125;,
-  &#125;,
+        <p><strong>一定要按需取用！</strong></p>
+<p>两者都可以触发时更新 UI，类似于 React 的 useState，但也有比较坑人的地方：</p>
+<ul>
+<li><p>setData 是全部修改，直接覆盖：</p>
+<pre><code>  ```js
+  data:&#123;
+      list:&#123;
+          name:&#39;xiaoming&#39;,
+          age:18,
+      &#125;
+  &#125;
+  let newList = &#123; name:&#39;xiaohong&#39; &#125;;
+  this.setData(&#123;list:neList&#125;);
+  console.log(this.data.list);   //&#123; name:&#39;xiaohong&#39; &#125;
+  ```
 </code></pre>
+</li>
+<li><p>upData 是只修改或增加，不覆盖：</p>
+</li>
+</ul>
+<pre><code class="js">data:&#123;
+    list:&#123;
+        name:&#39;xiaoming&#39;,
+        age:18,
+    &#125;
+&#125;
+let newList = &#123; name:&#39;xiaohong&#39; &#125;;
+this.upData(&#123;list:neList&#125;);
+console.log(this.data.list);   //&#123; name:&quot;xiaohong&quot;, age:18 &#125;
+</code></pre>
+<p>所以在进行列表项删除或者新数据少于旧数据时，要使用 setData；</p>
+<p>在部分修改时，使用 upData；</p>
+<p>在进行列表项增加或者新数据多余旧数据时，二者均可。</p>
 
     </div>
 
@@ -252,7 +266,7 @@
         repo: 'comment',      // The repository of store comments,
         owner: 'LikeFrost',
         admin: ['LikeFrost'],
-        language: 'en',
+        language: 'zh-CN',
         id: location.pathname,      // Ensure uniqueness and length less than 50
         distractionFreeMode: true  // Facebook-like distraction free mode
     })
