@@ -8,7 +8,7 @@
     <title>摸鱼日志 || 时间戳转化为日期格式&amp;长按复制功能</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
-    <meta name="keywords" content=" ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
     <link rel="icon" href="/images/avatar.jpg">
     <link rel="stylesheet" href="/css/antd.min.css">
     
@@ -153,22 +153,23 @@
 
     <div class="content" v-pre>
         <ul>
-<li><strong>时间戳转化为日期：</strong></li>
-</ul>
+<li><p><strong>时间戳转化为日期：</strong></p>
+<span id="more"></span>
 <pre><code class="js">toTime(timestamp)&#123;
-    var date = new Date(timestamp);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-    let str = `$&#123;year&#125; 年 $&#123;month&#125; 月 $&#123;day&#125; 日 $&#123;hour&#125; 时 $&#123;minute&#125; 分 $&#123;second&#125; 秒`;
-    return str;
+  var date = new Date(timestamp);
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
+  let str = `$&#123;year&#125; 年 $&#123;month&#125; 月 $&#123;day&#125; 日 $&#123;hour&#125; 时 $&#123;minute&#125; 分 $&#123;second&#125; 秒`;
+  return str;
 &#125;,
 </code></pre>
-<ul>
-<li><strong>长按复制：</strong></li>
+</li>
+<li><p><strong>长按复制：</strong></p>
+</li>
 </ul>
 <pre><code class="html">&lt;view class=&quot;list-item&quot; bind:longtap=&quot;copyKey&quot; id=&quot;&#123;&#123;key&#125;&#125;&quot;&gt;
     &lt;view class=&quot;name&quot;&gt;密钥&lt;/view&gt;

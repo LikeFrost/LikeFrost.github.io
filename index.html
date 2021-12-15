@@ -8,7 +8,7 @@
     <title>摸鱼日志 || 记录一些日常学习及奇奇怪怪的事情</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
-    <meta name="keywords" content=" ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
     <link rel="icon" href="/images/avatar.jpg">
     <link rel="stylesheet" href="/css/antd.min.css">
     
@@ -171,7 +171,6 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <h4 id="建立本地项目"><a href="#建立本地项目" class="headerlink" title="建立本地项目"></a>建立本地项目</h4><ul>
 <li>新建空文件夹</li>
 <li>右键点击 <code>git bush here</code> </li>
@@ -180,36 +179,7 @@
 <li>安装依赖：<code>npm install</code></li>
 <li>启动服务器：<code>hexo server</code></li>
 </ul>
-<h4 id="将博客推到远程仓库"><a href="#将博客推到远程仓库" class="headerlink" title="将博客推到远程仓库"></a>将博客推到远程仓库</h4><ul>
-<li><p>新建 git 仓库，名称为：<username>.github.io (好处是：通过<code>https://username.github.io/</code>就可以访问到你的仓库/blog/project主页, 而不需要在 github.io/后面再加上仓库名)</p>
-</li>
-<li><p>安装插件：<code>npm install hexo-deployer-git --save</code></p>
-</li>
-<li><p>创建一个 SSH key：<code>ssh-keygen -t -rsa -C &quot;email address&quot;</code></p>
-</li>
-<li><p>将密钥添加到 github，验证是否添加成功：<code>ssh -T git@github.com</code></p>
-</li>
-<li><p>在 _config.yml 文件最后修改为：</p>
-<pre><code class="js"># Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: git@github.com:LikeFrost/LikeFrost.github.io.git
-  branch: master
-</code></pre>
-<p>注意 type: 后面一定要有空格，不然会报错，仓库地址写 ssh 地址（以后提交时不用输用户名密码）</p>
-</li>
-<li><p>推送到 github：<code>hexo g</code>   <code>hexo d</code></p>
-</li>
-</ul>
-<h4 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h4><ul>
-<li><p>推送失败：错误码 443 ，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38076935/article/details/120392154">配置一下 host 文件</a></p>
-</li>
-<li><p>仓库找不到：重新配置 github 用户名、邮箱等（注意没有下划线）</p>
-</li>
-</ul>
-<h4 id="访问地址"><a href="#访问地址" class="headerlink" title="访问地址"></a>访问地址</h4><p><a href="https://likefrost.github.io/">https://likefrost.github.io/</a></p>
-
+            
             
         </div>
     </div>
@@ -223,7 +193,7 @@ deploy:
         
         <span class="tag">
             
-            <a href="/tags/搭建博客" style=color:#00bcd4>
+            <a href="/tags/搭建博客" style=color:#00a596>
                 搭建博客
             </a>
         </span>
@@ -277,7 +247,7 @@ deploy:
         
         <span class="tag">
             
-            <a href="/tags/工具类" style=color:#ff7d73>
+            <a href="/tags/工具类" style=color:#00bcd4>
                 工具类
             </a>
         </span>
@@ -313,314 +283,9 @@ deploy:
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p>小程序，伤害人你可真有一套！</p>
 <p>文档老骗子了，昨天写的海报分享在模拟器上跑起来完全ok，结果真机和体验版都炸了，用回了老接口完美解决，记录一下代码：</p>
-<ul>
-<li>wxml</li>
-</ul>
-<pre><code class="html">&lt;view class=&quot;list-item&quot; bind:tap=&quot;getPic&quot;&gt;
-    &lt;view class=&quot;name&quot;&gt;分享实验室密钥&lt;/view&gt;
-    &lt;view class=&quot;value&quot;&gt;生成分享图&lt;/view&gt;
-&lt;/view&gt;
-&lt;view class=&quot;result_paper&quot; wx:if=&quot;&#123;&#123;isShow&#125;&#125;&quot; catchtouchmove=&quot;moveHandle&quot; bindtap=&quot;hidePaper&quot; bind:longtap=&quot;shareImg&quot;&gt;
-    &lt;view class=&quot;paper_content&quot; wx:if=&quot;&#123;&#123;tempFilePath&#125;&#125;&quot;&gt;
-        &lt;image src=&quot;&#123;&#123;tempFilePath&#125;&#125;&quot; style=&quot;height:366px; width:352px;position: relative;z-index: 999;&quot;id=&quot;canvas_image&quot; catchtap=&quot;hidePaper&quot;/&gt;
-    &lt;/view&gt;
-    &lt;view style=&quot;width:0px;height:0px;overflow: hidden;&quot;&gt;
-        &lt;canvas canvas-id=&quot;canvas&quot; class=&quot;paper_canvas&quot; id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
-    &lt;/view&gt;
-&lt;/view&gt;
-</code></pre>
-<ul>
-<li>scss</li>
-</ul>
-<pre><code class="css">.title
-&#123;
-    margin: var(--margin-24) var(--margin-16);
-
-    font-size: var(--font-24);
-    font-weight: 600;
-
-    color: var(--gray-1);
-&#125;
-
-.list
-&#123;
-    margin-top: var(--margin-12);
-
-    .list-item
-    &#123;
-        display: flex;
-
-        margin: var(--margin-12) var(--margin-16);
-        border-radius: var(--radius-8);
-        height: 80rpx;
-
-        background-color: var(--blue-background);
-
-        align-items: center;
-
-        .name
-        &#123;
-            margin-left: var(--margin-16);
-
-            font-size: var(--font-14);
-            line-height: var(--font-14);
-
-            color: var(--gray-2);
-        &#125;
-
-        .value
-        &#123;
-            margin-right: var(--margin-16);
-
-            font-size: var(--font-12);
-            line-height: var(--font-12);
-            text-align: right;
-
-            color: var(--gray-3);
-
-            flex: 1;
-        &#125;
-    &#125;
-
-    .qrcode
-    &#123;
-        text-align: center;
-
-        .img
-        &#123;
-            width: 500rpx;
-            height: 500rpx;
-        &#125;
-    &#125;
-&#125;
-
-.ai-button
-&#123;
-    margin-top: var(--margin-24);
-
-    background-color: var(--red);
-&#125;
-
-.result_paper
-&#123;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999999;
-
-    width: 100vw;
-    min-height: 100%;
-
-    color: #fff;
-    background: rgba(0, 0, 0, .6);
-
-    .paper_content
-    &#123;
-        overflow: auto;
-
-        position: relative;
-        z-index: 98;
-
-        width: 100vw;
-        height: 100vh;
-
-        text-align: center;
-
-        #canvas_image
-        &#123;
-            margin-top: 24%;
-        &#125;
-    &#125;
-&#125;
-
-.paper_canvas
-&#123;
-    overflow: hidden;
-
-    position: absolute;
-    bottom: -5000rpx;
-    left: 0;
-
-    width: 704rpx;
-    height: 732rpx;
-
-    text-align: center;
-&#125;
-</code></pre>
-<ul>
-<li>js</li>
-</ul>
-<pre><code class="js">Page(&#123;
-    data:&#123;
-        labId:&#39;&#39;,
-        key:&#39;&#39;,
-        keyList:[],
-        tempFilePath: &#39;&#39;,
-        isShow: false,
-        keyImage:&#39;&#39;,
-        labName:&#39;&#39;,
-        shareName:&#39;&#39;,
-        background:&#39;/images/Subtract.png&#39;
-    &#125;,
-    onLoad:function(option)&#123;
-        this.setData(&#123;labId:option.id,key:option.key&#125;)
-    &#125;,
-    onShow:function()&#123;
-        
-    &#125;,
-    preventTouchMove() &#123;&#125;,
-    getPic()&#123;
-        this.setData(&#123;isShow:true&#125;)
-        if(this.data.tempFilePath)&#123;
-            this.shareImg();
-            return; 
-        &#125;else&#123;
-            wx.pro.showLoading(&#123;title:&#39;加载中&#39;&#125;);
-        &#125;
-
-        wx.pro.request(&#123;
-            url:&#39; &#39;,
-            method:&#39;get&#39;,
-            header:&#123;
-                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
-                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
-            &#125;,
-            data:&#123;
-                &#39;labId&#39;:this.data.labId
-            &#125;
-        &#125;).then((res)=&gt;&#123;
-            //console.log(&#39;获取实验室名称&#39;,res.data.data.lab.name)
-            this.setData(&#123;labName:res.data.data.lab.name&#125;)
-            return wx.pro.request(&#123;
-                url:&quot; &quot;,
-                method:&#39;get&#39;,
-                header:&#123;
-                  &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
-                  &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
-                &#125;,
-            &#125;)
-        &#125;).then((res)=&gt;&#123;
-            //console.log(&#39;获取分享者姓名&#39;,res.data.data.userInfo.name)
-            this.setData(&#123;shareName:res.data.data.userInfo.name&#125;)
-            const scene = `labId=$&#123;this.data.labId&#125;&amp;key=$&#123;this.data.key&#125;`;
-            const info = wx.pro.getAccountInfoSync();//版本类型
-            return wx.pro.request(&#123;
-                url:&quot; &quot;,
-                method:&#39;post&#39;,
-                header:&#123;
-                    &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
-                    &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
-                &#125;,
-                data:&#123;
-                    scene:scene,
-                    envVersion:info.miniProgram.envVersion
-                &#125;
-            &#125;)
-        &#125;).then((res)=&gt;&#123;
-            //console.log(&#39;获取qrcode&#39;,res)
-            this.setData(&#123;keyImg:res.data.data.generateQRCode&#125;)
-            const buffer = wx.base64ToArrayBuffer(this.data.keyImg),
-            filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;
-            return wx.getFileSystemManager().writeFile(&#123; 
-                filePath,
-                data: buffer,
-                encoding: &#39;base64&#39;,
-                success:()=&gt;&#123;
-                    this.setData(&#123;keyImage:filePath&#125;);
-                    this.drawPic();
-                &#125;,
-            &#125;)
-        &#125;).catch(() =&gt; &#123;
-            this.setData(&#123;isShow: false&#125;);
-            wx.hideLoading()
-            wx.showToast(&#123;
-                title: &#39;加载失败&#39;,
-                duration: 2000,
-                icon: &#39;none&#39;
-            &#125;)
-        &#125;)
-    &#125;,
-    drawPic()&#123;
-        const ctx = wx.createCanvasContext(&#39;canvas&#39;);
-        const dpr = wx.getSystemInfoSync.pixelRatio;
-        ctx.fillStyle=&quot;#F2F2F2&quot;;
-        //ctx.scale(dpr,dpr)
-        ctx.fillRect(0,0,352,366)
-        ctx.drawImage(this.data.background,1,1,350,364);
-        ctx.drawImage(this.data.keyImage,25,268,88,88);
-        ctx.setTextBaseline(&quot;top&quot;);
-        ctx.setTextAlign(&quot;center&quot;)
-        ctx.setFontSize(24)
-        ctx.setFillStyle(&quot;#333333&quot;);
-        ctx.fillText(this.data.labName,352/2,12);
-        ctx.setFontSize(14)
-        ctx.setFillStyle(&quot;#666666&quot;);
-        ctx.setTextAlign(&quot;left&quot;)
-        ctx.fillText(`管理员：$&#123;this.data.keyList.userName&#125;`,74,78);
-        ctx.fillText(`联系电话：$&#123;this.data.keyList.telephone&#125;`,60,106);
-        ctx.fillText(`密钥时限：$&#123;this.data.keyList.duration&#125;`,60,134);
-        ctx.fillText(`成员时限：$&#123;this.data.keyList.deadline&#125;`,60,162);
-        ctx.setTextAlign(&quot;center&quot;)
-        ctx.setFillStyle(&quot;#C74242&quot;);
-        ctx.fillText(&quot;请注意实验室相关事项，注意实验安全&quot;,352/2,210);
-        ctx.fillText(&#39;实验室&#39;,307,319);
-        ctx.setTextAlign(&quot;left&quot;);
-        ctx.setFillStyle(&quot;#585858&quot;);
-        ctx.fillText(`$&#123;this.data.shareName&#125;已经加入实验室`,130,291)
-        ctx.fillText(&#39;长按小程序码，立即加入&#39;,130,319);
-        ctx.draw(false,()=&gt;&#123;
-            setTimeout(()=&gt;&#123;
-                wx.canvasToTempFilePath(&#123;
-                    x: 0,
-                    y: 0,
-                    width: 352,
-                    height: 366,
-                    destWidth: 352*dpr,
-                    destHeight: 366*dpr,
-                    canvasId: &#39;canvas&#39;,
-                    quality: 1,
-                    success: (res) =&gt; &#123;
-                        console.log(&#39;success&#39;,res)
-                        var tempFilePath = res.tempFilePath;
-                        this.setData(&#123;
-                            show:false,
-                            tempFilePath: tempFilePath
-                        &#125;)
-                        wx.hideLoading();
-                        this.shareImg();
-                    &#125;,
-                    fail: res =&gt; &#123;
-                        console.log(&#39;fail&#39;,res)
-                        wx.hideLoading()
-                        wx.showToast(&#123;
-                            title: &#39;海报加载失败&#39;,
-                            duration: 2000,
-                            icon: &#39;none&#39;
-                        &#125;)
-                    &#125;
-                &#125;)
-            &#125;,100)
-        &#125;)
-    &#125;,
-    shareImg()&#123;
-        wx.pro.showShareImageMenu(&#123;
-            path:this.data.tempFilePath
-        &#125;).then((res)=&gt;&#123;
-            console.log(res)
-        &#125;).catch((e)=&gt;&#123;
-            console.log(e)
-        &#125;)
-    &#125;,
-    hidePaper: function () &#123;
-        this.setData(&#123;isShow: false&#125;);
-        wx.hideLoading()
-    &#125;,
-&#125;)
-</code></pre>
-
+            
             
         </div>
     </div>
@@ -670,258 +335,9 @@ deploy:
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p>踩了两天的坑，终于爬出来了，记录一下。</p>
 <p>由于要<strong>自定义</strong>分享海报上的内容，所以首先要有一个 canvas（行内设置宽高，在css内设置的话内部图片默认缩放）：</p>
-<pre><code class="html">&lt;view class=&quot;bg&quot;&gt;
-    &lt;canvas canvas-id=&quot;canvas&quot; id=&quot;canvas&quot; type=&quot;2d&quot; style=&quot;height:366px;width:352px&quot; class=&quot;cvs&quot;&gt;&lt;/canvas&gt;
-&lt;/view&gt;
-&lt;button class=&quot;ai-button&quot; bind:tap=&quot;shareImg&quot;&gt;分享&lt;/button&gt;
-</code></pre>
-<p>js 中获取 canvas 节点：</p>
-<pre><code class="js">    const query = wx.createSelectorQuery()   //新写法
-        query.select(&#39;#canvas&#39;)
-        .fields(&#123;node:true,size:true&#125;)
-        .exec((res)=&gt;&#123;
-            const canvas = res[0].node;
-            const dpr = wx.getSystemInfoSync().pixelRatio  //获取设备像素比
-            canvas.width = res[0].width * dpr
-            canvas.height = res[0].height * dpr
-            const ctx = canvas.getContext(&#39;2d&#39;);
-        &#125;)
-</code></pre>
-<p>绘制图片，在上述写法中要先定义图片节点才能绘制：</p>
-<pre><code class="js">let img = canvas.createImage();
-img.src = &quot;/images/Subtract.svg&quot;;
-img.onload = () =&gt;&#123;
-    ctx.drawImage(img,1,1,canvas.width,canvas.height);
-&#125;
-</code></pre>
-<p>添加文字：</p>
-<pre><code class="js">ctx.textBaseline = &quot;top&quot;;
-ctx.textAlign = &quot;center&quot;
-ctx.font = `600 $&#123;24*dpr&#125;px 黑体`;
-ctx.fillStyle=&quot;#333333&quot;;         //设置字体属性
-ctx.fillText(this.data.labName,res[0].width * dpr/2,24*dpr);  //绘制文字
-</code></pre>
-<p>将后台获取到的 base64 转化为 canvas 能够绘制的临时文件：</p>
-<pre><code class="js">const buffer = wx.base64ToArrayBuffer(this.data.keyImg), //将 base64 转化为 buffer
-filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;   //临时路径
-wx.getFileSystemManager().writeFile(&#123;    //写文件
-    filePath,
-    data: buffer,
-    encoding: &#39;base64&#39;,
-    success:()=&gt;&#123;
-        const code = canvas.createImage();
-        code.src = filePath;
-        code.onload=()=&gt;&#123;
-            ctx.drawImage(code,25*dpr,268*dpr,88*dpr,88*dpr)
-        &#125;
-    &#125;
-&#125;)
-</code></pre>
-<p>全部绘制完成后，点击按钮分享：</p>
-<pre><code class="js">    shareImg()&#123;
-        const query = wx.createSelectorQuery()    //选择节点
-        const dpr = wx.getSystemInfoSync().pixelRatio
-        query.select(&#39;#canvas&#39;)
-        .fields(&#123;node:true,size:true&#125;)
-        .exec((res)=&gt;&#123;
-            const canvas = res[0].node;
-            wx.pro.canvasToTempFilePath(&#123;      //生成临时文件
-                x:0,
-                y:0,
-                width:352*dpr,
-                height:366*dpr,
-                canvas:canvas
-            &#125;).then((res)=&gt;&#123;
-                this.setData(&#123;path:res.tempFilePath&#125;)
-                wx.pro.showShareImageMenu(&#123;       //分享
-                    path:this.data.path
-                &#125;).then((res)=&gt;&#123;
-                    console.log(res)
-                &#125;)
-            &#125;)
-        &#125;)
-</code></pre>
-<h4 id="整体代码："><a href="#整体代码：" class="headerlink" title="整体代码："></a>整体代码：</h4><p>wxml :</p>
-<pre><code class="html">&lt;view class=&quot;title&quot;&gt;生成分享图&lt;/view&gt;
-&lt;view class=&quot;bg&quot;&gt;
-    &lt;canvas canvas-id=&quot;canvas&quot; id=&quot;canvas&quot; type=&quot;2d&quot; style=&quot;height:366px;width:352px&quot; class=&quot;cvs&quot;&gt;&lt;/canvas&gt;
-&lt;/view&gt;
-&lt;button class=&quot;ai-button&quot; bind:tap=&quot;shareImg&quot;&gt;分享&lt;/button&gt;
-</code></pre>
-<p>scss:</p>
-<pre><code class="css">.bg
-&#123;
-    margin: 5rpx;
-    padding-top: 20rpx;
-    padding-bottom: 20rpx;
-
-    background-color: rgba(242, 242, 242, 1);
-
-    .cvs
-    &#123;
-        display: block;
-
-        margin: 20rpx auto;
-    &#125;
-&#125;
-
-.title
-&#123;
-    margin: var(--margin-24) var(--margin-16);
-
-    font-size: var(--font-24);
-    font-weight: 600;
-
-    color: var(--gray-1);
-&#125;
-
-.ai-button
-&#123;
-    margin-top: 20rpx;
-&#125;
-</code></pre>
-<p>js:</p>
-<pre><code class="js">Page(&#123;
-    data:&#123;
-        labId:53,
-        key:&#39;3H8IFT&#39;,
-        labName:&#39;实验室 N5-101&#39;,
-        userName:&#39;&#39;,
-        telephone:&#39;1111111111&#39;,
-        duration:&#39;0000年00月00日 00时00分&#39;,
-        deadline:&#39;0000年00月00日 00时00分&#39;,
-        shareName:&#39;1111111111&#39;,
-        keyImg:&#39;&#39;,
-        path:&#39;&#39;,
-    &#125;,
-    onLoad:function(option)&#123;
-        this.setData(&#123;
-            labId:option.labId,
-            key:option.key,
-            userName:option.userName,
-            telephone:option.telephone,
-            duration:option.duration,
-            deadline:option.deadline,
-            labName:option.labName,
-            shareName:option.shareName
-        &#125;)
-        wx.pro.request(&#123;
-            url:&#39;xxx&#39;,
-            method:&#39;get&#39;,
-            header:&#123;
-                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
-                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
-            &#125;,
-            data:&#123;
-                &#39;labId&#39;:this.data.labId
-            &#125;
-        &#125;).then((res)=&gt;&#123;
-            this.setData(&#123;labName:res.data.data.lab.name&#125;)
-        &#125;).catch((e)=&gt;&#123;
-            console.log(e)
-        &#125;)
-        const scene = `labId=$&#123;this.data.labId&#125;&amp;key=$&#123;this.data.key&#125;`;
-        wx.pro.request(&#123;
-            url:&quot;xxx&quot;,
-            method:&#39;post&#39;,
-            header:&#123;
-                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
-                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
-            &#125;,
-            data:&#123;
-                scene:scene,
-                envVersion:&#39;develop&#39;
-            &#125;
-        &#125;).then((res)=&gt;&#123;
-            this.setData(&#123;keyImg:res.data.data.generateQRCode&#125;)
-            this.drawPic()
-        &#125;).catch((e)=&gt;&#123;
-            console.log(e)
-        &#125;)
-    &#125;,
-    drawPic()&#123;
-        const query = wx.createSelectorQuery()
-        query.select(&#39;#canvas&#39;)
-        .fields(&#123;node:true,size:true&#125;)
-        .exec((res)=&gt;&#123;
-            const canvas = res[0].node;
-            const dpr = wx.getSystemInfoSync().pixelRatio
-            canvas.width = res[0].width * dpr
-            canvas.height = res[0].height * dpr
-            const ctx = canvas.getContext(&#39;2d&#39;);
-            let img = canvas.createImage();
-            img.src = &quot;/images/Subtract.svg&quot;;
-            img.onload = () =&gt;&#123;
-                ctx.drawImage(img,1,1,canvas.width,canvas.height);
-                ctx.textBaseline = &quot;top&quot;;
-                ctx.textAlign = &quot;center&quot;
-                ctx.font = `600 $&#123;24*dpr&#125;px 黑体`;
-                ctx.fillStyle=&quot;#333333&quot;;
-                ctx.fillText(this.data.labName,res[0].width * dpr/2,24*dpr);
-                ctx.font = `400 $&#123;14*dpr&#125;px 黑体`;
-                ctx.fillStyle=&quot;#666666&quot;;
-                ctx.textAlign = &quot;left&quot;
-                ctx.fillText(`管理员：$&#123;this.data.userName&#125;`,74*dpr,78*dpr);
-                ctx.fillText(`联系电话：$&#123;this.data.telephone&#125;`,60*dpr,106*dpr);
-                ctx.fillText(`密钥时限：$&#123;this.data.duration&#125;`,60*dpr,134*dpr);
-                ctx.fillText(`成员时限：$&#123;this.data.deadline&#125;`,60*dpr,162*dpr);
-                ctx.textAlign = &quot;center&quot;
-                ctx.fillStyle=&quot;#C74242&quot;;
-                ctx.fillText(&quot;请注意实验室相关事项，注意实验安全&quot;,res[0].width * dpr/2,210*dpr);
-                ctx.fillText(&#39;实验室&#39;,307*dpr,319*dpr)
-                const buffer = wx.base64ToArrayBuffer(this.data.keyImg),
-                filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;
-                wx.getFileSystemManager().writeFile(&#123; 
-                    filePath,
-                    data: buffer,
-                    encoding: &#39;base64&#39;,
-                    success:()=&gt;&#123;
-                        const code = canvas.createImage();
-                        code.src = filePath;
-                        code.onload=()=&gt;&#123;
-                            ctx.drawImage(code,25*dpr,268*dpr,88*dpr,88*dpr)
-                        &#125;
-                    &#125;
-                &#125;)
-                ctx.textAlign = &quot;left&quot;;
-                ctx.fillStyle=&quot;#585858&quot;;
-                ctx.fillText(`$&#123;this.data.shareName&#125;已经加入实验室`,130*dpr,291*dpr)
-                ctx.fillText(&#39;长按小程序码，立即加入&#39;,130*dpr,319*dpr)
-            &#125;
-            ctx.restore();
-        &#125;)
-    &#125;,
-    shareImg()&#123;
-        const query = wx.createSelectorQuery()
-        const dpr = wx.getSystemInfoSync().pixelRatio
-        query.select(&#39;#canvas&#39;)
-        .fields(&#123;node:true,size:true&#125;)
-        .exec((res)=&gt;&#123;
-            const canvas = res[0].node;
-            wx.pro.canvasToTempFilePath(&#123;
-                x:0,
-                y:0,
-                width:352*dpr,
-                height:366*dpr,
-                canvas:canvas
-            &#125;).then((res)=&gt;&#123;
-                this.setData(&#123;path:res.tempFilePath&#125;)
-                wx.pro.showShareImageMenu(&#123;
-                    path:this.data.path
-                &#125;).then((res)=&gt;&#123;
-                    console.log(res)
-                &#125;)
-            &#125;)
-        &#125;)
-    &#125;
-&#125;)
-</code></pre>
-<p>效果图：</p>
-<p><img src="/img/%E7%94%9F%E6%88%90%E5%B8%A6base64%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%9A%84%E5%88%86%E4%BA%AB%E6%B5%B7%E6%8A%A5.png" alt="效果图"></p>
-
+            
             
         </div>
     </div>
@@ -935,7 +351,7 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#00a596>
+            <a href="/tags/微信小程序" style=color:#00bcd4>
                 微信小程序
             </a>
         </span>
@@ -1005,7 +421,7 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#03a9f4>
+            <a href="/tags/微信小程序" style=color:#ffa2c4>
                 微信小程序
             </a>
         </span>
@@ -1041,40 +457,9 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <ul>
-<li><strong>时间戳转化为日期：</strong></li>
-</ul>
-<pre><code class="js">toTime(timestamp)&#123;
-    var date = new Date(timestamp);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-    let str = `$&#123;year&#125; 年 $&#123;month&#125; 月 $&#123;day&#125; 日 $&#123;hour&#125; 时 $&#123;minute&#125; 分 $&#123;second&#125; 秒`;
-    return str;
-&#125;,
-</code></pre>
-<ul>
-<li><strong>长按复制：</strong></li>
-</ul>
-<pre><code class="html">&lt;view class=&quot;list-item&quot; bind:longtap=&quot;copyKey&quot; id=&quot;&#123;&#123;key&#125;&#125;&quot;&gt;
-    &lt;view class=&quot;name&quot;&gt;密钥&lt;/view&gt;
-    &lt;view class=&quot;value&quot;&gt;&#123;&#123;key&#125;&#125;&lt;/view&gt;
-&lt;/view&gt;
-</code></pre>
-<pre><code class="js">copyKey(e)&#123;
-    wx.pro.setClipboardData(&#123;
-        data:e.currentTarget.id
-    &#125;).then((res)=&gt;&#123;
-    &#125;).catch((e)=&gt;&#123;
-        console.log(e);
-    &#125;)
-&#125;,
-</code></pre>
-
+<li><p><strong>时间戳转化为日期：</strong></p>
+            
             
         </div>
     </div>
@@ -1088,7 +473,7 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#ff7d73>
+            <a href="/tags/微信小程序" style=color:#00bcd4>
                 微信小程序
             </a>
         </span>
@@ -1124,7 +509,6 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <ul>
 <li><strong>单列选择框：</strong></li>
 </ul>
@@ -1137,110 +521,7 @@ wx.getFileSystemManager().writeFile(&#123;    //写文件
 &lt;/picker&gt;
 &lt;!-- 参数依次为模式、改变时的回调函数、所选下标、可选项 --&gt;
 </code></pre>
-<pre><code class="js">data:&#123;
-    durationIndex:0,
-    durationRange:[&#39;15 分钟&#39;,&#39;1 小时&#39;,&#39;12 小时&#39;,&#39;1 天&#39;,&#39;3 天&#39;,&#39;7 天&#39;],   
-&#125;,
-setDuration(e)&#123;
-    this.setData(&#123;durationIndex: e.detail.value&#125;);
-    var date = new Date();
-    switch(this.data.durationIndex)&#123;
-        case &#39;0&#39;:
-            date.setMinutes(date.getMinutes()+15);
-            break;
-        case &#39;1&#39;:
-            date.setHours(date.getHours()+1);
-            break;
-        case &#39;2&#39;:
-            date.setHours(date.getHours()+12);
-            break;
-        case &#39;3&#39;:
-            date.setDate(date.getDate()+1);
-            break;
-        case &#39;4&#39;:
-            date.setDate(date.getDate()+3);
-            break;
-        case &#39;5&#39;:
-            date.setDate(date.getDate()+7);
-            break;
-    &#125;
-    this.setData(&#123;duration:date.getTime()&#125;);  //获取时间戳
-&#125;,  //根据选择的时间对设置的时间进行处理
-</code></pre>
-<ul>
-<li><strong>多列选择框</strong></li>
-</ul>
-<pre><code class="html">&lt;picker
-    mode=&quot;multiSelector&quot; 
-    bindchange=&quot;deadlineChange&quot; 
-    bindcolumnchange=&quot;deadlineColumnChange&quot; 
-    value=&quot;&#123;&#123;deadlineIndex2&#125;&#125;&quot; 
-    range=&quot;&#123;&#123;deadlineRange&#125;&#125;&quot;&gt;
-    &#123;&#123;deadlineRange[0][deadlineIndex[0]]&#125;&#125; &#123;&#123;deadlineRange[1][deadlineIndex[1]]&#125;&#125; &#123;&#123;deadlineRange[2][deadlineIndex[2]]&#125;&#125; &#123;&#123;deadlineRange[3][deadlineIndex[3]]&#125;&#125; &#123;&#123;deadlineRange[4][deadlineIndex[4]]&#125;&#125;
-&lt;/picker&gt;
-&lt;!-- 参数依次为模式、改变时的回调函数、列改变时的回调函数、下标、可选范围 --&gt;
-</code></pre>
-<pre><code class="js">data:&#123;
-    deadline:null,
-    timeIndex:0,
-    timeRange:[&#39;永久&#39;,&#39;临时&#39;],
-    deadlineIndex: [0,0,0,0,0],
-    deadlineRange: [[], [], [], [], []],
-    monthNum:[],
-&#125;,
-onLoad:function(option)&#123;
-    this.setMonthNum();
-    this.setDeadlineRange();
-&#125;,
-//获取此年份每月天数
-setMonthNum(year)&#123;
-    var Num = [31,28,31,30,31,30,31,31,30,31,30,31];
-    if(year%100 ==0 &amp;&amp; year%400 == 0)&#123;
-        Num[1] = 29;
-    &#125;
-    else if(year%4 == 0)&#123;
-        Num[1] = 29;
-    &#125;
-    this.setData(&#123;monthNum:Num&#125;);
-&#125;,
-//设置可选范围
-setDeadlineRange(year,month)&#123;
-    var arr = [[],[],[],[],[],[]];
-    this.setMonthNum(year);
-    for(let i = 0; i &lt;= 10; i++)&#123;
-        arr[0].push(`$&#123;2021+i&#125; 年`);
-    &#125;
-    for(let i = 0; i &lt;= 11; i++)&#123;
-        arr[1].push(`$&#123;i+1&#125; 月`)
-    &#125;
-    for(let i = 1; i&lt;= this.data.monthNum[month]; i++)&#123;
-        arr[2].push(`$&#123;i&#125; 日`)
-    &#125;
-    for(let i = 0; i&lt;= 24; i++)&#123;
-        arr[3].push(`$&#123;i&#125; 时`)
-    &#125;
-    for(let i = 0; i&lt;= 60; i++)&#123;
-        arr[4].push(`$&#123;i&#125; 分`)
-    &#125;
-    this.setData(&#123;deadlineRange:arr&#125;);
-&#125;,
-//提交修改的回调函数（根据选择的项转化为时间戳）
-deadlineChange(e) &#123;
-    this.setData(&#123;deadlineIndex: e.detail.value&#125;);
-    var deadlineRange = this.data.deadlineRange;
-    var deadlineIndex = this.data.deadlineIndex;
-    var deadline = `$&#123;parseInt(deadlineRange[0][deadlineIndex[0]])&#125;-$&#123;parseInt(deadlineRange[1][deadlineIndex[1]])&#125;-$&#123;parseInt(deadlineRange[2][deadlineIndex[2]])&#125; $&#123;parseInt(deadlineRange[3][deadlineIndex[3]])&#125;:$&#123;parseInt(deadlineRange[4][deadlineIndex[4]])&#125;:00`;
-    var date = new Date(deadline);
-    this.setData(&#123;deadline:date.getTime()&#125;);
-&#125;,
-//当选择的列改变时，更改可选列表
-deadlineColumnChange(e) &#123;
-    this.data.deadlineIndex[e.detail.column]=e.detail.value;
-    this.setDeadlineRange(parseInt(this.data.deadlineRange[0][this.data.deadlineIndex[0]]),parseInt(this.data.deadlineRange[1][this.data.deadlineIndex[1]])-1)
-    this.upData(this.data.deadlineIndex);
-&#125;,
-</code></pre>
-
+            
             
         </div>
     </div>
@@ -1290,49 +571,13 @@ deadlineColumnChange(e) &#123;
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p>二者都是进入页面时执行，区别如下：</p>
 <ul>
 <li><p><strong>触发次数不同</strong>：</p>
 <ul>
 <li>onLoad 是在页面加载时触发，在页面的整个生命周期中只触发一次；</li>
-<li>onShow 是在页面显示/切入前台时触发，在页面的生命周期中可触发多次，即每次切入页面时都会触发；</li>
-</ul>
-</li>
-<li><p><strong>是否携带参数</strong>：</p>
-<ul>
-<li><p>onLoad 可以接收参数，使用方式：</p>
-<pre><code class="js">//pageA:
-let id = &#39;12345&#39;, name = &#39;xiaoming&#39;;
-wx.pro.navigateTo(&#123;url:`/pages/pageB?id=$&#123;id&#125;&amp;name=$&#123;name&#125;`&#125;);
-
-//pageB:
-onLoad:function(options)&#123;
-    console.log(options.id);    //&#39;12345&#39;
-    console.log(options.name);  //&#39;xiaoming&#39;
-&#125;
-</code></pre>
-<p>使用场景：页面带参跳转；</p>
-</li>
-<li><p>onShow 不可以接收参数，通常用于二级页面对一级页面的内容做出修改并返回一级页面的情况；</p>
-<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，此时 pageA 需要重新获取列表，故使用 onShow；</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>那么，既要传参，又要跳转后刷新怎么办呢？</strong></p>
-<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，同时 pageB 回传 id。</p>
-<p>首先是要刷新，所以一定要用 onShow，传参可以使用如下方式：</p>
-<pre><code class="js">let pages = getCurrentPages();    //获取页面栈
-let prePage = pages[pages.length - 2];   //此页面的上一个页面
-let list = prePage.data.listData;    //获取上一个页面的列表
-list.name = newName;    //修改名称
-prePage.upData(&#123;
-    listData:list
-&#125;)    //回传数据（传参）
-wx.pro.navigateBack()  //回到上一页面
-</code></pre>
-
+<li>onShow 是在页面显示/切入前台时触发，在页面的生命周期中可触发多次，即每次切入页面时都会触发；
+            
             
         </div>
     </div>
@@ -1346,7 +591,7 @@ wx.pro.navigateBack()  //回到上一页面
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#ffa2c4>
+            <a href="/tags/微信小程序" style=color:#00a596>
                 微信小程序
             </a>
         </span>
@@ -1382,41 +627,9 @@ wx.pro.navigateBack()  //回到上一页面
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p><strong>一定要按需取用！</strong></p>
 <p>两者都可以触发时更新 UI，类似于 React 的 useState，但也有比较坑人的地方：</p>
-<ul>
-<li><p>setData 是全部修改，直接覆盖：</p>
-<pre><code>  ```js
-  data:&#123;
-      list:&#123;
-          name:&#39;xiaoming&#39;,
-          age:18,
-      &#125;
-  &#125;
-  let newList = &#123; name:&#39;xiaohong&#39; &#125;;
-  this.setData(&#123;list:neList&#125;);
-  console.log(this.data.list);   //&#123; name:&#39;xiaohong&#39; &#125;
-  ```
-</code></pre>
-</li>
-<li><p>upData 是只修改或增加，不覆盖：</p>
-</li>
-</ul>
-<pre><code class="js">data:&#123;
-    list:&#123;
-        name:&#39;xiaoming&#39;,
-        age:18,
-    &#125;
-&#125;
-let newList = &#123; name:&#39;xiaohong&#39; &#125;;
-this.upData(&#123;list:neList&#125;);
-console.log(this.data.list);   //&#123; name:&quot;xiaohong&quot;, age:18 &#125;
-</code></pre>
-<p>所以在进行列表项删除或者新数据少于旧数据时，要使用 setData；</p>
-<p>在部分修改时，使用 upData；</p>
-<p>在进行列表项增加或者新数据多余旧数据时，二者均可。</p>
-
+            
             
         </div>
     </div>
@@ -1430,7 +643,7 @@ console.log(this.data.list);   //&#123; name:&quot;xiaohong&quot;, age:18 &#125;
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#03a9f4>
+            <a href="/tags/微信小程序" style=color:#00bcd4>
                 微信小程序
             </a>
         </span>
@@ -1466,33 +679,9 @@ console.log(this.data.list);   //&#123; name:&quot;xiaohong&quot;, age:18 &#125;
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <ul>
 <li><p>ES 变量可以包含两种不同类型的数据：原始值和引用值。原始值是最简单的数据，引用值是多个值构成的对象。</p>
-</li>
-<li><p>保存原始值的变量是按值访问的，因为操作的就是存储在变量中的实际值；保存引用值的变量是按引用访问的：在操作对象时，实际上操作的是对该对象的引用而非实际的对象本身。</p>
-</li>
-<li><p>引用值可以随时添加、修改和删除属性，而原始值不可以。</p>
-</li>
-<li><p>在通过变量把一个原始值赋值到另一个变量时，原始值会被复制到新变量的位置，两个变量完全独立，互不干扰；在把引用值从一个变量赋值给另一个变量的时候，存储在变量中的值（值为指针，指向存储在堆内存中的对象）也会被复制到新变量所在的位置，操作完成后两个变量指向同一个对象。</p>
-</li>
-<li><p>ES 中<strong>所有函数的参数都是按值传递的</strong>，这意味着函数外的值会被复制到函数内部的参数中（原始值参照原始值复制，引用值参照引用值复制）</p>
-<pre><code class="js">function setName(obj) &#123; 
- obj.name = &quot;Nicholas&quot;; 
- obj = new Object(); 
- obj.name = &quot;Greg&quot;; 
- console.log(obj.name);  //&quot;Grey&quot;
-&#125; 
-let person = new Object(); 
-setName(person); 
-console.log(person.name); // &quot;Nicholas&quot; 
-</code></pre>
-<p>从以上例子可以看出，当函数的参数为对象时，参数是<strong>按值传递</strong>的，即 obj = person 的引用（<strong>形参复制的是实参的一份引用</strong>），改变 obj.name，由于改变的是 person 的引用，所以 person 的 name 属性也会改变；</p>
-<p>若 person 是按引用传递的，那么当把 obj 重写时，obj 和 person 都应自动指向 name 为 Grey 的对象；但由于是按值传递，所以 obj 的原始引用未改变，只是在函数内部重新创建了 obj 对象，作用域为函数内部，函数执行结束后就会被销毁。</p>
-<p><strong>综上，函数按值传参，当实参为引用值时，形参复制一份实参的引用，所以改变形参的属性会影响到实参，重写形参相当于把形参变成了一个局部的对象，函数结束后就会销毁。</strong></p>
-</li>
-</ul>
-
+            
             
         </div>
     </div>
@@ -1506,7 +695,7 @@ console.log(person.name); // &quot;Nicholas&quot;
         
         <span class="tag">
             
-            <a href="/tags/JavaScript" style=color:#ffa2c4>
+            <a href="/tags/JavaScript" style=color:#ff7d73>
                 JavaScript
             </a>
         </span>

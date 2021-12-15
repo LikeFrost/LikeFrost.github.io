@@ -8,7 +8,7 @@
     <title>摸鱼日志 || JavaScript 基础</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
-    <meta name="keywords" content=" ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
     <link rel="icon" href="/images/avatar.jpg">
     <link rel="stylesheet" href="/css/antd.min.css">
     
@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaScript" style=color:#ff7d73>
+                <a href="/tags/JavaScript" style=color:#00bcd4>
                     JavaScript
                 </a>
             </span>
@@ -153,34 +153,25 @@
 
     <div class="content" v-pre>
         <ul>
-<li><p>完整的 JavaScript 实现应包含以下几个部分:</p>
-<ul>
+<li>完整的 JavaScript 实现应包含以下几个部分:<ul>
 <li>核心（ECMAScript）</li>
 <li>文档对象模型（DOM）</li>
-<li>浏览器对象模型（BOM）</li>
+<li>浏览器对象模型（BOM）<span id="more"></span></li>
 </ul>
 </li>
-<li><p>Web 浏览器只是 ECMAScript 实现可能存在的一种宿主环境，宿主环境提供了 ECMAScript 的基准实现和与环境自身交互必须的扩展。</p>
-</li>
-<li><p>JavaScript 是 ECMAScript 的一种实现，ECMAScript 是 JavaScript 的核心。</p>
-</li>
-<li><p>文档对象模型（DOM）是一个应用编程接口（API），用于在 HTML 中使用扩展的 XML，DOM 将整个页面抽象为一组分层节点。——<strong>提供与网页内容交互的方法和接口</strong></p>
-</li>
-<li><p>浏览器对象模型（BOM）用于支持访问和操作浏览器的窗口。使用 BOM，开发者可以操纵浏览器显示页面之外的部分。——<strong>提供与浏览器交互的方法和接口</strong></p>
-</li>
-<li><p>使用了 src 属性的 &lt;script&gt; 元素不应该在标签内部再包含其他 JS 代码，如果两者都提供的话，浏览器只会下载并执行脚本文件，忽略行内代码。</p>
-</li>
-<li><p>若将脚本标签放在 html 的 head 标签内，则会将所有 JS 代码都下载、解析和解释完成后才能开始渲染页面。</p>
-</li>
-<li><p>多个 JavaScript 脚本的执行顺序：</p>
-<ul>
+<li>Web 浏览器只是 ECMAScript 实现可能存在的一种宿主环境，宿主环境提供了 ECMAScript 的基准实现和与环境自身交互必须的扩展。</li>
+<li>JavaScript 是 ECMAScript 的一种实现，ECMAScript 是 JavaScript 的核心。</li>
+<li>文档对象模型（DOM）是一个应用编程接口（API），用于在 HTML 中使用扩展的 XML，DOM 将整个页面抽象为一组分层节点。——<strong>提供与网页内容交互的方法和接口</strong></li>
+<li>浏览器对象模型（BOM）用于支持访问和操作浏览器的窗口。使用 BOM，开发者可以操纵浏览器显示页面之外的部分。——<strong>提供与浏览器交互的方法和接口</strong></li>
+<li>使用了 src 属性的 &lt;script&gt; 元素不应该在标签内部再包含其他 JS 代码，如果两者都提供的话，浏览器只会下载并执行脚本文件，忽略行内代码。</li>
+<li>若将脚本标签放在 html 的 head 标签内，则会将所有 JS 代码都下载、解析和解释完成后才能开始渲染页面。</li>
+<li>多个 JavaScript 脚本的执行顺序：<ul>
 <li>不含有 defer 或 async 属性时：从上到下按照出现的顺序依次解释，后一个 script 元素中的代码要在前一个 script 元素中的代码解释完成后才可以开始解释；</li>
 <li>含有 defer 属性（仅限外部脚本）时：所有脚本推迟到整个页面解析完毕后再运行，即“立即下载，延迟执行”，按照出现的顺序执行；</li>
 <li>含有 async 属性（仅限外部脚本）时：异步执行，并不能保证按照出现的次序执行，保证会在页面的 load 事件之前执行。</li>
 </ul>
 </li>
-<li><p>可扩展超文本标记语言（XHTML），是将 HTML 作为 XML 的应用重新包装的结果，规则更为严格。</p>
-</li>
+<li>可扩展超文本标记语言（XHTML），是将 HTML 作为 XML 的应用重新包装的结果，规则更为严格。</li>
 </ul>
 
     </div>
