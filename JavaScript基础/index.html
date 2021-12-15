@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaScript" style=color:#ffa2c4>
+                <a href="/tags/JavaScript" style=color:#ff7d73>
                     JavaScript
                 </a>
             </span>
@@ -264,7 +264,7 @@
         owner: 'LikeFrost',
         admin: ['LikeFrost'],
         language: 'zh-CN',
-        id: location.pathname,      // Ensure uniqueness and length less than 50
+        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
         distractionFreeMode: true  // Facebook-like distraction free mode
     })
     gitalk.render('gitalk-container')
