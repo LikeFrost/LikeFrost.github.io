@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 变量、作用域与内存</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="outlined" />
+            </span>
+            <span>分类</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>变量、作用域与内存 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/11/29
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/JavaScript">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                JavaScript
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/基础知识" style=color:#00a596>
+                    基础知识
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h2 id="变量、作用域与内存"><a href="#变量、作用域与内存" class="headerlink" title="变量、作用域与内存"></a>变量、作用域与内存</h2><ul>
+<li><p>ES 变量可以包含两种不同类型的数据：原始值和引用值。原始值是最简单的数据，引用值是多个值构成的对象。</p>
+</li>
+<li><p>保存原始值的变量是按值访问的，因为操作的就是存储在变量中的实际值；保存引用值的变量是按引用访问的：在操作对象时，实际上操作的是对该对象的引用而非实际的对象本身。</p>
+</li>
+<li><p>引用值可以随时添加、修改和删除属性，而原始值不可以。</p>
+</li>
+<li><p>在通过变量把一个原始值赋值到另一个变量时，原始值会被复制到新变量的位置，两个变量完全独立，互不干扰；在把引用值从一个变量赋值给另一个变量的时候，存储在变量中的值（值为指针，指向存储在堆内存中的对象）也会被复制到新变量所在的位置，操作完成后两个变量指向同一个对象。</p>
+</li>
+<li><p>ES 中<strong>所有函数的参数都是按值传递的</strong>，这意味着函数外的值会被复制到函数内部的参数中（原始值参照原始值复制，引用值参照引用值复制）</p>
+<pre><code class="js">function setName(obj) &#123; 
+ obj.name = &quot;Nicholas&quot;; 
+ obj = new Object(); 
+ obj.name = &quot;Greg&quot;; 
+ console.log(obj.name);  //&quot;Grey&quot;
+&#125; 
+let person = new Object(); 
+setName(person); 
+console.log(person.name); // &quot;Nicholas&quot; 
+</code></pre>
+<p>从以上例子可以看出，当函数的参数为对象时，参数是<strong>按值传递</strong>的，即 obj = person 的引用（<strong>形参复制的是实参的一份引用</strong>），改变 obj.name，由于改变的是 person 的引用，所以 person 的 name 属性也会改变；</p>
+<p>若 person 是按引用传递的，那么当把 obj 重写时，obj 和 person 都应自动指向 name 为 Grey 的对象；但由于是按值传递，所以 obj 的原始引用未改变，只是在函数内部重新创建了 obj 对象，作用域为函数内部，函数执行结束后就会被销毁。</p>
+<p><strong>综上，函数按值传参，当实参为引用值时，形参复制一份实参的引用，所以改变形参的属性会影响到实参，重写形参相当于把形参变成了一个局部的对象，函数结束后就会销毁。</strong></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2021 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
