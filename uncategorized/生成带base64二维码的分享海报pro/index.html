@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 生成带 base64 二维码的分享海报 Pro</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>生成带 base64 二维码的分享海报 Pro </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/12/6
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/微信小程序" style=color:#ff7d73>
+                    微信小程序
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <p>小程序，伤害人你可真有一套！</p>
+<p>文档老骗子了，昨天写的海报分享在模拟器上跑起来完全ok，结果真机和体验版都炸了，用回了老接口完美解决，记录一下代码：</p>
+<ul>
+<li>wxml</li>
+</ul>
+<pre><code class="html">&lt;view class=&quot;list-item&quot; bind:tap=&quot;getPic&quot;&gt;
+    &lt;view class=&quot;name&quot;&gt;分享实验室密钥&lt;/view&gt;
+    &lt;view class=&quot;value&quot;&gt;生成分享图&lt;/view&gt;
+&lt;/view&gt;
+&lt;view class=&quot;result_paper&quot; wx:if=&quot;&#123;&#123;isShow&#125;&#125;&quot; catchtouchmove=&quot;moveHandle&quot; bindtap=&quot;hidePaper&quot; bind:longtap=&quot;shareImg&quot;&gt;
+    &lt;view class=&quot;paper_content&quot; wx:if=&quot;&#123;&#123;tempFilePath&#125;&#125;&quot;&gt;
+        &lt;image src=&quot;&#123;&#123;tempFilePath&#125;&#125;&quot; style=&quot;height:366px; width:352px;position: relative;z-index: 999;&quot;id=&quot;canvas_image&quot; catchtap=&quot;hidePaper&quot;/&gt;
+    &lt;/view&gt;
+    &lt;view style=&quot;width:0px;height:0px;overflow: hidden;&quot;&gt;
+        &lt;canvas canvas-id=&quot;canvas&quot; class=&quot;paper_canvas&quot; id=&quot;canvas&quot;&gt;&lt;/canvas&gt;
+    &lt;/view&gt;
+&lt;/view&gt;
+</code></pre>
+<ul>
+<li>scss</li>
+</ul>
+<pre><code class="css">.title
+&#123;
+    margin: var(--margin-24) var(--margin-16);
+
+    font-size: var(--font-24);
+    font-weight: 600;
+
+    color: var(--gray-1);
+&#125;
+
+.list
+&#123;
+    margin-top: var(--margin-12);
+
+    .list-item
+    &#123;
+        display: flex;
+
+        margin: var(--margin-12) var(--margin-16);
+        border-radius: var(--radius-8);
+        height: 80rpx;
+
+        background-color: var(--blue-background);
+
+        align-items: center;
+
+        .name
+        &#123;
+            margin-left: var(--margin-16);
+
+            font-size: var(--font-14);
+            line-height: var(--font-14);
+
+            color: var(--gray-2);
+        &#125;
+
+        .value
+        &#123;
+            margin-right: var(--margin-16);
+
+            font-size: var(--font-12);
+            line-height: var(--font-12);
+            text-align: right;
+
+            color: var(--gray-3);
+
+            flex: 1;
+        &#125;
+    &#125;
+
+    .qrcode
+    &#123;
+        text-align: center;
+
+        .img
+        &#123;
+            width: 500rpx;
+            height: 500rpx;
+        &#125;
+    &#125;
+&#125;
+
+.ai-button
+&#123;
+    margin-top: var(--margin-24);
+
+    background-color: var(--red);
+&#125;
+
+.result_paper
+&#123;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+
+    width: 100vw;
+    min-height: 100%;
+
+    color: #fff;
+    background: rgba(0, 0, 0, .6);
+
+    .paper_content
+    &#123;
+        overflow: auto;
+
+        position: relative;
+        z-index: 98;
+
+        width: 100vw;
+        height: 100vh;
+
+        text-align: center;
+
+        #canvas_image
+        &#123;
+            margin-top: 24%;
+        &#125;
+    &#125;
+&#125;
+
+.paper_canvas
+&#123;
+    overflow: hidden;
+
+    position: absolute;
+    bottom: -5000rpx;
+    left: 0;
+
+    width: 704rpx;
+    height: 732rpx;
+
+    text-align: center;
+&#125;
+</code></pre>
+<ul>
+<li>js</li>
+</ul>
+<pre><code class="js">Page(&#123;
+    data:&#123;
+        labId:&#39;&#39;,
+        key:&#39;&#39;,
+        keyList:[],
+        tempFilePath: &#39;&#39;,
+        isShow: false,
+        keyImage:&#39;&#39;,
+        labName:&#39;&#39;,
+        shareName:&#39;&#39;,
+        background:&#39;/images/Subtract.png&#39;
+    &#125;,
+    onLoad:function(option)&#123;
+        this.setData(&#123;labId:option.id,key:option.key&#125;)
+    &#125;,
+    onShow:function()&#123;
+        
+    &#125;,
+    preventTouchMove() &#123;&#125;,
+    getPic()&#123;
+        this.setData(&#123;isShow:true&#125;)
+        if(this.data.tempFilePath)&#123;
+            this.shareImg();
+            return; 
+        &#125;else&#123;
+            wx.pro.showLoading(&#123;title:&#39;加载中&#39;&#125;);
+        &#125;
+
+        wx.pro.request(&#123;
+            url:&#39; &#39;,
+            method:&#39;get&#39;,
+            header:&#123;
+                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
+                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
+            &#125;,
+            data:&#123;
+                &#39;labId&#39;:this.data.labId
+            &#125;
+        &#125;).then((res)=&gt;&#123;
+            //console.log(&#39;获取实验室名称&#39;,res.data.data.lab.name)
+            this.setData(&#123;labName:res.data.data.lab.name&#125;)
+            return wx.pro.request(&#123;
+                url:&quot; &quot;,
+                method:&#39;get&#39;,
+                header:&#123;
+                  &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
+                  &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
+                &#125;,
+            &#125;)
+        &#125;).then((res)=&gt;&#123;
+            //console.log(&#39;获取分享者姓名&#39;,res.data.data.userInfo.name)
+            this.setData(&#123;shareName:res.data.data.userInfo.name&#125;)
+            const scene = `labId=$&#123;this.data.labId&#125;&amp;key=$&#123;this.data.key&#125;`;
+            const info = wx.pro.getAccountInfoSync();//版本类型
+            return wx.pro.request(&#123;
+                url:&quot; &quot;,
+                method:&#39;post&#39;,
+                header:&#123;
+                    &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
+                    &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
+                &#125;,
+                data:&#123;
+                    scene:scene,
+                    envVersion:info.miniProgram.envVersion
+                &#125;
+            &#125;)
+        &#125;).then((res)=&gt;&#123;
+            //console.log(&#39;获取qrcode&#39;,res)
+            this.setData(&#123;keyImg:res.data.data.generateQRCode&#125;)
+            const buffer = wx.base64ToArrayBuffer(this.data.keyImg),
+            filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;
+            return wx.getFileSystemManager().writeFile(&#123; 
+                filePath,
+                data: buffer,
+                encoding: &#39;base64&#39;,
+                success:()=&gt;&#123;
+                    this.setData(&#123;keyImage:filePath&#125;);
+                    this.drawPic();
+                &#125;,
+            &#125;)
+        &#125;).catch(() =&gt; &#123;
+            this.setData(&#123;isShow: false&#125;);
+            wx.hideLoading()
+            wx.showToast(&#123;
+                title: &#39;加载失败&#39;,
+                duration: 2000,
+                icon: &#39;none&#39;
+            &#125;)
+        &#125;)
+    &#125;,
+    drawPic()&#123;
+        const ctx = wx.createCanvasContext(&#39;canvas&#39;);
+        const dpr = wx.getSystemInfoSync.pixelRatio;
+        ctx.fillStyle=&quot;#F2F2F2&quot;;
+        //ctx.scale(dpr,dpr)
+        ctx.fillRect(0,0,352,366)
+        ctx.drawImage(this.data.background,1,1,350,364);
+        ctx.drawImage(this.data.keyImage,25,268,88,88);
+        ctx.setTextBaseline(&quot;top&quot;);
+        ctx.setTextAlign(&quot;center&quot;)
+        ctx.setFontSize(24)
+        ctx.setFillStyle(&quot;#333333&quot;);
+        ctx.fillText(this.data.labName,352/2,12);
+        ctx.setFontSize(14)
+        ctx.setFillStyle(&quot;#666666&quot;);
+        ctx.setTextAlign(&quot;left&quot;)
+        ctx.fillText(`管理员：$&#123;this.data.keyList.userName&#125;`,74,78);
+        ctx.fillText(`联系电话：$&#123;this.data.keyList.telephone&#125;`,60,106);
+        ctx.fillText(`密钥时限：$&#123;this.data.keyList.duration&#125;`,60,134);
+        ctx.fillText(`成员时限：$&#123;this.data.keyList.deadline&#125;`,60,162);
+        ctx.setTextAlign(&quot;center&quot;)
+        ctx.setFillStyle(&quot;#C74242&quot;);
+        ctx.fillText(&quot;请注意实验室相关事项，注意实验安全&quot;,352/2,210);
+        ctx.fillText(&#39;实验室&#39;,307,319);
+        ctx.setTextAlign(&quot;left&quot;);
+        ctx.setFillStyle(&quot;#585858&quot;);
+        ctx.fillText(`$&#123;this.data.shareName&#125;已经加入实验室`,130,291)
+        ctx.fillText(&#39;长按小程序码，立即加入&#39;,130,319);
+        ctx.draw(false,()=&gt;&#123;
+            setTimeout(()=&gt;&#123;
+                wx.canvasToTempFilePath(&#123;
+                    x: 0,
+                    y: 0,
+                    width: 352,
+                    height: 366,
+                    destWidth: 352*dpr,
+                    destHeight: 366*dpr,
+                    canvasId: &#39;canvas&#39;,
+                    quality: 1,
+                    success: (res) =&gt; &#123;
+                        console.log(&#39;success&#39;,res)
+                        var tempFilePath = res.tempFilePath;
+                        this.setData(&#123;
+                            show:false,
+                            tempFilePath: tempFilePath
+                        &#125;)
+                        wx.hideLoading();
+                        this.shareImg();
+                    &#125;,
+                    fail: res =&gt; &#123;
+                        console.log(&#39;fail&#39;,res)
+                        wx.hideLoading()
+                        wx.showToast(&#123;
+                            title: &#39;海报加载失败&#39;,
+                            duration: 2000,
+                            icon: &#39;none&#39;
+                        &#125;)
+                    &#125;
+                &#125;)
+            &#125;,100)
+        &#125;)
+    &#125;,
+    shareImg()&#123;
+        wx.pro.showShareImageMenu(&#123;
+            path:this.data.tempFilePath
+        &#125;).then((res)=&gt;&#123;
+            console.log(res)
+        &#125;).catch((e)=&gt;&#123;
+            console.log(e)
+        &#125;)
+    &#125;,
+    hidePaper: function () &#123;
+        this.setData(&#123;isShow: false&#125;);
+        wx.hideLoading()
+    &#125;,
+&#125;)
+</code></pre>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2021 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>

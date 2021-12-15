@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 生成带 base64 二维码的分享海报</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>生成带 base64 二维码的分享海报 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/12/5
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/微信小程序" style=color:#ff7d73>
+                    微信小程序
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <p>踩了两天的坑，终于爬出来了，记录一下。</p>
+<p>由于要<strong>自定义</strong>分享海报上的内容，所以首先要有一个 canvas（行内设置宽高，在css内设置的话内部图片默认缩放）：</p>
+<pre><code class="html">&lt;view class=&quot;bg&quot;&gt;
+    &lt;canvas canvas-id=&quot;canvas&quot; id=&quot;canvas&quot; type=&quot;2d&quot; style=&quot;height:366px;width:352px&quot; class=&quot;cvs&quot;&gt;&lt;/canvas&gt;
+&lt;/view&gt;
+&lt;button class=&quot;ai-button&quot; bind:tap=&quot;shareImg&quot;&gt;分享&lt;/button&gt;
+</code></pre>
+<p>js 中获取 canvas 节点：</p>
+<pre><code class="js">    const query = wx.createSelectorQuery()   //新写法
+        query.select(&#39;#canvas&#39;)
+        .fields(&#123;node:true,size:true&#125;)
+        .exec((res)=&gt;&#123;
+            const canvas = res[0].node;
+            const dpr = wx.getSystemInfoSync().pixelRatio  //获取设备像素比
+            canvas.width = res[0].width * dpr
+            canvas.height = res[0].height * dpr
+            const ctx = canvas.getContext(&#39;2d&#39;);
+        &#125;)
+</code></pre>
+<p>绘制图片，在上述写法中要先定义图片节点才能绘制：</p>
+<pre><code class="js">let img = canvas.createImage();
+img.src = &quot;/images/Subtract.svg&quot;;
+img.onload = () =&gt;&#123;
+    ctx.drawImage(img,1,1,canvas.width,canvas.height);
+&#125;
+</code></pre>
+<p>添加文字：</p>
+<pre><code class="js">ctx.textBaseline = &quot;top&quot;;
+ctx.textAlign = &quot;center&quot;
+ctx.font = `600 $&#123;24*dpr&#125;px 黑体`;
+ctx.fillStyle=&quot;#333333&quot;;         //设置字体属性
+ctx.fillText(this.data.labName,res[0].width * dpr/2,24*dpr);  //绘制文字
+</code></pre>
+<p>将后台获取到的 base64 转化为 canvas 能够绘制的临时文件：</p>
+<pre><code class="js">const buffer = wx.base64ToArrayBuffer(this.data.keyImg), //将 base64 转化为 buffer
+filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;   //临时路径
+wx.getFileSystemManager().writeFile(&#123;    //写文件
+    filePath,
+    data: buffer,
+    encoding: &#39;base64&#39;,
+    success:()=&gt;&#123;
+        const code = canvas.createImage();
+        code.src = filePath;
+        code.onload=()=&gt;&#123;
+            ctx.drawImage(code,25*dpr,268*dpr,88*dpr,88*dpr)
+        &#125;
+    &#125;
+&#125;)
+</code></pre>
+<p>全部绘制完成后，点击按钮分享：</p>
+<pre><code class="js">    shareImg()&#123;
+        const query = wx.createSelectorQuery()    //选择节点
+        const dpr = wx.getSystemInfoSync().pixelRatio
+        query.select(&#39;#canvas&#39;)
+        .fields(&#123;node:true,size:true&#125;)
+        .exec((res)=&gt;&#123;
+            const canvas = res[0].node;
+            wx.pro.canvasToTempFilePath(&#123;      //生成临时文件
+                x:0,
+                y:0,
+                width:352*dpr,
+                height:366*dpr,
+                canvas:canvas
+            &#125;).then((res)=&gt;&#123;
+                this.setData(&#123;path:res.tempFilePath&#125;)
+                wx.pro.showShareImageMenu(&#123;       //分享
+                    path:this.data.path
+                &#125;).then((res)=&gt;&#123;
+                    console.log(res)
+                &#125;)
+            &#125;)
+        &#125;)
+</code></pre>
+<h4 id="整体代码："><a href="#整体代码：" class="headerlink" title="整体代码："></a>整体代码：</h4><p>wxml :</p>
+<pre><code class="html">&lt;view class=&quot;title&quot;&gt;生成分享图&lt;/view&gt;
+&lt;view class=&quot;bg&quot;&gt;
+    &lt;canvas canvas-id=&quot;canvas&quot; id=&quot;canvas&quot; type=&quot;2d&quot; style=&quot;height:366px;width:352px&quot; class=&quot;cvs&quot;&gt;&lt;/canvas&gt;
+&lt;/view&gt;
+&lt;button class=&quot;ai-button&quot; bind:tap=&quot;shareImg&quot;&gt;分享&lt;/button&gt;
+</code></pre>
+<p>scss:</p>
+<pre><code class="css">.bg
+&#123;
+    margin: 5rpx;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+
+    background-color: rgba(242, 242, 242, 1);
+
+    .cvs
+    &#123;
+        display: block;
+
+        margin: 20rpx auto;
+    &#125;
+&#125;
+
+.title
+&#123;
+    margin: var(--margin-24) var(--margin-16);
+
+    font-size: var(--font-24);
+    font-weight: 600;
+
+    color: var(--gray-1);
+&#125;
+
+.ai-button
+&#123;
+    margin-top: 20rpx;
+&#125;
+</code></pre>
+<p>js:</p>
+<pre><code class="js">Page(&#123;
+    data:&#123;
+        labId:53,
+        key:&#39;3H8IFT&#39;,
+        labName:&#39;实验室 N5-101&#39;,
+        userName:&#39;&#39;,
+        telephone:&#39;1111111111&#39;,
+        duration:&#39;0000年00月00日 00时00分&#39;,
+        deadline:&#39;0000年00月00日 00时00分&#39;,
+        shareName:&#39;1111111111&#39;,
+        keyImg:&#39;&#39;,
+        path:&#39;&#39;,
+    &#125;,
+    onLoad:function(option)&#123;
+        this.setData(&#123;
+            labId:option.labId,
+            key:option.key,
+            userName:option.userName,
+            telephone:option.telephone,
+            duration:option.duration,
+            deadline:option.deadline,
+            labName:option.labName,
+            shareName:option.shareName
+        &#125;)
+        wx.pro.request(&#123;
+            url:&#39;xxx&#39;,
+            method:&#39;get&#39;,
+            header:&#123;
+                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
+                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
+            &#125;,
+            data:&#123;
+                &#39;labId&#39;:this.data.labId
+            &#125;
+        &#125;).then((res)=&gt;&#123;
+            this.setData(&#123;labName:res.data.data.lab.name&#125;)
+        &#125;).catch((e)=&gt;&#123;
+            console.log(e)
+        &#125;)
+        const scene = `labId=$&#123;this.data.labId&#125;&amp;key=$&#123;this.data.key&#125;`;
+        wx.pro.request(&#123;
+            url:&quot;xxx&quot;,
+            method:&#39;post&#39;,
+            header:&#123;
+                &#39;content-type&#39;:&#39;application/x-www-form-urlencoded&#39;,
+                &#39;Authorization&#39;:wx.getStorageSync(&#39;token&#39;)
+            &#125;,
+            data:&#123;
+                scene:scene,
+                envVersion:&#39;develop&#39;
+            &#125;
+        &#125;).then((res)=&gt;&#123;
+            this.setData(&#123;keyImg:res.data.data.generateQRCode&#125;)
+            this.drawPic()
+        &#125;).catch((e)=&gt;&#123;
+            console.log(e)
+        &#125;)
+    &#125;,
+    drawPic()&#123;
+        const query = wx.createSelectorQuery()
+        query.select(&#39;#canvas&#39;)
+        .fields(&#123;node:true,size:true&#125;)
+        .exec((res)=&gt;&#123;
+            const canvas = res[0].node;
+            const dpr = wx.getSystemInfoSync().pixelRatio
+            canvas.width = res[0].width * dpr
+            canvas.height = res[0].height * dpr
+            const ctx = canvas.getContext(&#39;2d&#39;);
+            let img = canvas.createImage();
+            img.src = &quot;/images/Subtract.svg&quot;;
+            img.onload = () =&gt;&#123;
+                ctx.drawImage(img,1,1,canvas.width,canvas.height);
+                ctx.textBaseline = &quot;top&quot;;
+                ctx.textAlign = &quot;center&quot;
+                ctx.font = `600 $&#123;24*dpr&#125;px 黑体`;
+                ctx.fillStyle=&quot;#333333&quot;;
+                ctx.fillText(this.data.labName,res[0].width * dpr/2,24*dpr);
+                ctx.font = `400 $&#123;14*dpr&#125;px 黑体`;
+                ctx.fillStyle=&quot;#666666&quot;;
+                ctx.textAlign = &quot;left&quot;
+                ctx.fillText(`管理员：$&#123;this.data.userName&#125;`,74*dpr,78*dpr);
+                ctx.fillText(`联系电话：$&#123;this.data.telephone&#125;`,60*dpr,106*dpr);
+                ctx.fillText(`密钥时限：$&#123;this.data.duration&#125;`,60*dpr,134*dpr);
+                ctx.fillText(`成员时限：$&#123;this.data.deadline&#125;`,60*dpr,162*dpr);
+                ctx.textAlign = &quot;center&quot;
+                ctx.fillStyle=&quot;#C74242&quot;;
+                ctx.fillText(&quot;请注意实验室相关事项，注意实验安全&quot;,res[0].width * dpr/2,210*dpr);
+                ctx.fillText(&#39;实验室&#39;,307*dpr,319*dpr)
+                const buffer = wx.base64ToArrayBuffer(this.data.keyImg),
+                filePath = `$&#123;wx.env.USER_DATA_PATH&#125;/temp_image.png`;
+                wx.getFileSystemManager().writeFile(&#123; 
+                    filePath,
+                    data: buffer,
+                    encoding: &#39;base64&#39;,
+                    success:()=&gt;&#123;
+                        const code = canvas.createImage();
+                        code.src = filePath;
+                        code.onload=()=&gt;&#123;
+                            ctx.drawImage(code,25*dpr,268*dpr,88*dpr,88*dpr)
+                        &#125;
+                    &#125;
+                &#125;)
+                ctx.textAlign = &quot;left&quot;;
+                ctx.fillStyle=&quot;#585858&quot;;
+                ctx.fillText(`$&#123;this.data.shareName&#125;已经加入实验室`,130*dpr,291*dpr)
+                ctx.fillText(&#39;长按小程序码，立即加入&#39;,130*dpr,319*dpr)
+            &#125;
+            ctx.restore();
+        &#125;)
+    &#125;,
+    shareImg()&#123;
+        const query = wx.createSelectorQuery()
+        const dpr = wx.getSystemInfoSync().pixelRatio
+        query.select(&#39;#canvas&#39;)
+        .fields(&#123;node:true,size:true&#125;)
+        .exec((res)=&gt;&#123;
+            const canvas = res[0].node;
+            wx.pro.canvasToTempFilePath(&#123;
+                x:0,
+                y:0,
+                width:352*dpr,
+                height:366*dpr,
+                canvas:canvas
+            &#125;).then((res)=&gt;&#123;
+                this.setData(&#123;path:res.tempFilePath&#125;)
+                wx.pro.showShareImageMenu(&#123;
+                    path:this.data.path
+                &#125;).then((res)=&gt;&#123;
+                    console.log(res)
+                &#125;)
+            &#125;)
+        &#125;)
+    &#125;
+&#125;)
+</code></pre>
+<p>效果图：</p>
+<p><img src="/img/%E7%94%9F%E6%88%90%E5%B8%A6base64%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%9A%84%E5%88%86%E4%BA%AB%E6%B5%B7%E6%8A%A5.png" alt="效果图"></p>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2021 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>

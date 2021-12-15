@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 常用操作符、语句和函数</title>
+    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content=" ">
@@ -57,13 +57,6 @@
             <span>首页</span>
         </a>
         
-        <a href="/categories">
-            <span>
-                <a-icon type="book" theme="outlined" />
-            </span>
-            <span>分类</span>
-        </a>
-        
         <a href="/tags">
             <span>
                 <a-icon type="tags" theme="outlined" />
@@ -73,7 +66,7 @@
         
         <a href="/archives">
             <span>
-                <a-icon type="tags" theme="outlined" />
+                <a-icon type="ordered-list" theme="outlined" />
             </span>
             <span>归档</span>
         </a>
@@ -98,15 +91,6 @@
                 </div>
             </a>
             
-            <a href="/categories">
-                <div class="item">
-                    <div style="min-width:20px; max-width:50px; width: 10%">
-                        <a-icon type="book" theme="outlined" />
-                    </div>
-                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
-                </div>
-            </a>
-            
             <a href="/tags">
                 <div class="item">
                     <div style="min-width:20px; max-width:50px; width: 10%">
@@ -119,7 +103,7 @@
             <a href="/archives">
                 <div class="item">
                     <div style="min-width:20px; max-width:50px; width: 10%">
-                        <a-icon type="tags" theme="outlined" />
+                        <a-icon type="ordered-list" theme="outlined" />
                     </div>
                     <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
                 </div>
@@ -137,25 +121,16 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>常用操作符、语句和函数 </h1>
+        <h1>小程序自定义组件生命周期 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/11/25
+            2021/12/4
         </span>
 
-        
-        <span class="category">
-            <a href="/categories/JavaScript">
-                <span class="icon">
-                    <a-icon type="book" theme="filled" />
-                </span>
-                JavaScript
-            </a>
-        </span>
         
 
         
@@ -167,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/基础知识" style=color:#00bcd4>
-                    基础知识
+                <a href="/tags/微信小程序" style=color:#ff7d73>
+                    微信小程序
                 </a>
             </span>
             
@@ -177,14 +152,25 @@
     </div>
 
     <div class="content" v-pre>
-        <h2 id="常用操作符、语句和函数"><a href="#常用操作符、语句和函数" class="headerlink" title="常用操作符、语句和函数"></a>常用操作符、语句和函数</h2><ul>
-<li><p><strong>常用操作符</strong>：递增/递减操作符、一元加/减操作符、位操作符、布尔操作符、乘性操作符、指数操作符（ES7 新增，符号为 **）、加性操作符、关系操作符、相等操作符、条件操作符、赋值操作符、逗号操作符。</p>
-</li>
-<li><p><strong>语句</strong>：if、do-wile、while、for、for-in（不保证循环顺序）、for-of（按照可迭代对象的 next() 方法产生值的顺序迭代元素）、标签语句、break 和 continue 语句、with 语句、switch 语句。</p>
-</li>
-<li><p><strong>函数</strong>：ES 中的函数不需要指定是否返回值，任何函数在任何时间都可以使用 return 语句来返回函数的值，return 后面的语句不会被执行。</p>
-</li>
-</ul>
+        <pre><code class="js">  lifetimes: &#123;
+    created: function () &#123;
+      // 组件实例化，但节点树还未导入，因此这时不能用setData
+    &#125;,
+    attached: function () &#123;
+      // 在组件实例进入页面节点树时执行 
+      // 节点树完成，可以用setData渲染节点，但无法操作节点
+    &#125;,
+    ready: function () &#123;
+      // 组件布局完成，这时可以获取节点信息，也可以操作节点
+    &#125;,
+    move: function () &#123;
+      // 组件实例被移动到树的另一个位置
+    &#125;,
+    detached: function () &#123;
+      // 在组件实例被从页面节点树移除时执行
+    &#125;,
+  &#125;,
+</code></pre>
 
     </div>
 
@@ -206,8 +192,6 @@
             @Like Frost
         </div>
         <div></div>
-        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
-                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
         
     </div>
 

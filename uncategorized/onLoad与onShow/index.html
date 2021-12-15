@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || tags</title>
+    <title>摸鱼日志 || onLoad 与 onShow</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content=" ">
@@ -118,63 +118,91 @@
 
                 <div id="main">
                      
-<div class="categories-tags">
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>onLoad 与 onShow </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/12/1
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/微信小程序" style=color:#00bcd4>
+                    微信小程序
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <p>二者都是进入页面时执行，区别如下：</p>
+<ul>
+<li><p><strong>触发次数不同</strong>：</p>
+<ul>
+<li>onLoad 是在页面加载时触发，在页面的整个生命周期中只触发一次；</li>
+<li>onShow 是在页面显示/切入前台时触发，在页面的生命周期中可触发多次，即每次切入页面时都会触发；</li>
+</ul>
+</li>
+<li><p><strong>是否携带参数</strong>：</p>
+<ul>
+<li><p>onLoad 可以接收参数，使用方式：</p>
+<pre><code class="js">//pageA:
+let id = &#39;12345&#39;, name = &#39;xiaoming&#39;;
+wx.pro.navigateTo(&#123;url:`/pages/pageB?id=$&#123;id&#125;&amp;name=$&#123;name&#125;`&#125;);
+
+//pageB:
+onLoad:function(options)&#123;
+    console.log(options.id);    //&#39;12345&#39;
+    console.log(options.name);  //&#39;xiaoming&#39;
+&#125;
+</code></pre>
+<p>使用场景：页面带参跳转；</p>
+</li>
+<li><p>onShow 不可以接收参数，通常用于二级页面对一级页面的内容做出修改并返回一级页面的情况；</p>
+<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，此时 pageA 需要重新获取列表，故使用 onShow；</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>那么，既要传参，又要跳转后刷新怎么办呢？</strong></p>
+<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，同时 pageB 回传 id。</p>
+<p>首先是要刷新，所以一定要用 onShow，传参可以使用如下方式：</p>
+<pre><code class="js">let pages = getCurrentPages();    //获取页面栈
+let prePage = pages[pages.length - 2];   //此页面的上一个页面
+let list = prePage.data.listData;    //获取上一个页面的列表
+list.name = newName;    //修改名称
+prePage.upData(&#123;
+    listData:list
+&#125;)    //回传数据（传参）
+wx.pro.navigateBack()  //回到上一页面
+</code></pre>
+
+    </div>
+
     
-    <div class="all-s">
-        
-        
-        <span>
-            <a href="/tags/JavaScript/" style=background:#03a9f4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                JavaScript
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/工具类/" style=background:#00bcd4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                工具类
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/微信小程序/" style=background:#ffa2c4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                微信小程序
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/搭建博客/" style=background:#ff7d73>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                搭建博客
-            </a>
-        </span>
-        
-        
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
     </div>
-    <div id="archives">
-        
-    </div>
-    <script>
-        new Vue({
-            el: '#archives'
-        })
-    </script>
+    
 </div>
                      
 <footer id="footer">
@@ -236,6 +264,21 @@
             }
         }
     })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
 </script>
 
 </body>

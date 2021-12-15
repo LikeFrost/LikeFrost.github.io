@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 变量、作用域与内存</title>
+    <title>摸鱼日志 || JavaScript 基础</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content=" ">
@@ -57,13 +57,6 @@
             <span>首页</span>
         </a>
         
-        <a href="/categories">
-            <span>
-                <a-icon type="book" theme="outlined" />
-            </span>
-            <span>分类</span>
-        </a>
-        
         <a href="/tags">
             <span>
                 <a-icon type="tags" theme="outlined" />
@@ -73,7 +66,7 @@
         
         <a href="/archives">
             <span>
-                <a-icon type="tags" theme="outlined" />
+                <a-icon type="ordered-list" theme="outlined" />
             </span>
             <span>归档</span>
         </a>
@@ -98,15 +91,6 @@
                 </div>
             </a>
             
-            <a href="/categories">
-                <div class="item">
-                    <div style="min-width:20px; max-width:50px; width: 10%">
-                        <a-icon type="book" theme="outlined" />
-                    </div>
-                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
-                </div>
-            </a>
-            
             <a href="/tags">
                 <div class="item">
                     <div style="min-width:20px; max-width:50px; width: 10%">
@@ -119,7 +103,7 @@
             <a href="/archives">
                 <div class="item">
                     <div style="min-width:20px; max-width:50px; width: 10%">
-                        <a-icon type="tags" theme="outlined" />
+                        <a-icon type="ordered-list" theme="outlined" />
                     </div>
                     <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
                 </div>
@@ -137,25 +121,16 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>变量、作用域与内存 </h1>
+        <h1>JavaScript 基础 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/11/29
+            2021/11/23
         </span>
 
-        
-        <span class="category">
-            <a href="/categories/JavaScript">
-                <span class="icon">
-                    <a-icon type="book" theme="filled" />
-                </span>
-                JavaScript
-            </a>
-        </span>
         
 
         
@@ -167,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/基础知识" style=color:#ff7d73>
-                    基础知识
+                <a href="/tags/JavaScript" style=color:#00a596>
+                    JavaScript
                 </a>
             </span>
             
@@ -177,29 +152,34 @@
     </div>
 
     <div class="content" v-pre>
-        <h2 id="变量、作用域与内存"><a href="#变量、作用域与内存" class="headerlink" title="变量、作用域与内存"></a>变量、作用域与内存</h2><ul>
-<li><p>ES 变量可以包含两种不同类型的数据：原始值和引用值。原始值是最简单的数据，引用值是多个值构成的对象。</p>
+        <ul>
+<li><p>完整的 JavaScript 实现应包含以下几个部分:</p>
+<ul>
+<li>核心（ECMAScript）</li>
+<li>文档对象模型（DOM）</li>
+<li>浏览器对象模型（BOM）</li>
+</ul>
 </li>
-<li><p>保存原始值的变量是按值访问的，因为操作的就是存储在变量中的实际值；保存引用值的变量是按引用访问的：在操作对象时，实际上操作的是对该对象的引用而非实际的对象本身。</p>
+<li><p>Web 浏览器只是 ECMAScript 实现可能存在的一种宿主环境，宿主环境提供了 ECMAScript 的基准实现和与环境自身交互必须的扩展。</p>
 </li>
-<li><p>引用值可以随时添加、修改和删除属性，而原始值不可以。</p>
+<li><p>JavaScript 是 ECMAScript 的一种实现，ECMAScript 是 JavaScript 的核心。</p>
 </li>
-<li><p>在通过变量把一个原始值赋值到另一个变量时，原始值会被复制到新变量的位置，两个变量完全独立，互不干扰；在把引用值从一个变量赋值给另一个变量的时候，存储在变量中的值（值为指针，指向存储在堆内存中的对象）也会被复制到新变量所在的位置，操作完成后两个变量指向同一个对象。</p>
+<li><p>文档对象模型（DOM）是一个应用编程接口（API），用于在 HTML 中使用扩展的 XML，DOM 将整个页面抽象为一组分层节点。——<strong>提供与网页内容交互的方法和接口</strong></p>
 </li>
-<li><p>ES 中<strong>所有函数的参数都是按值传递的</strong>，这意味着函数外的值会被复制到函数内部的参数中（原始值参照原始值复制，引用值参照引用值复制）</p>
-<pre><code class="js">function setName(obj) &#123; 
- obj.name = &quot;Nicholas&quot;; 
- obj = new Object(); 
- obj.name = &quot;Greg&quot;; 
- console.log(obj.name);  //&quot;Grey&quot;
-&#125; 
-let person = new Object(); 
-setName(person); 
-console.log(person.name); // &quot;Nicholas&quot; 
-</code></pre>
-<p>从以上例子可以看出，当函数的参数为对象时，参数是<strong>按值传递</strong>的，即 obj = person 的引用（<strong>形参复制的是实参的一份引用</strong>），改变 obj.name，由于改变的是 person 的引用，所以 person 的 name 属性也会改变；</p>
-<p>若 person 是按引用传递的，那么当把 obj 重写时，obj 和 person 都应自动指向 name 为 Grey 的对象；但由于是按值传递，所以 obj 的原始引用未改变，只是在函数内部重新创建了 obj 对象，作用域为函数内部，函数执行结束后就会被销毁。</p>
-<p><strong>综上，函数按值传参，当实参为引用值时，形参复制一份实参的引用，所以改变形参的属性会影响到实参，重写形参相当于把形参变成了一个局部的对象，函数结束后就会销毁。</strong></p>
+<li><p>浏览器对象模型（BOM）用于支持访问和操作浏览器的窗口。使用 BOM，开发者可以操纵浏览器显示页面之外的部分。——<strong>提供与浏览器交互的方法和接口</strong></p>
+</li>
+<li><p>使用了 src 属性的 &lt;script&gt; 元素不应该在标签内部再包含其他 JS 代码，如果两者都提供的话，浏览器只会下载并执行脚本文件，忽略行内代码。</p>
+</li>
+<li><p>若将脚本标签放在 html 的 head 标签内，则会将所有 JS 代码都下载、解析和解释完成后才能开始渲染页面。</p>
+</li>
+<li><p>多个 JavaScript 脚本的执行顺序：</p>
+<ul>
+<li>不含有 defer 或 async 属性时：从上到下按照出现的顺序依次解释，后一个 script 元素中的代码要在前一个 script 元素中的代码解释完成后才可以开始解释；</li>
+<li>含有 defer 属性（仅限外部脚本）时：所有脚本推迟到整个页面解析完毕后再运行，即“立即下载，延迟执行”，按照出现的顺序执行；</li>
+<li>含有 async 属性（仅限外部脚本）时：异步执行，并不能保证按照出现的次序执行，保证会在页面的 load 事件之前执行。</li>
+</ul>
+</li>
+<li><p>可扩展超文本标记语言（XHTML），是将 HTML 作为 XML 的应用重新包装的结果，规则更为严格。</p>
 </li>
 </ul>
 
@@ -223,8 +203,6 @@ console.log(person.name); // &quot;Nicholas&quot;
             @Like Frost
         </div>
         <div></div>
-        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
-                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
         
     </div>
 

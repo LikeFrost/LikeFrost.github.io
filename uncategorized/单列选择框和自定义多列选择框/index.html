@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 单列选择框和自定义多列选择框</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>单列选择框和自定义多列选择框 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/12/2
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/微信小程序" style=color:#ff7d73>
+                    微信小程序
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <ul>
+<li><strong>单列选择框：</strong></li>
+</ul>
+<pre><code class="html">&lt;picker 
+        mode=&quot;selector&quot; 
+        bindchange=&quot;setDuration&quot;      
+        value=&quot;&#123;&#123;durationIndex&#125;&#125;&quot;     
+        range=&quot;&#123;&#123;durationRange&#125;&#125;&quot;&gt;   
+        &#123;&#123;durationRange[durationIndex]&#125;&#125;
+&lt;/picker&gt;
+&lt;!-- 参数依次为模式、改变时的回调函数、所选下标、可选项 --&gt;
+</code></pre>
+<pre><code class="js">data:&#123;
+    durationIndex:0,
+    durationRange:[&#39;15 分钟&#39;,&#39;1 小时&#39;,&#39;12 小时&#39;,&#39;1 天&#39;,&#39;3 天&#39;,&#39;7 天&#39;],   
+&#125;,
+setDuration(e)&#123;
+    this.setData(&#123;durationIndex: e.detail.value&#125;);
+    var date = new Date();
+    switch(this.data.durationIndex)&#123;
+        case &#39;0&#39;:
+            date.setMinutes(date.getMinutes()+15);
+            break;
+        case &#39;1&#39;:
+            date.setHours(date.getHours()+1);
+            break;
+        case &#39;2&#39;:
+            date.setHours(date.getHours()+12);
+            break;
+        case &#39;3&#39;:
+            date.setDate(date.getDate()+1);
+            break;
+        case &#39;4&#39;:
+            date.setDate(date.getDate()+3);
+            break;
+        case &#39;5&#39;:
+            date.setDate(date.getDate()+7);
+            break;
+    &#125;
+    this.setData(&#123;duration:date.getTime()&#125;);  //获取时间戳
+&#125;,  //根据选择的时间对设置的时间进行处理
+</code></pre>
+<ul>
+<li><strong>多列选择框</strong></li>
+</ul>
+<pre><code class="html">&lt;picker
+    mode=&quot;multiSelector&quot; 
+    bindchange=&quot;deadlineChange&quot; 
+    bindcolumnchange=&quot;deadlineColumnChange&quot; 
+    value=&quot;&#123;&#123;deadlineIndex2&#125;&#125;&quot; 
+    range=&quot;&#123;&#123;deadlineRange&#125;&#125;&quot;&gt;
+    &#123;&#123;deadlineRange[0][deadlineIndex[0]]&#125;&#125; &#123;&#123;deadlineRange[1][deadlineIndex[1]]&#125;&#125; &#123;&#123;deadlineRange[2][deadlineIndex[2]]&#125;&#125; &#123;&#123;deadlineRange[3][deadlineIndex[3]]&#125;&#125; &#123;&#123;deadlineRange[4][deadlineIndex[4]]&#125;&#125;
+&lt;/picker&gt;
+&lt;!-- 参数依次为模式、改变时的回调函数、列改变时的回调函数、下标、可选范围 --&gt;
+</code></pre>
+<pre><code class="js">data:&#123;
+    deadline:null,
+    timeIndex:0,
+    timeRange:[&#39;永久&#39;,&#39;临时&#39;],
+    deadlineIndex: [0,0,0,0,0],
+    deadlineRange: [[], [], [], [], []],
+    monthNum:[],
+&#125;,
+onLoad:function(option)&#123;
+    this.setMonthNum();
+    this.setDeadlineRange();
+&#125;,
+//获取此年份每月天数
+setMonthNum(year)&#123;
+    var Num = [31,28,31,30,31,30,31,31,30,31,30,31];
+    if(year%100 ==0 &amp;&amp; year%400 == 0)&#123;
+        Num[1] = 29;
+    &#125;
+    else if(year%4 == 0)&#123;
+        Num[1] = 29;
+    &#125;
+    this.setData(&#123;monthNum:Num&#125;);
+&#125;,
+//设置可选范围
+setDeadlineRange(year,month)&#123;
+    var arr = [[],[],[],[],[],[]];
+    this.setMonthNum(year);
+    for(let i = 0; i &lt;= 10; i++)&#123;
+        arr[0].push(`$&#123;2021+i&#125; 年`);
+    &#125;
+    for(let i = 0; i &lt;= 11; i++)&#123;
+        arr[1].push(`$&#123;i+1&#125; 月`)
+    &#125;
+    for(let i = 1; i&lt;= this.data.monthNum[month]; i++)&#123;
+        arr[2].push(`$&#123;i&#125; 日`)
+    &#125;
+    for(let i = 0; i&lt;= 24; i++)&#123;
+        arr[3].push(`$&#123;i&#125; 时`)
+    &#125;
+    for(let i = 0; i&lt;= 60; i++)&#123;
+        arr[4].push(`$&#123;i&#125; 分`)
+    &#125;
+    this.setData(&#123;deadlineRange:arr&#125;);
+&#125;,
+//提交修改的回调函数（根据选择的项转化为时间戳）
+deadlineChange(e) &#123;
+    this.setData(&#123;deadlineIndex: e.detail.value&#125;);
+    var deadlineRange = this.data.deadlineRange;
+    var deadlineIndex = this.data.deadlineIndex;
+    var deadline = `$&#123;parseInt(deadlineRange[0][deadlineIndex[0]])&#125;-$&#123;parseInt(deadlineRange[1][deadlineIndex[1]])&#125;-$&#123;parseInt(deadlineRange[2][deadlineIndex[2]])&#125; $&#123;parseInt(deadlineRange[3][deadlineIndex[3]])&#125;:$&#123;parseInt(deadlineRange[4][deadlineIndex[4]])&#125;:00`;
+    var date = new Date(deadline);
+    this.setData(&#123;deadline:date.getTime()&#125;);
+&#125;,
+//当选择的列改变时，更改可选列表
+deadlineColumnChange(e) &#123;
+    this.data.deadlineIndex[e.detail.column]=e.detail.value;
+    this.setDeadlineRange(parseInt(this.data.deadlineRange[0][this.data.deadlineIndex[0]]),parseInt(this.data.deadlineRange[1][this.data.deadlineIndex[1]])-1)
+    this.upData(this.data.deadlineIndex);
+&#125;,
+</code></pre>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2021 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
