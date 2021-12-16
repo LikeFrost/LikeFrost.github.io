@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || onLoad 与 onShow</title>
+    <title>摸鱼日志 || 在博客中使用图床</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>onLoad 与 onShow </h1>
+        <h1>在博客中使用图床 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/1
+            2021/12/16
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#ffa2c4>
-                    微信小程序
+                <a href="/tags/搭建博客" style=color:#ffa2c4>
+                    搭建博客
                 </a>
             </span>
             
@@ -152,47 +152,37 @@
     </div>
 
     <div class="content" v-pre>
-        <p>二者都是进入页面时执行，区别如下：</p>
+        <p>在写博客的时候，为了展示代码的实际效果，经常需要上传图片，图片在本地显示正常，但当博客部署之后会发现图像无法正常显示，针对这种现象，一般有两种解决方案：</p>
 <ul>
-<li><p><strong>触发次数不同</strong>：</p>
-<ul>
-<li>onLoad 是在页面加载时触发，在页面的整个生命周期中只触发一次；</li>
-<li>onShow 是在页面显示/切入前台时触发，在页面的生命周期中可触发多次，即每次切入页面时都会触发；<span id="more"></span></li>
+<li>将图片放在静态资源中，插入图片使用相对路径，博客部署时将文档与图片一起部署到服务器上，这种方式操作简单，但对于每一张图片，都要手动修改相对路径，步骤繁琐；</li>
+<li>使用图床工具，即在文档中插入图片后，使用一种 [工具] 将图片上传到某处，并且自动将文档中的图片链接转化为网络地址，此工具被称作图床工具。</li>
 </ul>
-</li>
-<li><p><strong>是否携带参数</strong>：</p>
-<ul>
-<li><p>onLoad 可以接收参数，使用方式：</p>
-<pre><code class="js">//pageA:
-let id = &#39;12345&#39;, name = &#39;xiaoming&#39;;
-wx.pro.navigateTo(&#123;url:`/pages/pageB?id=$&#123;id&#125;&amp;name=$&#123;name&#125;`&#125;);
+<p>本文记录一款优秀的图床工具——PicGo 的使用方式（基于 Github），使用工具：Github、PicGo、Typora。</p>
+<span id="more"></span>
 
-//pageB:
-onLoad:function(options)&#123;
-    console.log(options.id);    //&#39;12345&#39;
-    console.log(options.name);  //&#39;xiaoming&#39;
-&#125;
-</code></pre>
-<p>使用场景：页面带参跳转；</p>
-</li>
-<li><p>onShow 不可以接收参数，通常用于二级页面对一级页面的内容做出修改并返回一级页面的情况；</p>
-<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，此时 pageA 需要重新获取列表，故使用 onShow；</p>
-</li>
+<ul>
+<li>下载 PicGo 最新版本，地址：<a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/PicGo/releases">https://github.com/Molunerfinn/PicGo/releases</a></li>
 </ul>
-</li>
+<p>Windows 系统下一般下载这个：</p>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20211216143827793.png" alt="image-20211216143827793"></p>
+<ul>
+<li>创建一个新的仓库，用来放置图片资源（必须为 public 库，否则图片无法访问）</li>
+<li>在 Github 上生成一个 token 用于给 PicGo 授权操作仓库（即上传图片）。进入网址 <a target="_blank" rel="noopener" href="https://github.com/settings/tokens%EF%BC%8C%E9%80%89%E6%8B%A9">https://github.com/settings/tokens，选择</a> Personal access tokens：</li>
 </ul>
-<p><strong>那么，既要传参，又要跳转后刷新怎么办呢？</strong></p>
-<p>场景示例：pageA 为列表展示页面，在页面加载时触发 request 请求获取列表项；点击单个列表项跳转到 pageB 进行修改，修改完毕后上传到后台服务器并返回 pageA，同时 pageB 回传 id。</p>
-<p>首先是要刷新，所以一定要用 onShow，传参可以使用如下方式：</p>
-<pre><code class="js">let pages = getCurrentPages();    //获取页面栈
-let prePage = pages[pages.length - 2];   //此页面的上一个页面
-let list = prePage.data.listData;    //获取上一个页面的列表
-list.name = newName;    //修改名称
-prePage.upData(&#123;
-    listData:list
-&#125;)    //回传数据（传参）
-wx.pro.navigateBack()  //回到上一页面
-</code></pre>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20211216144335560.png" alt="image-20211216144335560"></p>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/6NL0%60BV2BBX3%7BM%V5SUJJ[0.png" alt="img"></p>
+<ul>
+<li>生成 token 后妥善保存，用于配置 PicGo</li>
+<li>在 PicGo 中选择图床设置——Github 图床，做如下设置：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20211216145156801.png" alt="image-20211216145156801"></p>
+<ul>
+<li>打开 Typora——文件——偏好设置——图像，做如下设置：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20211216145613266.png" alt="image-20211216145613266"></p>
+<ul>
+<li>设置完成后点击“验证图片上传选项”，验证成功后，当在 Typora 中粘贴图片时，会自动生成网络地址并替换本地地址，简直懒人福音！</li>
+</ul>
 
     </div>
 
