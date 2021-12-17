@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
+    <title>摸鱼日志 || 搭建 Hexo 博客并部署到 Github</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>小程序自定义组件生命周期 </h1>
+        <h1>搭建 Hexo 博客并部署到 Github </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/4
+            2021/12/14
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#00a596>
-                    微信小程序
+                <a href="/tags/搭建博客" style=color:#00bcd4>
+                    搭建博客
                 </a>
             </span>
             
@@ -152,25 +152,46 @@
     </div>
 
     <div class="content" v-pre>
-        <pre><code class="js">  lifetimes: &#123;
-    created: function () &#123;
-      // 组件实例化，但节点树还未导入，因此这时不能用setData
-    &#125;,
-    attached: function () &#123;
-      // 在组件实例进入页面节点树时执行 
-      // 节点树完成，可以用setData渲染节点，但无法操作节点
-    &#125;,
-    ready: function () &#123;
-      // 组件布局完成，这时可以获取节点信息，也可以操作节点
-    &#125;,
-    move: function () &#123;
-      // 组件实例被移动到树的另一个位置
-    &#125;,
-    detached: function () &#123;
-      // 在组件实例被从页面节点树移除时执行
-    &#125;,
-  &#125;,
+        <h4 id="建立本地项目"><a href="#建立本地项目" class="headerlink" title="建立本地项目"></a>建立本地项目</h4><ul>
+<li>新建空文件夹</li>
+<li>右键点击 <code>git bush here</code> </li>
+<li>安装 hexo 框架：<code>npm install -g hexo-cli</code></li>
+<li>初始化文件夹：<code>hexo init</code></li>
+<li>安装依赖：<code>npm install</code></li>
+<li>启动服务器：<code>hexo server</code></li>
+</ul>
+<span id="more"></span>
+
+
+<h4 id="将博客推到远程仓库"><a href="#将博客推到远程仓库" class="headerlink" title="将博客推到远程仓库"></a>将博客推到远程仓库</h4><ul>
+<li><p>新建 git 仓库，名称为：<username>.github.io (好处是：通过<code>https://username.github.io/</code>就可以访问到你的仓库/blog/project主页, 而不需要在 github.io/后面再加上仓库名)</p>
+</li>
+<li><p>安装插件：<code>npm install hexo-deployer-git --save</code></p>
+</li>
+<li><p>创建一个 SSH key：<code>ssh-keygen -t -rsa -C &quot;email address&quot;</code></p>
+</li>
+<li><p>将密钥添加到 github，验证是否添加成功：<code>ssh -T git@github.com</code></p>
+</li>
+<li><p>在 _config.yml 文件最后修改为：</p>
+<pre><code class="js"># Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
+deploy:
+  type: git
+  repo: git@github.com:LikeFrost/LikeFrost.github.io.git
+  branch: master
 </code></pre>
+<p>注意 type: 后面一定要有空格，不然会报错，仓库地址写 ssh 地址（以后提交时不用输用户名密码）</p>
+</li>
+<li><p>推送到 github：<code>hexo g</code>   <code>hexo d</code></p>
+</li>
+</ul>
+<h4 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h4><ul>
+<li><p>推送失败：错误码 443 ，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38076935/article/details/120392154">配置一下 host 文件</a></p>
+</li>
+<li><p>仓库找不到：重新配置 github 用户名、邮箱等（注意没有下划线）</p>
+</li>
+</ul>
+<h4 id="访问地址"><a href="#访问地址" class="headerlink" title="访问地址"></a>访问地址</h4><p><a href="https://likefrost.github.io/">https://likefrost.github.io/</a></p>
 
     </div>
 
