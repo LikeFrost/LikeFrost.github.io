@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 数据类型</title>
+    <title>摸鱼日志 || 前端面试计算机网络部分</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>数据类型 </h1>
+        <h1>前端面试计算机网络部分 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/11/24
+            2022/4/14
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/JavaScript" style=color:#03a9f4>
-                    JavaScript
+                <a href="/tags/前端面试" style=color:#00bcd4>
+                    前端面试
                 </a>
             </span>
             
@@ -152,139 +152,56 @@
     </div>
 
     <div class="content" v-pre>
-        <ul>
-<li><p>JavaScript 有六种简单数据类型（原始类型）：Undefined、Null、Boolean、Number、String、Symbol（ES6 新增）。</p>
-<span id="more"></span></li>
-<li><p><strong>typeof 操作符的返回结果</strong></p>
+        <h4 id="http报文结构"><a href="#http报文结构" class="headerlink" title="http报文结构"></a>http报文结构</h4><p>http请求报文由三部分组成：请求行、请求头、请求正文，请求头与请求正文由CRLF（回车换行）分割开来，请求正文有可能为空或包含CRLF，因此不能通过一个CRLF与请求头区分开来，故用两个来分隔请求头和请求正文。</p>
 <ul>
-<li>undefined 表示值未定义；</li>
-<li>boolean 表示值为布尔值；</li>
-<li>string 表示值为字符串；</li>
-<li>number 表示值为数值；</li>
-<li>object 表示值为对象或 null （null 可以看作是对一个空对象的引用）；</li>
-<li>function 表示值为函数；</li>
-<li>symbol 表示值为符号；</li>
+<li>请求行</li>
 </ul>
-<pre><code class="js">let name = &quot;xiaoming&quot;;
-typeof name;    //&quot;string&quot;
-typeof (name);    //&quot;string&quot;
-</code></pre>
-</li>
-<li><p><strong>Undefined 类型</strong></p>
+<p>格式为：Method Request-URI HTTP-version CRLF</p>
+<p>请求方式：GET、POST、HEAD、OPTIONS、PUT、DELETE、TRACE、CONNECT；</p>
 <ul>
-<li>Undefined 类型只有一个值，即特殊值 undefined，当使用 var 或者 let 声明了变量但没有初始化时，就相当于给变量赋予了 undefined 值；</li>
-<li>永远不要显式的给某个变量设置 undefined 值，增加这个特殊值的目的就是正式明确空对象指针（null）和未初始化变量的区别；</li>
-<li>对于未声明的变量，只能执行一个有用的操作，就是对其调用 typeof；</li>
-<li>即使未初始化的变量会被自动赋予 undefined 值，但最好还是在声明变量的同时进行初始化，这样，当 typeof 返回 undefined 时，就会知道那是因为给定的变量未定义，而不是定义了未初始化。</li>
+<li>请求头</li>
 </ul>
-</li>
-<li><p><strong>Null 类型</strong></p>
+<p>请求头一般为键值对：</p>
+<p>User-Agent:PostmanRuntime/7.26.8   表示产生请求的客户端程序</p>
+<p>Accept:<em>/</em>   表示可接受的响应的类型为全部类型</p>
+<p>Accept-Language:zh   表示可接受的响应的语言为中文</p>
+<p>Accept-Encoding:gzip   表示客户端请求的压缩方式</p>
+<p>Cookie:value   值由登陆之后服务端下发</p>
+<p>token:value   值由登陆之后服务端下发</p>
 <ul>
-<li>Null 类型只有一个值，即特殊值 null，表示空对象指针，在定义将来要保存对象值的变量时，可以用 null 来初始化；</li>
-<li>undefined 由 null 派生而来，所以他们表面上相等，即 == 返回 true；</li>
+<li>请求正文</li>
 </ul>
-</li>
-<li><p><strong>Boolean 类型</strong></p>
+<p>http响应报文同样是三部分组成：响应行、响应头、响应正文。</p>
 <ul>
-<li>布尔值类型有两个字面值：true 和 false；</li>
-<li>调用 Boolean() 函数可以将其他数据类型转化为相应布尔值的等价形式：</li>
+<li>响应行（状态行）</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>转化为 true</th>
-<th>转化为 false</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Boolean</td>
-<td>true</td>
-<td>false</td>
-</tr>
-<tr>
-<td>String</td>
-<td>非空字符串</td>
-<td>空字符串</td>
-</tr>
-<tr>
-<td>Number</td>
-<td>非零数值</td>
-<td>0，NaN</td>
-</tr>
-<tr>
-<td>Object</td>
-<td>任意对象</td>
-<td>null</td>
-</tr>
-<tr>
-<td>Undefined</td>
-<td>——</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-<ul>
-<li>像 if 等流控制语句会自动执行其它类型到布尔值的转换：<code>if (name) &#123; &#125;</code></li>
-</ul>
-</li>
-<li><p><strong>Number 类型</strong></p>
-<ul>
-<li>整数可以使用十、八、十六、二进制来表示</li>
-<li>默认情况下，ES 会将小数点后至少包含六个零的浮点值转换为科学计数法，精确值最高可达17位小数（但是会存在舍入错误）；</li>
-<li>特殊数值 NaN：意思是不是数值；涉及 NaN 的操作始终会返回 NaN 且它不等于包括它本身在内的任何值；</li>
-<li>isNaN() 函数用于判断参数不是数值（在操作时会先将非数值的值转换为数值，然后再进行函数判断）；</li>
-<li>isNaN() 可用于测试对象。此时，首先会调用对象的 valueOf() 方法，再确定返回的值是否能转换为数值，如果不能，再调用 toString() 方法并测试其返回值；</li>
-<li>将其他类型转换为数字：Number()   parseInt()（可以指定第二个参数，即被转换数字的进制）  parseFloat()</li>
-</ul>
-</li>
-<li><p><strong>String 类型</strong></p>
-<ul>
-<li>字符串可以使用双引号、单引号、反引号标识；</li>
-<li>ES 中的字符串是不可变的，即一旦创建他们的值就不能变了，要修改某个变量中字符串值，必须先销毁原始的字符串，然后将包含新值的另一个字符串保存到该变量，所有的处理都是在后台完成的；</li>
-<li>字符串值有 toString() 方法，该方法简单的返回自身的一个副本。null 和 undefined 没有这个方法；</li>
-<li>数字调用 toString() 方法会返回数字的字符串表示，括号中可以指定进制。</li>
-</ul>
-</li>
-<li><p><strong>Symbol 类型</strong></p>
-<ul>
-<li>符号类型是 ES6 新增的数据类型，符号是原始值，且符号实例时唯一、不可变的。用途是确保对象属性使用唯一标识符，不会发生属性冲突的危险；</li>
-</ul>
-</li>
-<li><p><strong>Object 类型</strong></p>
-<ul>
-<li>ES 中的对象其实就是一组数据和功能的集合；</li>
-<li>constructor：用于创建当前对象的函数；</li>
-<li>hasOwnProperty(propertyName)：用于判断当前对象实例（不是原型）上是否存在给定的属性；要检查的属性名必须是字符串或符号；</li>
-<li>isPrototypeOf(object)：用于判断当前对象是否为另一个对象的原型；</li>
-<li>propertyIsEnumerable(propertyName)：用于判断给定的属性是否可以使用 for-in 语句枚举，属性名必须为字符串；</li>
-<li>toLocaleString()：返回对象的字符串表示，该字符串反映对象所在的本地化执行环境；</li>
-<li>toString()：返回对象的字符串表示；</li>
-<li>toString()：返回对象的字符串表示。</li>
-</ul>
-</li>
-<li><p>判断一个值是否是 null 或 undefined，可以使用 String() 转型函数：</p>
-<ul>
-<li>如果值有 toString() 方法，则调用它；</li>
-<li>值为 null 返回 ”null“；</li>
-<li>值为 undefined 返回 “undefined”</li>
-</ul>
-</li>
-<li><p>模板字面量：</p>
-<ul>
-<li>ES6 中新增了使用模板字面量定义字符串的能力，其保留换行符，可以跨行定义字符串；其最常用的一个特性是支持字符串插值，也就是在一个连续定义中插入一个或多个值；</li>
-<li>在技术上讲，模板字面量不是字符串，而是一种特殊的 JS 语句表达式，其求值后得到的是字符串，其在定义时立即求值并转换为字符串实例，任何插入的变量会从他们最接近的作用域中取值；</li>
-</ul>
-<pre><code class="js">let value = 5;
-let result = &#39;result is&#39; + value;   //以前的写法
-
-let result = `result is $&#123; value &#125;`;  //现在的写法
-</code></pre>
-<ul>
-<li>任何插入的值都会使用 toString() 强制转化为字符串；</li>
-<li>标签函数（了解）</li>
-</ul>
-</li>
-</ul>
+<p>格式为：HTTP-version Status-code Reason-phrase CRLF</p>
+<p>Status-code 响应状态码 Reason-phrase 状态码文本描述</p>
+<p>状态码由三位数字组成，第一个数字表示响应类别</p>
+<p>1xx：指示消息——请求已被接收，继续处理；</p>
+<p>2xx：成功——请求成功接收；</p>
+<p>3xx：重定向——要完成请求必须进行进一步操作；</p>
+<p>4xx：客户端错误——请求语法有错误或请求无法实现；</p>
+<p>5xx：服务器错误——服务器未能实现合法的请求；</p>
+<p>常见错误码：</p>
+<p>200 ok 成功；</p>
+<p>301 moved permanently 请求永久重定向</p>
+<p>302 moved temporarily 请求临时重定向</p>
+<p>304 not modified 文件未修改，可以直接使用缓存文件</p>
+<p>400 bad request 客户端语法错误，服务器不理解</p>
+<p>401 unauthorized 请求未经授权，状态码要和报头域WWW-Authenticate一起使用</p>
+<p>403 forbidden 服务器收到请求，但是拒绝提供服务</p>
+<p>404 not found 请求资源不存在</p>
+<p>500 internal server error 服务器发生不可预期的错误</p>
+<p>503 server unavailable 服务器当前不能处理客户端请求，一段时间后可能恢复正常</p>
+<h4 id="http头部关于缓存的字段"><a href="#http头部关于缓存的字段" class="headerlink" title="http头部关于缓存的字段"></a>http头部关于缓存的字段</h4><p>Expries：响应头，代表资源的过期时间</p>
+<p>Cache-Control：请求/响应头。控制缓存字段，精确控制缓存策略；</p>
+<p>If-Modified-Since：请求头，资源最近修改时间，由浏览器告诉服务器；</p>
+<p>Last-Modified：响应头，资源最近修改时间，由服务器告诉浏览器；</p>
+<p>Etag：响应头，资源标识，由服务器告诉浏览器；</p>
+<p>If-None-Match：请求头，缓存资源标识，由浏览器告诉服务器；</p>
+<p>强缓存：Expires（HTTP/1.0）、Cache-Control（HTTP/1.1）</p>
+<p>协商缓存：Last-Modified和If-Modified-Since（HTTP/1.0）；ETag和If-None-Match（HTTP/1.1）</p>
 
     </div>
 
