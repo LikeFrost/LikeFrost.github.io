@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 排序算法</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
+    <link rel="icon" href="/images/avatar.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>排序算法 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/2/28
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/算法" style=color:#03a9f4>
+                    算法
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="- 冒泡排序"></a>- 冒泡排序</h3><p>算法思想：重复走过将要排序的数列，一次比较两个元素，如果顺序错误就将他们交换，这个算法的名字由来是因为越小的元素会由交换“浮”到数列的顶端。（每一趟最大的一个数将到达数组末尾）</p>
+<p>时间复杂度：O(n^2)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const bubbleSort = (nums) =&gt; &#123;
+    let temp;
+    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
+        for (let j = 0; j &lt; nums.length - i - 1; j++)&#123;
+            if (nums[j] &gt; nums[j + 1]) &#123;
+                temp = nums[j];
+                nums[j] = nums[j + 1];
+                nums[j + 1] = temp;
+            &#125;
+        &#125;
+    &#125;
+    return nums;
+&#125;
+</code></pre>
+<p>算法优化：设置一个flag，记录每趟是否会有数据交换，若本趟没有数据发生交换，则表明数组已经被排好序，可以直接返回。最理想时间复杂度O(n)</p>
+<p>优化实现：</p>
+<pre><code class="javascript">const bubbleSort = (nums) =&gt; &#123;
+    let temp;
+    let flag;
+    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
+        flag = 0;
+        for (let j = 0; j &lt;= nums.length - i - 1; j++)&#123;
+            if (nums[j] &gt; nums[j + 1]) &#123;
+                flag = 1;
+                temp = nums[j];
+                nums[j] = nums[j + 1];
+                nums[j + 1] = temp;
+            &#125;
+        &#125;
+        if (!flag) return nums;
+    &#125;
+    return nums;
+&#125;
+</code></pre>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="- 选择排序"></a>- 选择排序</h3><p>算法思想：选择排序是一种简单直观的排序算法，它将整个序列分为两部分：已排序序列和未排序序列，每次在未排序序列中选择最小的元素，将其放到已排序序列的末尾（将当前最小值与未排序的第一个数交换，并将已排序序列长度+1)。</p>
+<p>时间复杂度：O(n^2)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const selectSort = (nums) =&gt; &#123;
+    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
+        let minIndex = i;
+        let min = nums[i];
+        for (let j = i + 1; j &lt;= nums.length - 1; j++)&#123;
+            if (nums[j] &lt; min) &#123;
+                min = nums[j];
+                minIndex = j;
+            &#125;
+        &#125;
+        if (minIndex != i) &#123;
+            nums[minIndex] = nums[i];
+            nums[i] = min;
+        &#125;
+    &#125;
+    return nums;
+&#125;
+</code></pre>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="- 插入排序"></a>- 插入排序</h3><p>算法思想：通过构建有序数列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
+<p>时间复杂度：O(n^2)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const insertSort = (nums) =&gt; &#123;
+    for (let i = 1; i &lt;= nums.length - 1; i++)&#123;
+        let insertNum = nums[i];
+        let insertIndex = i;
+        while (insertIndex &gt; 0 &amp;&amp; insertNum &lt; nums[insertIndex-1]) &#123;
+            nums[insertIndex] = nums[insertIndex-1];
+            insertIndex--;
+        &#125;
+        nums[insertIndex] = insertNum;
+    &#125;
+    return nums;
+&#125;
+</code></pre>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="- 希尔排序"></a>- 希尔排序</h3><p>算法思想：简单的插入排序，当需要插入的数是比较小的数时，后移的次数明显增多，对效率产生影响，希尔排序是简单插入排序的改进版，又叫缩小增量排序。先将整个待排序的记录序列分割成若干子序列分别进行插入排序，然后逐步缩小增量，直到增量为1，则对整个数组进行插入排序，这样能有效减少小数据前移的次数。</p>
+<p>例：增量=5，即待排序数列每隔五个数字为一组进行插入排序，若小数据前移一位，相当于在原有数列上前移五位。</p>
+<p>时间复杂度：O(n^1.3)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const shallSort = (nums) =&gt; &#123;
+    //选择增量的值，每次/2
+    for (let gap = Math.floor(nums.length / 2); gap &gt; 0; gap = Math.floor(gap / 2))&#123;
+        for (let i = gap; i &lt;= nums.length - 1; i++)&#123;
+            let insertIndex = i;
+            let insertNum = nums[insertIndex];
+            while (insertIndex &gt;= gap &amp;&amp; insertNum &lt; nums[insertIndex - gap]) &#123;
+                nums[insertIndex] = nums[insertIndex - gap];
+                insertIndex -= gap;
+            &#125;
+            nums[insertIndex] = insertNum;
+        &#125;
+    &#125;
+    return nums;
+&#125;
+</code></pre>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="- 快速排序"></a>- 快速排序</h3><p>算法思想：在一个无序数组中取一个数key，每一趟排序的最终目的是让key左边的所有数小于key，key右边的都大于key；排序思路：取区间中最左或最右边的元素为key，定义两个变量p,q，q从区间的最右边向左走，找到比key小的就停下；p从左向右走，找到比key大的就停下，然后交换p和q指向的元素；重复以上过程，直到pq相遇，交换key和pq相遇的元素。</p>
+<p>时间复杂度：O(nlog2n)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const quickSort = (nums, left, right) =&gt; &#123;
+    if (left &gt;= right) return ;
+    let l = left;
+    let r = right;
+    let key = l;
+    while (l &lt; r) &#123;
+        while (l &lt; r &amp;&amp; nums[r] &gt;= nums[key]) &#123;
+            r--;
+        &#125;
+        while (l &lt; r &amp;&amp; nums[l] &lt;= nums[key]) &#123;
+            l++;
+        &#125;
+        let temp = nums[l];
+        nums[l] = nums[r];
+        nums[r] = temp;
+    &#125;
+    let temp = nums[l];
+    nums[l] = nums[key];
+    nums[key] = temp;
+    quickSort(nums, left, l - 1);
+    quickSort(nums, l + 1, right);
+
+&#125;
+const nums = [1, 4, 2, 5, 7, 3, 12, 4, 6, 2, 1, 0];
+quickSort(nums, 0, nums.length - 1);
+console.log(nums);
+</code></pre>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="- 归并排序"></a>- 归并排序</h3><p>算法思想：将待排序的数列逐层折半分组，然后从最小分组开始排序，合并成一个大的分组，最终使所有元素均有序。</p>
+<p>时间复杂度：O(nlog2n)</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const sort = (nums, l = 0, r = nums.length - 1) =&gt; &#123;
+    if (l &gt;= r) return;
+
+    let mid = Math.floor((l + r) / 2);
+    sort(nums, l, mid);
+    sort(nums, mid + 1, r);
+    merge(nums, l, mid, r);
+&#125;
+
+const merge = (nums,l,mid,r) =&gt; &#123;
+    let arr = [];
+    let i = l, j = mid+1, index = 0;
+    while (i &lt;= mid &amp;&amp; j &lt;= r) &#123;
+        if (nums[i] &lt; nums[j]) &#123;
+            arr[index++] = nums[i++];
+        &#125; else &#123;
+            arr[index++] = nums[j++];
+        &#125;
+    &#125;//选两列数中较小的数依次加入结果数列
+    while (i &lt;= mid) &#123;
+        arr[index++] = nums[i++];
+    &#125;
+    while (j &lt;= r) &#123;
+        arr[index++] = nums[j++];
+    &#125;//将两列中剩余的数加入数列
+
+    for (let k = 0; k &lt;= arr.length - 1; k++)&#123;
+        nums[k + l] = arr[k];
+    &#125;//将归并结果覆盖原数组
+&#125;
+let nums = [1, 0, 0, 2, 3, 5, 7, 4, 2, 3, 5, 67, 0];
+sort(nums);
+console.log(nums);
+</code></pre>
+<h3 id="堆排序（学完结构后回来补"><a href="#堆排序（学完结构后回来补" class="headerlink" title="- 堆排序（学完结构后回来补"></a>- 堆排序（学完结构后回来补</h3>
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2023 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'zh-CN',
+        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
