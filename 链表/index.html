@@ -304,6 +304,33 @@ var deleteDuplicates = function(head) &#123;
 <ul>
 <li>leetcode141 环形链表</li>
 </ul>
+<p>解题思路：快慢指针法，当两个指针均不为空时，若存在环路，则两个指针终会相遇，若不相遇则不存在环路。</p>
+<p>解题代码：</p>
+<pre><code class="javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;boolean&#125;
+ */
+var hasCycle = function(head) &#123;
+    let p1 = head;
+    let p2 = head;
+    while(p1 &amp;&amp; p2 &amp;&amp; p2.next)&#123;
+        p1 = p1.next;
+        p2 = p2.next.next;
+        if(p1 === p2)&#123;
+            return true;
+        &#125;
+    &#125;
+    return false;
+&#125;;
+</code></pre>
 
     </div>
 
