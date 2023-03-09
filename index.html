@@ -171,33 +171,10 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <h3 id="instanceOf原理，手动实现function-isInstanceOf-child-parent"><a href="#instanceOf原理，手动实现function-isInstanceOf-child-parent" class="headerlink" title="- instanceOf原理，手动实现function isInstanceOf(child,parent)"></a>- instanceOf原理，手动实现function isInstanceOf(child,parent)</h3><ul>
 <li>instanceof原理：查询parent的prototype是否在child的原型链上，所以在查找过程中，instanceof会遍历child的原型链，直到找到或查找失败。</li>
 </ul>
-<p>判断一个实例是否属于某种类型：</p>
-<pre><code class="javascript">let person = function()&#123;&#125;;
-let person1 = new person();
-person1 instanceof person; //true
-</code></pre>
-<ul>
-<li>手动实现isInstanceOf</li>
-</ul>
-<pre><code class="javascript">function isInstanceOf(child,parent)&#123;
-    let parentProto = parent.prototype;
-    child = child.__proto__;
-    while(1)&#123;
-        if(child === null)&#123;
-            return false;
-        &#125;
-        if(child === parentProto)&#123;
-            return true;
-        &#125;
-        child = child.__proto__;
-    &#125;
-&#125;
-</code></pre>
-
+            
             
         </div>
     </div>
@@ -211,7 +188,7 @@ person1 instanceof person; //true
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#00bcd4>
+            <a href="/tags/手撕代码" style=color:#ff7d73>
                 手撕代码
             </a>
         </span>
@@ -247,156 +224,11 @@ person1 instanceof person; //true
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <h3 id="概念"><a href="#概念" class="headerlink" title="- 概念"></a>- 概念</h3><ul>
 <li>链表：是多个元素组成的列表，元素不连续，用 next 指针连在一起</li>
 <li>数组与链表的区别： 数组增删非首尾元素时需要移动元素；链表增删非首尾元素时不需要移动元素，只需要修改 next 的指向即可</li>
-<li>链表实现：</li>
 </ul>
-<pre><code class="javascript">const a = &#123;val:&#39;a&#39;&#125;;
-const b = &#123;val:&#39;b&#39;&#125;;
-const c = &#123;val:&#39;c&#39;&#125;;
-const d = &#123;val:&#39;d&#39;&#125;;
-a.next = b;
-b.next = c;
-c.next = d;
-
-//遍历链表
-let p = a;
-while(p)&#123;
-    console.log(p.val);
-    p = p.next;
-&#125;
-
-//链表插入值
-const e = &#123;val:&#39;e&#39;&#125;
-c.next = e;
-e.next = d;
-
-//删除e节点
-c.next = d;
-</code></pre>
-<h3 id="链表练习"><a href="#链表练习" class="headerlink" title="- 链表练习"></a>- 链表练习</h3><ul>
-<li>leetcode237 删除链表中的节点</li>
-</ul>
-<p>解题思路：题目中指的删除节点并不是从内存中删除它，而是指给定结点的值不再存在于链表中。因为无法获取当前节点的前一个节点，可以让被删除节点的值变为它的下一个节点，然后删除它的下一节点，例如1，2，3，4要删除3，可以先将链表变为1，2，4，4，然后再删除第二个4，变为1，2，4即可达到目的。</p>
-<p>题目代码：</p>
-<pre><code class="javascript">/**
- * Definition for singly-linked list.
- * function ListNode(val) &#123;
- *     this.val = val;
- *     this.next = null;
- * &#125;
- */
-/**
- * @param &#123;ListNode&#125; node
- * @return &#123;void&#125; Do not return anything, modify node in-place instead.
- */
-var deleteNode = function(node) &#123;
-    node.val = node.next.val;
-    node.next = node.next.next;
-&#125;;
-</code></pre>
-<ul>
-<li>leetcode206 反转列表</li>
-</ul>
-<p>解题思路：双指针遍历链表，指针p1，p2，</p>
-<p>题目代码：p1指向链表前一位，取出链表后一位，令p1指向p2，然后交换p1和p2位置。</p>
-<pre><code class="javascript">/**
- * Definition for singly-linked list.
- * function ListNode(val, next) &#123;
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * &#125;
- */
-/**
- * @param &#123;ListNode&#125; head
- * @return &#123;ListNode&#125;
- */
-var reverseList = function(head) &#123;
-    let p1 = head;
-    let p2 = null;
-    while(p1)&#123;
-        let temp = p1.next;
-        p1.next = p2;
-        p2 = p1;
-        p1 = temp;
-    &#125;
-    return p2;
-&#125;;
-</code></pre>
-<ul>
-<li>leetcode2 两数相加</li>
-</ul>
-<p>解题思路：创建一个新链表，遍历原链表，存储每一位的相加值和进位，最后处理进位。</p>
-<p>解题代码：</p>
-<pre><code class="javascript">/**
- * Definition for singly-linked list.
- * function ListNode(val, next) &#123;
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * &#125;
- */
-/**
- * @param &#123;ListNode&#125; l1
- * @param &#123;ListNode&#125; l2
- * @return &#123;ListNode&#125;
- */
-var addTwoNumbers = function(l1, l2) &#123;
-    const l3 = new ListNode(0);
-    let p1 = l1;
-    let p2 = l2;
-    let p3 = l3;
-    let carry = 0;
-    while(p1||p2)&#123;
-        let v1 = p1?p1.val:0;
-        let v2 = p2?p2.val:0;
-        let val = v1+v2+carry;
-        carry = Math.floor(val/10);
-        p3.next = new ListNode(val%10);
-        if(p1) p1 = p1.next;
-        if(p2) p2 = p2.next;
-        p3 = p3.next; 
-    &#125;
-    //处理最后一位进位
-    if(carry)&#123;
-        p3.next = new ListNode(carry);
-    &#125;
-    //因为头部一开始定义了一个节点，所以返回l3.next
-    return l3.next;
-&#125;;
-</code></pre>
-<ul>
-<li>leetcode83 删除排序列表中的重复元素</li>
-</ul>
-<p>解题思路：由于是排序列表，所以重复元素一定相邻，直接删除即可。遍历链表，如果当前和下一个相同，就删除下一个，否则遍历下一个元素。</p>
-<p>解题代码：</p>
-<pre><code class="javascript">/**
- * Definition for singly-linked list.
- * function ListNode(val, next) &#123;
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * &#125;
- */
-/**
- * @param &#123;ListNode&#125; head
- * @return &#123;ListNode&#125;
- */
-var deleteDuplicates = function(head) &#123;
-    let p = head;
-    while(p &amp;&amp; p.next)&#123;
-        if(p.val == p.next.val)&#123;
-            p.next = p.next.next;
-        &#125;
-        else p = p.next;
-    &#125;
-    return head;
-&#125;;
-</code></pre>
-<ul>
-<li>leetcode141 环形链表</li>
-</ul>
-
+            
             
         </div>
     </div>
@@ -410,7 +242,7 @@ var deleteDuplicates = function(head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/数据结构" style=color:#ffa2c4>
+            <a href="/tags/数据结构" style=color:#03a9f4>
                 数据结构
             </a>
         </span>
@@ -446,169 +278,8 @@ var deleteDuplicates = function(head) &#123;
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="- 冒泡排序"></a>- 冒泡排序</h3><p>算法思想：重复走过将要排序的数列，一次比较两个元素，如果顺序错误就将他们交换，这个算法的名字由来是因为越小的元素会由交换“浮”到数列的顶端。（每一趟最大的一个数将到达数组末尾）</p>
-<p>时间复杂度：O(n^2)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const bubbleSort = (nums) =&gt; &#123;
-    let temp;
-    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
-        for (let j = 0; j &lt; nums.length - i - 1; j++)&#123;
-            if (nums[j] &gt; nums[j + 1]) &#123;
-                temp = nums[j];
-                nums[j] = nums[j + 1];
-                nums[j + 1] = temp;
-            &#125;
-        &#125;
-    &#125;
-    return nums;
-&#125;
-</code></pre>
-<p>算法优化：设置一个flag，记录每趟是否会有数据交换，若本趟没有数据发生交换，则表明数组已经被排好序，可以直接返回。最理想时间复杂度O(n)</p>
-<p>优化实现：</p>
-<pre><code class="javascript">const bubbleSort = (nums) =&gt; &#123;
-    let temp;
-    let flag;
-    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
-        flag = 0;
-        for (let j = 0; j &lt;= nums.length - i - 1; j++)&#123;
-            if (nums[j] &gt; nums[j + 1]) &#123;
-                flag = 1;
-                temp = nums[j];
-                nums[j] = nums[j + 1];
-                nums[j + 1] = temp;
-            &#125;
-        &#125;
-        if (!flag) return nums;
-    &#125;
-    return nums;
-&#125;
-</code></pre>
-<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="- 选择排序"></a>- 选择排序</h3><p>算法思想：选择排序是一种简单直观的排序算法，它将整个序列分为两部分：已排序序列和未排序序列，每次在未排序序列中选择最小的元素，将其放到已排序序列的末尾（将当前最小值与未排序的第一个数交换，并将已排序序列长度+1)。</p>
-<p>时间复杂度：O(n^2)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const selectSort = (nums) =&gt; &#123;
-    for (let i = 0; i &lt; nums.length - 1; i++)&#123;
-        let minIndex = i;
-        let min = nums[i];
-        for (let j = i + 1; j &lt;= nums.length - 1; j++)&#123;
-            if (nums[j] &lt; min) &#123;
-                min = nums[j];
-                minIndex = j;
-            &#125;
-        &#125;
-        if (minIndex != i) &#123;
-            nums[minIndex] = nums[i];
-            nums[i] = min;
-        &#125;
-    &#125;
-    return nums;
-&#125;
-</code></pre>
-<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="- 插入排序"></a>- 插入排序</h3><p>算法思想：通过构建有序数列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。</p>
-<p>时间复杂度：O(n^2)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const insertSort = (nums) =&gt; &#123;
-    for (let i = 1; i &lt;= nums.length - 1; i++)&#123;
-        let insertNum = nums[i];
-        let insertIndex = i;
-        while (insertIndex &gt; 0 &amp;&amp; insertNum &lt; nums[insertIndex-1]) &#123;
-            nums[insertIndex] = nums[insertIndex-1];
-            insertIndex--;
-        &#125;
-        nums[insertIndex] = insertNum;
-    &#125;
-    return nums;
-&#125;
-</code></pre>
-<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="- 希尔排序"></a>- 希尔排序</h3><p>算法思想：简单的插入排序，当需要插入的数是比较小的数时，后移的次数明显增多，对效率产生影响，希尔排序是简单插入排序的改进版，又叫缩小增量排序。先将整个待排序的记录序列分割成若干子序列分别进行插入排序，然后逐步缩小增量，直到增量为1，则对整个数组进行插入排序，这样能有效减少小数据前移的次数。</p>
-<p>例：增量=5，即待排序数列每隔五个数字为一组进行插入排序，若小数据前移一位，相当于在原有数列上前移五位。</p>
-<p>时间复杂度：O(n^1.3)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const shallSort = (nums) =&gt; &#123;
-    //选择增量的值，每次/2
-    for (let gap = Math.floor(nums.length / 2); gap &gt; 0; gap = Math.floor(gap / 2))&#123;
-        for (let i = gap; i &lt;= nums.length - 1; i++)&#123;
-            let insertIndex = i;
-            let insertNum = nums[insertIndex];
-            while (insertIndex &gt;= gap &amp;&amp; insertNum &lt; nums[insertIndex - gap]) &#123;
-                nums[insertIndex] = nums[insertIndex - gap];
-                insertIndex -= gap;
-            &#125;
-            nums[insertIndex] = insertNum;
-        &#125;
-    &#125;
-    return nums;
-&#125;
-</code></pre>
-<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="- 快速排序"></a>- 快速排序</h3><p>算法思想：在一个无序数组中取一个数key，每一趟排序的最终目的是让key左边的所有数小于key，key右边的都大于key；排序思路：取区间中最左或最右边的元素为key，定义两个变量p,q，q从区间的最右边向左走，找到比key小的就停下；p从左向右走，找到比key大的就停下，然后交换p和q指向的元素；重复以上过程，直到pq相遇，交换key和pq相遇的元素。</p>
-<p>时间复杂度：O(nlog2n)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const quickSort = (nums, left, right) =&gt; &#123;
-    if (left &gt;= right) return ;
-    let l = left;
-    let r = right;
-    let key = l;
-    while (l &lt; r) &#123;
-        while (l &lt; r &amp;&amp; nums[r] &gt;= nums[key]) &#123;
-            r--;
-        &#125;
-        while (l &lt; r &amp;&amp; nums[l] &lt;= nums[key]) &#123;
-            l++;
-        &#125;
-        let temp = nums[l];
-        nums[l] = nums[r];
-        nums[r] = temp;
-    &#125;
-    let temp = nums[l];
-    nums[l] = nums[key];
-    nums[key] = temp;
-    quickSort(nums, left, l - 1);
-    quickSort(nums, l + 1, right);
-
-&#125;
-const nums = [1, 4, 2, 5, 7, 3, 12, 4, 6, 2, 1, 0];
-quickSort(nums, 0, nums.length - 1);
-console.log(nums);
-</code></pre>
-<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="- 归并排序"></a>- 归并排序</h3><p>算法思想：将待排序的数列逐层折半分组，然后从最小分组开始排序，合并成一个大的分组，最终使所有元素均有序。</p>
-<p>时间复杂度：O(nlog2n)</p>
-<p>算法实现：</p>
-<pre><code class="javascript">const sort = (nums, l = 0, r = nums.length - 1) =&gt; &#123;
-    if (l &gt;= r) return;
-
-    let mid = Math.floor((l + r) / 2);
-    sort(nums, l, mid);
-    sort(nums, mid + 1, r);
-    merge(nums, l, mid, r);
-&#125;
-
-const merge = (nums,l,mid,r) =&gt; &#123;
-    let arr = [];
-    let i = l, j = mid+1, index = 0;
-    while (i &lt;= mid &amp;&amp; j &lt;= r) &#123;
-        if (nums[i] &lt; nums[j]) &#123;
-            arr[index++] = nums[i++];
-        &#125; else &#123;
-            arr[index++] = nums[j++];
-        &#125;
-    &#125;//选两列数中较小的数依次加入结果数列
-    while (i &lt;= mid) &#123;
-        arr[index++] = nums[i++];
-    &#125;
-    while (j &lt;= r) &#123;
-        arr[index++] = nums[j++];
-    &#125;//将两列中剩余的数加入数列
-
-    for (let k = 0; k &lt;= arr.length - 1; k++)&#123;
-        nums[k + l] = arr[k];
-    &#125;//将归并结果覆盖原数组
-&#125;
-let nums = [1, 0, 0, 2, 3, 5, 7, 4, 2, 3, 5, 67, 0];
-sort(nums);
-console.log(nums);
-</code></pre>
-<h3 id="堆排序（学完结构后回来补"><a href="#堆排序（学完结构后回来补" class="headerlink" title="- 堆排序（学完结构后回来补"></a>- 堆排序（学完结构后回来补</h3>
+            
             
         </div>
     </div>
@@ -622,7 +293,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/算法" style=color:#00a596>
+            <a href="/tags/算法" style=color:#00bcd4>
                 算法
             </a>
         </span>
@@ -658,58 +329,8 @@ console.log(nums);
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <h4 id="http报文结构"><a href="#http报文结构" class="headerlink" title="http报文结构"></a>http报文结构</h4><p>http请求报文由三部分组成：请求行、请求头、请求正文，请求头与请求正文由CRLF（回车换行）分割开来，请求正文有可能为空或包含CRLF，因此不能通过一个CRLF与请求头区分开来，故用两个来分隔请求头和请求正文。</p>
-<ul>
-<li>请求行</li>
-</ul>
-<p>格式为：Method Request-URI HTTP-version CRLF</p>
-<p>请求方式：GET、POST、HEAD、OPTIONS、PUT、DELETE、TRACE、CONNECT；</p>
-<ul>
-<li>请求头</li>
-</ul>
-<p>请求头一般为键值对：</p>
-<p>User-Agent:PostmanRuntime/7.26.8   表示产生请求的客户端程序</p>
-<p>Accept:<em>/</em>   表示可接受的响应的类型为全部类型</p>
-<p>Accept-Language:zh   表示可接受的响应的语言为中文</p>
-<p>Accept-Encoding:gzip   表示客户端请求的压缩方式</p>
-<p>Cookie:value   值由登陆之后服务端下发</p>
-<p>token:value   值由登陆之后服务端下发</p>
-<ul>
-<li>请求正文</li>
-</ul>
-<p>http响应报文同样是三部分组成：响应行、响应头、响应正文。</p>
-<ul>
-<li>响应行（状态行）</li>
-</ul>
-<p>格式为：HTTP-version Status-code Reason-phrase CRLF</p>
-<p>Status-code 响应状态码 Reason-phrase 状态码文本描述</p>
-<p>状态码由三位数字组成，第一个数字表示响应类别</p>
-<p>1xx：指示消息——请求已被接收，继续处理；</p>
-<p>2xx：成功——请求成功接收；</p>
-<p>3xx：重定向——要完成请求必须进行进一步操作；</p>
-<p>4xx：客户端错误——请求语法有错误或请求无法实现；</p>
-<p>5xx：服务器错误——服务器未能实现合法的请求；</p>
-<p>常见错误码：</p>
-<p>200 ok 成功；</p>
-<p>301 moved permanently 请求永久重定向</p>
-<p>302 moved temporarily 请求临时重定向</p>
-<p>304 not modified 文件未修改，可以直接使用缓存文件</p>
-<p>400 bad request 客户端语法错误，服务器不理解</p>
-<p>401 unauthorized 请求未经授权，状态码要和报头域WWW-Authenticate一起使用</p>
-<p>403 forbidden 服务器收到请求，但是拒绝提供服务</p>
-<p>404 not found 请求资源不存在</p>
-<p>500 internal server error 服务器发生不可预期的错误</p>
-<p>503 server unavailable 服务器当前不能处理客户端请求，一段时间后可能恢复正常</p>
-<h4 id="http头部关于缓存的字段"><a href="#http头部关于缓存的字段" class="headerlink" title="http头部关于缓存的字段"></a>http头部关于缓存的字段</h4><p>Expries：响应头，代表资源的过期时间</p>
-<p>Cache-Control：请求/响应头。控制缓存字段，精确控制缓存策略；</p>
-<p>If-Modified-Since：请求头，资源最近修改时间，由浏览器告诉服务器；</p>
-<p>Last-Modified：响应头，资源最近修改时间，由服务器告诉浏览器；</p>
-<p>Etag：响应头，资源标识，由服务器告诉浏览器；</p>
-<p>If-None-Match：请求头，缓存资源标识，由浏览器告诉服务器；</p>
-<p>强缓存：Expires（HTTP/1.0）、Cache-Control（HTTP/1.1）</p>
-<p>协商缓存：Last-Modified和If-Modified-Since（HTTP/1.0）；ETag和If-None-Match（HTTP/1.1）</p>
-
+            
             
         </div>
     </div>
@@ -723,7 +344,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/前端面试" style=color:#03a9f4>
+            <a href="/tags/前端面试" style=color:#00a596>
                 前端面试
             </a>
         </span>
@@ -779,7 +400,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/搭建博客" style=color:#ff7d73>
+            <a href="/tags/搭建博客" style=color:#00bcd4>
                 搭建博客
             </a>
         </span>
@@ -836,7 +457,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/搭建博客" style=color:#00bcd4>
+            <a href="/tags/搭建博客" style=color:#03a9f4>
                 搭建博客
             </a>
         </span>
@@ -894,7 +515,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/搭建博客" style=color:#ffa2c4>
+            <a href="/tags/搭建博客" style=color:#03a9f4>
                 搭建博客
             </a>
         </span>
@@ -948,7 +569,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/工具类" style=color:#00a596>
+            <a href="/tags/工具类" style=color:#03a9f4>
                 工具类
             </a>
         </span>
@@ -1000,7 +621,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#ffa2c4>
+            <a href="/tags/微信小程序" style=color:#03a9f4>
                 微信小程序
             </a>
         </span>
@@ -1052,7 +673,7 @@ console.log(nums);
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#ffa2c4>
+            <a href="/tags/微信小程序" style=color:#ff7d73>
                 微信小程序
             </a>
         </span>
