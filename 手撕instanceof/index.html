@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
+    <title>摸鱼日志 || 手写instanceof</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>小程序自定义组件生命周期 </h1>
+        <h1>手写instanceof </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/4
+            2023/3/9
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#03a9f4>
-                    微信小程序
+                <a href="/tags/手撕代码" style=color:#00a596>
+                    手撕代码
                 </a>
             </span>
             
@@ -152,24 +152,30 @@
     </div>
 
     <div class="content" v-pre>
-        <pre><code class="js">  lifetimes: &#123;
-    created: function () &#123;
-      // 组件实例化，但节点树还未导入，因此这时不能用setData
-    &#125;,
-    attached: function () &#123;
-      // 在组件实例进入页面节点树时执行 
-      // 节点树完成，可以用setData渲染节点，但无法操作节点
-    &#125;,
-    ready: function () &#123;
-      // 组件布局完成，这时可以获取节点信息，也可以操作节点
-    &#125;,
-    move: function () &#123;
-      // 组件实例被移动到树的另一个位置
-    &#125;,
-    detached: function () &#123;
-      // 在组件实例被从页面节点树移除时执行
-    &#125;,
-  &#125;,
+        <h3 id="instanceOf原理，手动实现function-isInstanceOf-child-parent"><a href="#instanceOf原理，手动实现function-isInstanceOf-child-parent" class="headerlink" title="- instanceOf原理，手动实现function isInstanceOf(child,parent)"></a>- instanceOf原理，手动实现function isInstanceOf(child,parent)</h3><ul>
+<li>instanceof原理：查询parent的prototype是否在child的原型链上，所以在查找过程中，instanceof会遍历child的原型链，直到找到或查找失败。</li>
+</ul>
+<p>判断一个实例是否属于某种类型：</p>
+<pre><code class="javascript">let person = function()&#123;&#125;;
+let person1 = new person();
+person1 instanceof person; //true
+</code></pre>
+<ul>
+<li>手动实现isInstanceOf</li>
+</ul>
+<pre><code class="javascript">function isInstanceOf(child,parent)&#123;
+    let parentProto = parent.prototype;
+    child = child.__proto__;
+    while(1)&#123;
+        if(child === null)&#123;
+            return false;
+        &#125;
+        if(child === parentProto)&#123;
+            return true;
+        &#125;
+        child = child.__proto__;
+    &#125;
+&#125;
 </code></pre>
 
     </div>

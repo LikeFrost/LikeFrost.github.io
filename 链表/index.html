@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
+    <title>摸鱼日志 || 链表及练习</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>小程序自定义组件生命周期 </h1>
+        <h1>链表及练习 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/4
+            2023/3/2
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/微信小程序" style=color:#03a9f4>
-                    微信小程序
+                <a href="/tags/数据结构" style=color:#00bcd4>
+                    数据结构
                 </a>
             </span>
             
@@ -152,25 +152,154 @@
     </div>
 
     <div class="content" v-pre>
-        <pre><code class="js">  lifetimes: &#123;
-    created: function () &#123;
-      // 组件实例化，但节点树还未导入，因此这时不能用setData
-    &#125;,
-    attached: function () &#123;
-      // 在组件实例进入页面节点树时执行 
-      // 节点树完成，可以用setData渲染节点，但无法操作节点
-    &#125;,
-    ready: function () &#123;
-      // 组件布局完成，这时可以获取节点信息，也可以操作节点
-    &#125;,
-    move: function () &#123;
-      // 组件实例被移动到树的另一个位置
-    &#125;,
-    detached: function () &#123;
-      // 在组件实例被从页面节点树移除时执行
-    &#125;,
-  &#125;,
+        <h3 id="概念"><a href="#概念" class="headerlink" title="- 概念"></a>- 概念</h3><ul>
+<li>链表：是多个元素组成的列表，元素不连续，用 next 指针连在一起</li>
+<li>数组与链表的区别： 数组增删非首尾元素时需要移动元素；链表增删非首尾元素时不需要移动元素，只需要修改 next 的指向即可</li>
+<li>链表实现：</li>
+</ul>
+<pre><code class="javascript">const a = &#123;val:&#39;a&#39;&#125;;
+const b = &#123;val:&#39;b&#39;&#125;;
+const c = &#123;val:&#39;c&#39;&#125;;
+const d = &#123;val:&#39;d&#39;&#125;;
+a.next = b;
+b.next = c;
+c.next = d;
+
+//遍历链表
+let p = a;
+while(p)&#123;
+    console.log(p.val);
+    p = p.next;
+&#125;
+
+//链表插入值
+const e = &#123;val:&#39;e&#39;&#125;
+c.next = e;
+e.next = d;
+
+//删除e节点
+c.next = d;
 </code></pre>
+<h3 id="链表练习"><a href="#链表练习" class="headerlink" title="- 链表练习"></a>- 链表练习</h3><ul>
+<li>leetcode237 删除链表中的节点</li>
+</ul>
+<p>解题思路：题目中指的删除节点并不是从内存中删除它，而是指给定结点的值不再存在于链表中。因为无法获取当前节点的前一个节点，可以让被删除节点的值变为它的下一个节点，然后删除它的下一节点，例如1，2，3，4要删除3，可以先将链表变为1，2，4，4，然后再删除第二个4，变为1，2，4即可达到目的。</p>
+<p>题目代码：</p>
+<pre><code class="javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; node
+ * @return &#123;void&#125; Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function(node) &#123;
+    node.val = node.next.val;
+    node.next = node.next.next;
+&#125;;
+</code></pre>
+<ul>
+<li>leetcode206 反转列表</li>
+</ul>
+<p>解题思路：双指针遍历链表，指针p1，p2，</p>
+<p>题目代码：p1指向链表前一位，取出链表后一位，令p1指向p2，然后交换p1和p2位置。</p>
+<pre><code class="javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var reverseList = function(head) &#123;
+    let p1 = head;
+    let p2 = null;
+    while(p1)&#123;
+        let temp = p1.next;
+        p1.next = p2;
+        p2 = p1;
+        p1 = temp;
+    &#125;
+    return p2;
+&#125;;
+</code></pre>
+<ul>
+<li>leetcode2 两数相加</li>
+</ul>
+<p>解题思路：创建一个新链表，遍历原链表，存储每一位的相加值和进位，最后处理进位。</p>
+<p>解题代码：</p>
+<pre><code class="javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; l1
+ * @param &#123;ListNode&#125; l2
+ * @return &#123;ListNode&#125;
+ */
+var addTwoNumbers = function(l1, l2) &#123;
+    const l3 = new ListNode(0);
+    let p1 = l1;
+    let p2 = l2;
+    let p3 = l3;
+    let carry = 0;
+    while(p1||p2)&#123;
+        let v1 = p1?p1.val:0;
+        let v2 = p2?p2.val:0;
+        let val = v1+v2+carry;
+        carry = Math.floor(val/10);
+        p3.next = new ListNode(val%10);
+        if(p1) p1 = p1.next;
+        if(p2) p2 = p2.next;
+        p3 = p3.next; 
+    &#125;
+    //处理最后一位进位
+    if(carry)&#123;
+        p3.next = new ListNode(carry);
+    &#125;
+    //因为头部一开始定义了一个节点，所以返回l3.next
+    return l3.next;
+&#125;;
+</code></pre>
+<ul>
+<li>leetcode83 删除排序列表中的重复元素</li>
+</ul>
+<p>解题思路：由于是排序列表，所以重复元素一定相邻，直接删除即可。遍历链表，如果当前和下一个相同，就删除下一个，否则遍历下一个元素。</p>
+<p>解题代码：</p>
+<pre><code class="javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var deleteDuplicates = function(head) &#123;
+    let p = head;
+    while(p &amp;&amp; p.next)&#123;
+        if(p.val == p.next.val)&#123;
+            p.next = p.next.next;
+        &#125;
+        else p = p.next;
+    &#125;
+    return head;
+&#125;;
+</code></pre>
+<ul>
+<li>leetcode141 环形链表</li>
+</ul>
 
     </div>
 
