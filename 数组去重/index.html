@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 搭建 Hexo 博客并部署到 Github</title>
+    <title>摸鱼日志 || 数组去重</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>搭建 Hexo 博客并部署到 Github </h1>
+        <h1>数组去重 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/14
+            2023/3/9
         </span>
 
         
@@ -142,8 +142,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/搭建博客" style=color:#ffa2c4>
-                    搭建博客
+                <a href="/tags/手撕代码" style=color:#03a9f4>
+                    手撕代码
                 </a>
             </span>
             
@@ -152,46 +152,112 @@
     </div>
 
     <div class="content" v-pre>
-        <h4 id="建立本地项目"><a href="#建立本地项目" class="headerlink" title="建立本地项目"></a>建立本地项目</h4><ul>
-<li>新建空文件夹</li>
-<li>右键点击 <code>git bash here</code> </li>
-<li>安装 hexo 框架：<code>npm install -g hexo-cli</code></li>
-<li>初始化文件夹：<code>hexo init</code></li>
-<li>安装依赖：<code>npm install</code></li>
-<li>启动服务器：<code>hexo server</code></li>
+        <ul>
+<li>使用ES6 Set去重（ES6中常用，但无法去掉{}空对象，因为Set去重的原理是判断两者所处的内存单元位置是否一样，对象是引用类型，当值相同时引用地址不同，故无法去重）</li>
 </ul>
 <span id="more"></span>
 
-
-<h4 id="将博客推到远程仓库"><a href="#将博客推到远程仓库" class="headerlink" title="将博客推到远程仓库"></a>将博客推到远程仓库</h4><ul>
-<li><p>新建 git 仓库，名称为：<username>.github.io (好处是：通过<code>https://username.github.io/</code>就可以访问到你的仓库/blog/project主页, 而不需要在 github.io/后面再加上仓库名)</p>
-</li>
-<li><p>安装插件：<code>npm install hexo-deployer-git --save</code></p>
-</li>
-<li><p>创建一个 SSH key：<code>ssh-keygen -t -rsa -C &quot;email address&quot;</code></p>
-</li>
-<li><p>将密钥添加到 github，验证是否添加成功：<code>ssh -T git@github.com</code></p>
-</li>
-<li><p>在 _config.yml 文件最后修改为：</p>
-<pre><code class="js"># Deployment
-## Docs: https://hexo.io/docs/one-command-deployment
-deploy:
-  type: git
-  repo: git@github.com:LikeFrost/LikeFrost.github.io.git
-  branch: master
+<pre><code class="javascript">function unique(arr)&#123;
+    return Array.from(new Set(arr));
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[1, true, &#39;true&#39;, false, &#39;false&#39;, undefined, null, NaN, 0, &#123;&#125;, &#123;&#125;]
 </code></pre>
-<p>注意 type: 后面一定要有空格，不然会报错，仓库地址写 ssh 地址（以后提交时不用输用户名密码）</p>
-</li>
-<li><p>推送到 github：<code>hexo g</code>   <code>hexo d</code></p>
-</li>
+<ul>
+<li>利用循环嵌套for，然后splice去重（ES5中最常用，无法去掉NaN和{}，因为NaN不等于任何值，{}在比较的时候比较的是引用地址）</li>
 </ul>
-<h4 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h4><ul>
-<li><p>推送失败：错误码 443 ，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38076935/article/details/120392154">配置一下 host 文件</a></p>
-</li>
-<li><p>仓库找不到：重新配置 github 用户名、邮箱等（注意没有下划线）</p>
-</li>
+<pre><code class="javascript">function unique(arr)&#123;
+    for(let i = 0; i &lt;= arr.length - 1; i++)&#123;
+        for(let j = i + 1; j &lt;= arr.length - 1; j++)        &#123;
+            if(arr[i] === arr[j])&#123;
+                arr.splice(j,1);
+                j--;
+            &#125;
+        &#125;
+    &#125;
+    return arr;
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[1, true, &#39;true&#39;, false, &#39;false&#39;, undefined, null, NaN, NaN, 0, &#123;&#125;, &#123;&#125;]
+</code></pre>
+<ul>
+<li>使用indexOf去重(仍然是NaN和{}无法去除)</li>
 </ul>
-<h4 id="访问地址"><a href="#访问地址" class="headerlink" title="访问地址"></a>访问地址</h4><p><a href="https://likefrost.github.io/">https://likefrost.github.io/</a></p>
+<pre><code class="javascript">function unique(arr)&#123;
+    let result = [];
+    for(let i = 0; i &lt;= arr.length - 1; i++)&#123;
+        if(result.indexOf(arr[i]) === -1)&#123;
+            result.push(arr[i]);
+        &#125;
+    &#125;
+    return result;
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[1, true, &#39;true&#39;, false, &#39;false&#39;, undefined, null, NaN, NaN, 0, &#123;&#125;, &#123;&#125;]
+</code></pre>
+<ul>
+<li>利用sort()去重(仍然无法去除NaN和{})</li>
+</ul>
+<pre><code class="javascript">function unique(arr)&#123;
+    arr.sort();
+    let result = [arr[0]];
+    for(let i = 1; i &lt;= arr.length - 1; i++)&#123;
+        if(arr[i] != arr[i-1])&#123;
+            result.push(arr[i]);
+        &#125;
+    &#125;
+    return result;
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[0, 1, NaN, NaN, &#123;&#125;, &#123;&#125;, false, &#39;false&#39;, null, true, &#39;true&#39;, undefined]
+</code></pre>
+<ul>
+<li>利用对象键不可以重复的特性去重(这个方式也有问题，因为对象的键只能为string或symbol，在这个过程中，会转换数组成员的类型在进行比较，下例中的键变为：[‘0’, ‘1’, ‘true’, ‘false’, ‘undefined’, ‘null’, ‘NaN’, ‘[object Object]’])</li>
+</ul>
+<pre><code class="javascript">function unique(arr)&#123;
+    let obj = &#123;&#125;;
+    arr.forEach((item)=&gt;&#123;
+        obj[item] = item;
+    &#125;)
+    return Object.values(obj);
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[0, 1, &#39;true&#39;, &#39;false&#39;, undefined, null, NaN, &#123;&#125;]
+</code></pre>
+<ul>
+<li>利用includes去重({}没有去重)</li>
+</ul>
+<pre><code class="javascript">function unique(arr)&#123;
+    let result = [];
+    for(let i = 0; i &lt;= arr.length - 1; i++)&#123;
+        if(!result.includes(arr[i]))&#123;
+            result.push(arr[i]);
+        &#125;
+    &#125;
+    return result;
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[1, true, &#39;true&#39;, false, &#39;false&#39;, undefined, null, NaN, 0, &#123;&#125;, &#123;&#125;]
+</code></pre>
+<ul>
+<li>利用hasOwnProperty和filter(filter若return false则丢弃这个数，若return true则保留这个数，去重成功，也可以 用key in obj判断，相比于上面的利用键值对去重，这个加了数组项的类型，所以规避了true与“true”去重的弊端)</li>
+</ul>
+<pre><code class="javascript">function unique(arr)&#123;
+    var obj = &#123;&#125;;
+    return arr.filter(function(item)&#123;
+        return obj.hasOwnProperty(typeof item + item)?false:(obj[typeof item+item]=true)
+    &#125;)
+&#125;
+var arr = [1,1,true,true,&#39;true&#39;,&#39;true&#39;,false,false,&#39;false&#39;,&#39;false&#39;,undefined,undefined,null,null,NaN,NaN,0,0,&#123;&#125;,&#123;&#125;];
+console.log(unique(arr));
+//[1, true, &#39;true&#39;, false, &#39;false&#39;, undefined, null, NaN, 0, &#123;…&#125;]
+</code></pre>
 
     </div>
 
