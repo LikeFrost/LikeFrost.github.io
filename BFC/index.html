@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || BFC</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
+    <link rel="icon" href="/images/avatar.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>BFC </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/3/12
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/前端面试" style=color:#ff7d73>
+                    前端面试
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h4 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h4><p>BFC(Block Formatting Context，块级格式化上下文)，一个BFC区域包含创建该上下文元素的所有子元素，但是不包括创建了新的BFC的子元素的内部元素，BFC是是一块独立的渲染区域，可以将BFC看成是元素的一种属性，拥有了这种属性的元素就会使它的子元素与世隔绝，不会影响到外部其他元素。</p>
+<span id="more"></span>
+
+<p>例如：</p>
+<pre><code class="html">&lt;div class=&quot;box1&quot;&gt;
+    &lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;box3&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;box4&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;box5&quot;&gt;
+        &lt;div class=&quot;box6&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;box7&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;box8&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>假设box1和box5是两个BFC区域，box1这个BFC区域包含了子元素box2、3、4、5，但不包括box6、7、8；box5的区域包含box6、7、8这三个子元素。</p>
+<p>总结：</p>
+<ul>
+<li>每个BFC区域只包括其子元素，不包括其子元素的子元素</li>
+<li>每一个BFC区域都是独立隔绝的，互不影响</li>
+</ul>
+<h4 id="BFC原理（渲染规则-布局规则）"><a href="#BFC原理（渲染规则-布局规则）" class="headerlink" title="BFC原理（渲染规则|布局规则）"></a>BFC原理（渲染规则|布局规则）</h4><ul>
+<li>内部的Box会在垂直方向，从顶部开始一个接一个的放置</li>
+<li>Box垂直方向的距离由margin决定，属于同一个BFC的两个相邻的Box的margin会发生重叠</li>
+<li>每个元素的margin box 的左边，与包含块border Box的左边相接触，即使存在浮动也是如此</li>
+<li>BFC在页面上是一个隔离的独立容器，外面的元素不会影响里面的元素，反之亦然</li>
+<li>BFC的区域不会与float Box重叠（可以用这个特性清除浮动）</li>
+<li>计算BFC的高度时，浮动元素也参与计算（解决父盒子塌陷）</li>
+</ul>
+<h4 id="如何使一个元素变为BFC区域"><a href="#如何使一个元素变为BFC区域" class="headerlink" title="如何使一个元素变为BFC区域"></a>如何使一个元素变为BFC区域</h4><ul>
+<li>body根元素</li>
+<li>设置浮动（不包括none）</li>
+<li>设置绝对定位，absoulte或者fixed</li>
+<li>行内块显示模式：display为inline-block</li>
+<li>设置overflow，即hidden，auto，scroll</li>
+<li>表格单元，table-cell、table等属性</li>
+<li>弹性布局flex或inline-flex</li>
+</ul>
+<h4 id="BFC作用"><a href="#BFC作用" class="headerlink" title="BFC作用"></a>BFC作用</h4><ul>
+<li>解决外边距的塌陷问题（垂直塌陷）</li>
+</ul>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .div &#123;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      margin: 100px;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;div&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;div&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>但是这两个盒子之间的距离为100px，出现了垂直塌陷（同一个BFC区域的兄弟元素或父子元素会重叠margin），解决方案：给两个盒子都加一个父元素，并且将父元素设置为BFC区域，就可以解决margin塌陷问题。</p>
+<p>解决方案：</p>
+<pre><code class="html">&lt;style&gt;
+    .div&#123;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    margin: 100px;
+    &#125;
+    .div_bfc&#123;
+        overflow:hidden;
+    &#125;
+&lt;/style&gt;
+
+&lt;div class=&quot;div_bfc&quot;&gt;
+    &lt;div class=&quot;div&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;div_bfc&quot;&gt;
+    &lt;div class=&quot;div&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<ul>
+<li>利用BFC解决包含塌陷</li>
+</ul>
+<p>有时候给子元素加margin会带着父元素一起跑</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .father &#123;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    &#125;
+
+    .son &#123;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      margin-top: 20px;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;father&quot;&gt;
+    &lt;div class=&quot;son&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>在这个例子中，只给son设置margin-top为20px，father会被带着一起走。解决方案：padding/BFC，后者将父盒子变为BFC区域，这样<strong>在BFC区域内部的操作不会影响到外部</strong>。(父元素的margin算是在父元素外部)</p>
+<p>解决方案：</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .father &#123;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      overflow: hidden;
+    &#125;
+
+    .son &#123;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      margin-top: 20px;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;father&quot;&gt;
+    &lt;div class=&quot;son&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>清除浮动</li>
+</ul>
+<p>浮动会导致父元素高度塌陷，清除浮动的方式：overflow:hidden</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .father &#123;
+      width: 100px;
+      background-color: red;
+    &#125;
+
+    .son &#123;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      /*
+        float:right
+        这句话设置之后父容器会塌陷
+      */
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;father&quot;&gt;
+    &lt;div class=&quot;son&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>在上例中，不设置父元素的高度，子元素会自动将父元素撑开，但是将子元素设置浮动之后，父元素的高度会塌陷；为了解决这个问题，将父元素设置为BFC区域：overflow:hidden;</p>
+<p>原理：独立的块级上下文可以包裹浮动流，全部浮动子元素也不会引起容器高度塌陷，包含块会把浮动元素的高度也计算在内，所以就不用清除浮动来撑起包含块的高度。</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .father &#123;
+      width: 100px;
+      background-color: red;
+      overflow: hidden;
+    &#125;
+
+    .son &#123;
+      width: 20px;
+      height: 20px;
+      background-color: black;
+      float: right;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;father&quot;&gt;
+    &lt;div class=&quot;son&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>BFC可以阻止标准流元素被浮动元素覆盖</li>
+</ul>
+<p>因为浮动元素会脱离文档流，跑到上一个层面，所以可能会导致浮动元素覆盖基本元素的问题。</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .red &#123;
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      float: left;
+    &#125;
+
+    .blue &#123;
+      height: 300px;
+      background-color: blue;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;red&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;blue&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>在上例中，红色块设置浮动，会覆盖蓝色块，为了让蓝色块不受红色块影响，让蓝色块触发BFC</p>
+<p>解决方案：</p>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;style&gt;
+    .red &#123;
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      float: left;
+    &#125;
+
+    .blue &#123;
+      height: 300px;
+      background-color: blue;
+      overflow: hidden;
+    &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;red&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;blue&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>让蓝色块触发BFC之后，他就会避开左边的宽度，自适应自己的宽度。</p>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2023 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'zh-CN',
+        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
