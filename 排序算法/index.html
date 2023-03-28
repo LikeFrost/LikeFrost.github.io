@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/算法" style=color:#ffa2c4>
+                <a href="/tags/算法" style=color:#00a596>
                     算法
                 </a>
             </span>
@@ -315,7 +315,52 @@ let nums = [1, 0, 0, 2, 3, 5, 7, 4, 2, 3, 5, 67, 0];
 sort(nums);
 console.log(nums);
 </code></pre>
-<h3 id="堆排序（学完结构后回来补"><a href="#堆排序（学完结构后回来补" class="headerlink" title="- 堆排序（学完结构后回来补"></a>- 堆排序（学完结构后回来补</h3>
+<h3 id="堆排序（学完结构后回来补"><a href="#堆排序（学完结构后回来补" class="headerlink" title="- 堆排序（学完结构后回来补"></a>- 堆排序（学完结构后回来补</h3><p>算法思想：根据堆的特性（大根堆：左右孩子&lt;父亲；小根堆：左右孩子&gt;父亲），创建堆-&gt;调整堆-&gt;选取最值-&gt;再次调整堆（比如将待排序数字构建为大根堆，要求从小到大排序，每次交换根节点与当前的末节点，这样最大节点、次大节点会逐步换到后面，实现排序）</p>
+<p>算法实现：</p>
+<pre><code class="javascript">const swap = (arr, i, j) =&gt; &#123;
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+&#125;
+//调整大根堆
+const heapify = (arr, i, end) =&gt; &#123;
+    let current = i;
+    let left = 2 * i + 1;
+    let right = 2 * i + 2;
+    if (left &lt; end &amp;&amp; arr[current] &lt; arr[left]) &#123;
+        current = left;
+    &#125;
+    if (right &lt; end &amp;&amp; arr[current] &lt; arr[right]) &#123;
+        current = right;
+    &#125;
+    if (current != i) &#123;
+        swap(arr, i, current);
+        heapify(arr, current, end);
+    &#125;
+&#125;
+//建立大根堆
+const buildHeap = (arr) =&gt; &#123;
+    let length = arr.length;
+    let mid = Math.floor(length / 2) - 1;
+    //因为要取mid的左右儿子，所以循环从length/2开始
+    for (let i = mid; i &gt;= 0; i--) &#123;
+        heapify(arr, i, length);
+    &#125;
+&#125;
+
+let arr = [3, 5, 1, 4, 2, 8, 7, 6]
+
+const heapSort = (arr) =&gt; &#123;
+    buildHeap(arr);
+    for (let i = arr.length - 1; i &gt;= 0; i--) &#123;
+        swap(arr, 0, i);
+        heapify(arr, 0, i);
+    &#125;
+    return arr;
+&#125;
+console.log(heapSort(arr))
+</code></pre>
+
     </div>
 
     
