@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 闭包</title>
+    <title>摸鱼日志 || Webpack</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,14 +121,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>闭包 </h1>
+        <h1>Webpack </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2023/3/12
+            2023/4/1
         </span>
 
         
@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/前端面试" style=color:#00bcd4>
+                <a href="/tags/前端面试" style=color:#03a9f4>
                     前端面试
                 </a>
             </span>
@@ -152,97 +152,35 @@
     </div>
 
     <div class="content" v-pre>
-        <p>闭包是一种特殊的对象/特殊的机制。</p>
-<p>闭包由两部分组成：执行上下文(A)和在该执行上下文中创建的函数(B)；</p>
-<p>当B执行时访问了A中变量对象中的值，就产生了闭包；</p>
-<p>另一个解释：闭包是一项技术或者一个特性，函数作用域中的变量在函数执行完之后就会被垃圾回收，一般情况下访问一个函数作用域中的变量是无法访问的，只能通过特殊的技术或者特性来实现，就是在函数作用域中创建内部函数来实现，这样就不会使得函数执行完成变量被回收，这种技术或特性被称为闭包。像是把变量包裹了起来，形象的称为闭包。</p>
+        <h4 id="什么是Webpack"><a href="#什么是Webpack" class="headerlink" title="什么是Webpack"></a>什么是Webpack</h4><p>Webpack是一个现代化的打包工具，它能够将前端项目中的各种资源，如JS、CSS、图片等，打包成一个或多个静态文件。Webpack最初是用于打包JavaScript模块，但是他也可以用于处理其他类型的资源。</p>
 <span id="more"></span>
 
-<h4 id="经典应用"><a href="#经典应用" class="headerlink" title="经典应用"></a>经典应用</h4><ul>
-<li>利用闭包，修改下面的代码，让循环输出的结果依次为1，2，3，4，5</li>
-</ul>
-<p>源代码：</p>
-<pre><code class="javascript">for(let i = 1; i &lt;= 5; i++)&#123;
-    setTimeout(function timer()&#123;
-        console.log(i);
-    &#125;,i*1000)
-&#125;
-</code></pre>
-<p>在这个例子中，首先会运行for循环，每趟运行到setTimeout的时候，就将它放入任务队列，当5次for循环完成之后，再去运行任务队列中的定时任务，此时定时任务的词法环境中不存在i，就向上寻找到for循环结束时的i为5，然后定时输出五个5。</p>
-<p>修改：</p>
-<pre><code class="javascript">for(let i = 1; i &lt;= 5; i++)&#123;
-    (function(i)&#123;
-        setTimeout(function timer()&#123;
-            console.log(i);
-        &#125;)
-    &#125;,i*1000)(i)
-&#125;
-</code></pre>
-<p>原理：借助闭包的特性，使用一个自执行函数提供闭包条件，每次传入i值保存在闭包中。</p>
-<p>还可以写成：</p>
-<pre><code class="javascript">for(let i = 1; i &lt;= 5; i++)&#123;
-    setTimeout((function(i)&#123;
-        return function()&#123;
-            console.log(i);
-        &#125;
-    &#125;)(i),i*1000)
-&#125;
-</code></pre>
-<ul>
-<li>柯里化</li>
-</ul>
-<p>柯里化（currying）是一种关于函数的高阶技术，它不仅用于Javascript，还被用于其他编程语言。</p>
-<p>柯里化是一种函数的转换，它是指将一个函数从可调用的f(a,b,c)转换为可调用的f(a)(b)(c)。他不会调用函数，只是对函数进行转换。</p>
-<p>一个柯里化的函数首先会接收一些参数，接受了这些参数之后，该函数不会立即求值，而是继续返回另一个函数，刚才传入的参数在函数中形成闭包被保存起来，待到函数真正需要求值的时候，之前传入的参数会被用于一次性求值。</p>
-<p>简单例子：</p>
-<pre><code class="javascript">function sum(a)&#123;
-    return function(b)&#123;
-        return a+b;
-    &#125;
-&#125;
-console.log(sum(1)(2));
-//3
-</code></pre>
-<p>在这个例子里，sum首先接受了一个参数a，将其存在闭包里，在接收另一个参数b之后才进行计算。</p>
-<p>将柯里化过程封装成柯里化函数：</p>
-<pre><code class="javascript">function curry(f)&#123;
-    return function(a)&#123;
-        return function(b)&#123;
-            return f(a,b);
-        &#125;
-    &#125;
-&#125;
-function sum(a,b)&#123;
-    return a+b;
-&#125;
-let curriedSum = curry(sum);
-console.log(curriedSum(1)(2));
-//3
-</code></pre>
-<p>在上面这个例子里，curriedSum实际上是一个包装器function(a)，当他被curriedSum(1)调用时，返回一个包装器function(b)，并将a存在词法环境中，当function(b)以参数2被调用时，就会把参数传递给原始的sum函数。闭包体现在function(b)能够取到参数a的值。</p>
-<p>高级柯里化：</p>
-<pre><code class="javascript">function curry(f)&#123;
-    return function curried(...args)&#123;
-        //f.length是函数f定义时的参数个数
-        if(args.length &gt;= f.length)&#123;
-            return f.apply(this,args);
-        &#125;else&#123;
-            return function(...args2)&#123;
-                return curried.apply(this,args.concat(args2));
-            &#125;
-        &#125;
-    &#125;
-&#125;
-function sum(a,b,c)&#123;
-    return a+b+c;
-&#125;
-let curriedSum = curry(sum);
-console.log(curriedSum(1)(2)(3));
-//6
-console.log(curriedSum(1,2)(3));
-//6
-</code></pre>
-<p>当运行柯里化函数时，有两个if分支，如果传入的args长度与原始定义的f.length相同或更长，那么只需要使用f.apply将调用传递给他即可；否则返回一个包装器，重新应用curried，将之前传入的参数与新的参数一起传入。</p>
+<p>功能：</p>
+<ol>
+<li>模块化打包：Webpack支持CommonJS和ES6等模块化规范，能够将多个模块打包成一个或多个文件，减少了网络请求次数。</li>
+<li>代码分割：Webpack支持将代码分割成多个chunk，实现按需加载，从而减少了页面加载的时间。</li>
+<li>加载器：Webpack支持各种加载器，能够处理不同类型的文件，例如JavaScript、CSS、Less、Sass、图片等。</li>
+<li>插件系统：Webpack的插件系统十分强大，能够实现各种定制化的需求，例如压缩代码、处理HTML模板、提取公共代码等。</li>
+<li>开发服务器：Webpack提供了一个开发服务器，能够实现实时刷新、热替换等功能，提高了开发效率。</li>
+</ol>
+<p>Webpack的配置文件是一个JavaScript文件，可以根据项目的需求进行配置，配置文件可以设置入口文件、输出文件、加载器、插件等内容。</p>
+<h4 id="Webpack打包过程"><a href="#Webpack打包过程" class="headerlink" title="Webpack打包过程"></a>Webpack打包过程</h4><ol>
+<li>解析入口文件：Webpack从配置文件中读取入口文件的路径，并解析该文件的依赖关系。</li>
+<li>加载模块：Webpack根据解析出来的依赖关系，递归的加载所有的模块，包括JavaScript、CSS、Less、Sass等文件，并通过加载器对这些文件进行处理。</li>
+<li>模块转换：Webpack在加载模块的过程中，会使用各种加载器对模块进行转换，例如Bable将ES6代码转为ES5代码，Sass将Sass转换为CSS语法等。</li>
+<li>模块打包：Webpack将所有转换后的模块打包到一个或多个bundle文件中。打包的过程中，Webpack会根据chunk和entry的关系，对模块进行合并、去重等操作，减少文件大小。</li>
+<li>代码优化：Webpack对打包后的代码进行优化，包括压缩、混淆等操作，从而减少文件体积，提高加载速度。</li>
+<li>输出文件：Webpack对打包后的文件输出到指定的目录中，在输出过程中，Webpack还会生成source map文件，以便于调试。</li>
+</ol>
+<h4 id="为什么需要Webpack"><a href="#为什么需要Webpack" class="headerlink" title="为什么需要Webpack"></a>为什么需要Webpack</h4><ol>
+<li>模块化开发：在传统的前端开发中，代码的组织方式通常是以页面为单位进行组织，代码耦合度高，难以复用。而Webpack支持CommonJs和ES6等模块化规范，能够将代码按照功能进行组织，从而提高了代码的可维护性和复用性。</li>
+<li>处理多种资源：现代化的前端项目中，通常包含了各种类型的资源，例如JS、CSS、图片、字体等。Webpack支持各种类型的资源的处理，并能通过各种加载器对这些资源进行转换，从而满足了项目的多样化需求。</li>
+<li>优化项目性能：Webpack可以将多个文件打包成一个或多个静态文件，并且能够实现按需加载和代码分割，从而减少了网络请求的次数，提高了页面加载速度。同时，Webpack还支持各种优化插件，例如：压缩代码、提取公共代码等，进一步提高项目的性能。</li>
+<li>支持开发服务器，Webpack提供了一个开发服务器，能够实现实时刷新、热替换等功能，从而提高了开发效率。在开发过程中，开发者可以通过Webpack的开发服务器进行调试和测试，从而减少了调试和测试的时间。</li>
+</ol>
+<p>综上所述，Webpack是一个功能强大的打包工具，它可以帮助开发者提高项目的可维护性、复用性和性能，并且能够提高开发效率。因此，Webpack在现代化的前端项目中是非常必要的工具。</p>
+<h4 id="在开发过程中，用到Webpack了吗"><a href="#在开发过程中，用到Webpack了吗" class="headerlink" title="在开发过程中，用到Webpack了吗"></a>在开发过程中，用到Webpack了吗</h4><p>当我们在命令行中输入<code>npm start</code>命令时，实际上是启动了一个Node.js进程，并在其中运行了一个基于Webpack的开发服务器。开发服务器会自动监测我们的代码变化，并在代码发生改变时重新编译和打包代码，并在浏览器中进行实时刷新或热模块替换等操作，以便让我们可以更加方便地进行调试和测试。</p>
+<p>所以用到了。</p>
 
     </div>
 

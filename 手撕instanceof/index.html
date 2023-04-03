@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/手撕代码" style=color:#00a596>
+                <a href="/tags/手撕代码" style=color:#03a9f4>
                     手撕代码
                 </a>
             </span>
@@ -177,6 +177,18 @@ person1 instanceof person; //true
         &#125;
         child = child.__proto__;
     &#125;
+&#125;
+</code></pre>
+<pre><code class="javascript">function isInstanceOf(child,parent)&#123;
+    let parentProto = parent.prototype;
+    child = child.__proto__;
+    while(child)&#123;
+        if(child === parentProto)&#123;
+            return true;
+        &#125;
+        child = child.__proto__;
+    &#125;
+    return false;
 &#125;
 </code></pre>
 

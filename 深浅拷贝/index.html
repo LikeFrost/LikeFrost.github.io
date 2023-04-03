@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/手撕代码" style=color:#00a596>
+                <a href="/tags/手撕代码" style=color:#ffa2c4>
                     手撕代码
                 </a>
             </span>
@@ -207,6 +207,7 @@ console.log(obj1.c.d,obj.c.d);
     let obj1 = Array.isArray(obj)?[]:&#123;&#125;;
     if(obj &amp;&amp; typeof obj === &quot;object&quot;)&#123;
         for(key in obj)&#123;
+            //排除继承来的属性
             if(obj.hasOwnProperty(key))&#123;
                 if(obj[key] &amp;&amp; typeof obj[key]===&quot;object&quot;)&#123;
                     obj1[key] = deepClone(obj[key])
@@ -233,6 +234,17 @@ console.log(obj1.a,obj.a);
 //3 1 原属性值未改变
 console.log(obj1.c.d,obj.c.d);
 //100 3 原引用值也未发生改变，实现了深拷贝
+</code></pre>
+<pre><code class="javascript">function deepClone(obj)&#123;
+    if(obj === null || typeof obj !== &#39;object&#39;)&#123;
+        return obj;
+    &#125;
+    let clone = Array.isArray(obj)?[]:&#123;&#125;;
+    for(let key in obj)&#123;
+        clone[key] = deepClone(obj[key]);
+    &#125;
+    return clone;
+&#125;
 </code></pre>
 <p>或使用Object.keys(obj).map()来遍历key值</p>
 <pre><code class="javascript">function deepClone(obj)&#123;
