@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 小程序自定义组件生命周期</title>
+    <title>摸鱼日志 || 记录一些日常学习及奇奇怪怪的事情</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -117,68 +117,212 @@
                 </div>
 
                 <div id="main">
-                     
-<link rel="stylesheet" href="/css/post-body.css">
-<div class="article">
-    <div>
-        <h1>小程序自定义组件生命周期 </h1>
+                    <div id="home-head" style=background-image:url('/home.jpg')>
+    <script>
+        var menu = document.getElementById("menu")
+        menu.className += " menu-color"
+    </script>
+     
+    <div id="home-info" class="home-info" @click="home_click">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>摸鱼日志</h1>
+                <h3>记录一些日常学习及奇奇怪怪的事情</h3>
+                <h5>吾生也有涯，而知也无涯</h5>
+            </div>
+        </span>
     </div>
-    <div class="info">
+     
+</div>
+
+
+
+<div id="home-posts-wrap" class=>
+    <div id="home-posts">
+
+        <div id="posts">
+            
+
+<div class="post">
+
+    <a href="/var-let-const关键字/">
+        <h2>
+            var-let-const 关键字
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2021/12/4
+            2021/11/23
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            <ul>
+<li><p>按照惯例，ECMAScript 标识符使用驼峰大小写形式。</p>
+</li>
+<li><p>ES5 增加了严格模式的概念，严格模式是一种不同的 JavaScript 解析和执行模型，所有现代浏览器都支持严格模式。</p>
+            
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/JavaScript" style=color:#ffa2c4>
+                JavaScript
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/var-let-const关键字/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+
+             
+<div class="page-current">
+
+    <div class="prev">
+        
+        <a href="/page/3/">
+            <span class="page-num">
+                <a-icon type="caret-left" theme="filled" />
+            </span>
+        </a>
+        
+    </div>
+
+    <div class="page-index">
+
+        
+        <span>
+
+            
+            <a href="/"><span class="page-num">1</span></a>
+            <span class="page-omit">...</span>
+            
+
+            
+
+            
+
+            
+            <a href="/page/2">
+                <span class="page-num">
+                    2
+                </span>
+            </a>
+            
+
+            
+            <a href="/page/3/">
+                <span class="page-num">
+                    3
+                </span>
+            </a>
+        </span>
+        
+
+        <span class="current">
+            4
         </span>
 
         
 
-        
+    </div>
 
-        <span class="tags">
-            <span class="icon">
-                <a-icon type="tags" theme="filled" />
-            </span>
+    <div class="next">
+        
+    </div>
+
+</div>
+
+        </div>
+    </div>
+    
+    <div id="home-card">
+        <a-affix :offset-top="card_top">
+    <a-card class="card-style" style="width: 300px">
+        <div class="avatar">
+            <img src="/images/avatar.jpg " alt="头像">
+        </div>
+        <div class="name">
+            Like Frost
+        </div>
+        <div class="descriptions">
             
-            <span class="tag">
-                
-                <a href="/tags/微信小程序" style=color:#03a9f4>
-                    微信小程序
+            <div class="description">
+                热爱可抵岁月漫长
+            </div>
+            
+            <div class="description">
+                rp++
+            </div>
+            
+        </div>
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/LikeFrost">
+
+                    
+                    <a-icon type="github"
+                        theme="outlined" />
+                    
                 </a>
             </span>
             
-        </span>
-        
-    </div>
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://www.zhihu.com/people/like-frost">
 
-    <div class="content" v-pre>
-        <pre><code class="js">  lifetimes: &#123;
-    created: function () &#123;
-      // 组件实例化，但节点树还未导入，因此这时不能用setData
-    &#125;,
-    attached: function () &#123;
-      // 在组件实例进入页面节点树时执行 
-      // 节点树完成，可以用setData渲染节点，但无法操作节点
-    &#125;,
-    ready: function () &#123;
-      // 组件布局完成，这时可以获取节点信息，也可以操作节点
-    &#125;,
-    move: function () &#123;
-      // 组件实例被移动到树的另一个位置
-    &#125;,
-    detached: function () &#123;
-      // 在组件实例被从页面节点树移除时执行
-    &#125;,
-  &#125;,
-</code></pre>
-
-    </div>
-
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <div id="comment">
-        <div id="gitalk-container">
+                    
+                    <a-icon type="zhihu"
+                        theme="outlined" />
+                    
+                </a>
+            </span>
+            
         </div>
+        <div class="friend-links">
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://www.zhihu.com/people/like-frost">
+                    friend1
+                </a>
+            </div>
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://www.zhihu.com/people/like-frost">
+                    friend2
+                </a>
+            </div>
+            
+        </div>
+    </a-card>
+</a-affix>
     </div>
     
 </div>
@@ -242,21 +386,6 @@
             }
         }
     })
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script>
-    const gitalk = new Gitalk({
-        clientID: '8249c57ec1e7d39c84e2',
-        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
-        repo: 'comment',      // The repository of store comments,
-        owner: 'LikeFrost',
-        admin: ['LikeFrost'],
-        language: 'zh-CN',
-        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: true  // Facebook-like distraction free mode
-    })
-    gitalk.render('gitalk-container')
 </script>
 
 </body>

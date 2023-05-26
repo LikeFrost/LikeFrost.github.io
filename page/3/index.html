@@ -149,6 +149,76 @@
 
 <div class="post">
 
+    <a href="/小程序自定义组件生命周期/">
+        <h2>
+            小程序自定义组件生命周期
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2021/12/4
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <pre><code class="js">  lifetimes: &#123;
+    created: function () &#123;
+      // 组件实例化，但节点树还未导入，因此这时不能用setData
+    &#125;,
+    attached: function () &#123;
+      // 在组件实例进入页面节点树时执行 
+      // 节点树完成，可以用setData渲染节点，但无法操作节点
+    &#125;,
+    ready: function () &#123;
+      // 组件布局完成，这时可以获取节点信息，也可以操作节点
+    &#125;,
+    move: function () &#123;
+      // 组件实例被移动到树的另一个位置
+    &#125;,
+    detached: function () &#123;
+      // 在组件实例被从页面节点树移除时执行
+    &#125;,
+  &#125;,
+</code></pre>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/微信小程序" style=color:#00a596>
+                微信小程序
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/小程序自定义组件生命周期/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/时间戳转化为日期格式&长按复制功能/">
         <h2>
             时间戳转化为日期格式&长按复制功能
@@ -187,7 +257,7 @@
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#00a596>
+            <a href="/tags/微信小程序" style=color:#00bcd4>
                 微信小程序
             </a>
         </span>
@@ -249,7 +319,7 @@
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#00bcd4>
+            <a href="/tags/微信小程序" style=color:#ff7d73>
                 微信小程序
             </a>
         </span>
@@ -305,7 +375,7 @@
         
         <span class="tag">
             
-            <a href="/tags/微信小程序" style=color:#03a9f4>
+            <a href="/tags/微信小程序" style=color:#00a596>
                 微信小程序
             </a>
         </span>
@@ -409,7 +479,7 @@
         
         <span class="tag">
             
-            <a href="/tags/JavaScript" style=color:#00bcd4>
+            <a href="/tags/JavaScript" style=color:#ffa2c4>
                 JavaScript
             </a>
         </span>
@@ -520,7 +590,7 @@
         
         <span class="tag">
             
-            <a href="/tags/JavaScript" style=color:#ff7d73>
+            <a href="/tags/JavaScript" style=color:#ffa2c4>
                 JavaScript
             </a>
         </span>
@@ -572,7 +642,7 @@
         
         <span class="tag">
             
-            <a href="/tags/JavaScript" style=color:#ff7d73>
+            <a href="/tags/JavaScript" style=color:#00a596>
                 JavaScript
             </a>
         </span>
@@ -627,7 +697,7 @@
         
         <span class="tag">
             
-            <a href="/tags/JavaScript" style=color:#ffa2c4>
+            <a href="/tags/JavaScript" style=color:#ff7d73>
                 JavaScript
             </a>
         </span>
@@ -635,60 +705,6 @@
     </div>
 
     <a href="/JavaScript基础/ " class="go-post">
-        阅读全文
-    </a>
-</div>
-
-<div class="post">
-
-    <a href="/var-let-const关键字/">
-        <h2>
-            var-let-const 关键字
-        </h2>
-    </a>
-
-    <div class="category-and-date">
-
-        
-
-        <span class="date">
-            <span class="icon">
-                <a-icon type="calendar" theme="filled" />
-            </span>
-            2021/11/23
-        </span>
-
-    </div>
-
-    <div class="excerpt">
-        <div class="content" v-pre>
-            
-            <ul>
-<li><p>按照惯例，ECMAScript 标识符使用驼峰大小写形式。</p>
-</li>
-<li><p>ES5 增加了严格模式的概念，严格模式是一种不同的 JavaScript 解析和执行模型，所有现代浏览器都支持严格模式。</p>
-            
-            
-        </div>
-    </div>
-
-    <div class="post-tags">
-        
-        <span class="icon">
-            <a-icon type="tags" theme="filled" />
-        </span>
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/JavaScript" style=color:#ffa2c4>
-                JavaScript
-            </a>
-        </span>
-        
-    </div>
-
-    <a href="/var-let-const关键字/ " class="go-post">
         阅读全文
     </a>
 </div>
@@ -738,10 +754,28 @@
         </span>
 
         
+        <span>
+            <a href="/page/4/">
+                <span class="page-num">
+                    4
+                </span>
+            </a>
+            
+
+            
+
+        </span>
+        
 
     </div>
 
     <div class="next">
+        
+        <a href="/page/4/ ">
+            <span class="page-num">
+                <a-icon type="caret-right" theme="filled" />
+            </span>
+        </a>
         
     </div>
 
