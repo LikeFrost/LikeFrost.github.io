@@ -171,45 +171,11 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p>在项目部署之后，难免会遇到虚拟机重启的情况，虚拟机重启后要重启nginx服务，比较麻烦，那么将nginx设置为系统服务并开机启动即可。</p>
 <ul>
 <li>下载winsw包，地址：<a target="_blank" rel="noopener" href="https://github.com/winsw/winsw/releases">https://github.com/winsw/winsw/releases</a></li>
 </ul>
-<!---more--->
-
-<ul>
-<li><p>选择图上这个.NET4.exe后缀的包。</p>
-<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230526110727127.png" alt="image-20230526110727127"></p>
-</li>
-<li><p>下载完毕后将exe文件放入与nginx.exe同级文件夹中，并改名为 nginx-service.exe<img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230526111049411.png" alt="image-20230526111049411"></p>
-</li>
-<li><p>在此文件夹下建立xml文件，命名为 nginx-service.xml并输入以下内容：</p>
-</li>
-</ul>
-<pre><code class="xml">&lt;service&gt;
-    &lt;id&gt;nginx&lt;/id&gt;
-    &lt;name&gt;nginx&lt;/name&gt;
-    &lt;description&gt;nginx&lt;/description&gt;
-    &lt;logpath&gt;C:\Users\admin\nginx-1.24.0&lt;/logpath&gt;
-    &lt;logmode&gt;roll&lt;/logmode&gt;
-    &lt;depend&gt;&lt;/depend&gt;
-    &lt;executable&gt;C:\Users\admin\nginx-1.24.0\nginx.exe&lt;/executable&gt;
-    &lt;stopexecutable&gt;C:\Users\admin\nginx-1.24.0\nginx.exe -s stop&lt;/stopexecutable&gt;
-&lt;/service&gt;
-</code></pre>
-<ul>
-<li><p>暂时关闭nginx服务：<code>nginx.exe -s quit</code></p>
-</li>
-<li><p>使用管理员身份打开命令行，输入<code>nginx-service.exe install</code></p>
-</li>
-<li><p>提示安装成功后继续输入<code>nginx-service.exe start</code></p>
-<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230526143740045.png" alt="image-20230526143740045"></p>
-</li>
-<li><p>成功，重启虚拟机也可以自启动nginx了<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230526143957901.png" alt="image-20230526143957901"></p>
-</li>
-</ul>
-
+            
             
         </div>
     </div>
@@ -223,7 +189,7 @@
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#ff7d73>
+            <a href="/tags/项目部署" style=color:#03a9f4>
                 项目部署
             </a>
         </span>
@@ -376,7 +342,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端面试" style=color:#00bcd4>
+            <a href="/tags/前端面试" style=color:#ff7d73>
                 前端面试
             </a>
         </span>
@@ -430,7 +396,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端面试" style=color:#00a596>
+            <a href="/tags/前端面试" style=color:#03a9f4>
                 前端面试
             </a>
         </span>
@@ -532,7 +498,7 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ffa2c4>
+            <a href="/tags/手撕代码" style=color:#03a9f4>
                 手撕代码
             </a>
         </span>
@@ -585,7 +551,7 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ff7d73>
+            <a href="/tags/手撕代码" style=color:#00a596>
                 手撕代码
             </a>
         </span>
@@ -636,7 +602,7 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#03a9f4>
+            <a href="/tags/手撕代码" style=color:#ff7d73>
                 手撕代码
             </a>
         </span>
@@ -689,7 +655,7 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ffa2c4>
+            <a href="/tags/手撕代码" style=color:#00a596>
                 手撕代码
             </a>
         </span>
