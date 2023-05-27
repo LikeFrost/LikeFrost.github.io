@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/项目部署" style=color:#ff7d73>
+                <a href="/tags/项目部署" style=color:#00a596>
                     项目部署
                 </a>
             </span>
@@ -156,13 +156,32 @@
 <span id="more"></span>
 
 <ul>
-<li>首先安装gitlab-runner（不再赘述）</li>
-<li>注册一个runner，可以使用命令行<code>gitlab-runner register</code> 注册（建议使用），也可配置config.toml，配置文件如下：<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527153207479.png" alt="image-20230527153207479"></li>
+<li><p>首先安装gitlab-runner（不再赘述）</p>
+</li>
+<li><p>注册一个runner，可以使用命令行<code>gitlab-runner register</code> 注册（建议使用），也可配置config.toml，配置文件如下：</p>
+<pre><code class="toml">[[runners]]
+  name = &quot;tsn前端&quot;
+  url = &quot;xx&quot;
+  id = 3
+  token = &quot;xx&quot;
+  token_obtained_at = 2023-05-26T07:51:58Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = &quot;shell&quot;
+  shell = &quot;powershell&quot;
+  pre_clone_script = &quot;chcp 65001&quot;
+  pre_build_script = &quot;chcp 65001&quot;
+  [runners.custom_build_dir]
+  [runners.cache]
+    MaxUploadedArchiveSize = 0
+    [runners.cache.s3]
+    [runners.cache.gcs]
+    [runners.cache.azure]
+</code></pre>
+<p>其中，url和token可以在gitlab项目中的设置–&gt;pipeline找到（旧版目录），新版目录在侧边菜单栏–&gt;settings-&gt;CI/CD中</p>
+</li>
 </ul>
-<p>其中，url和token可以在gitlab项目中的设置–&gt;pipeline找到（旧版目录），新版目录在侧边菜单栏：<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527153913282.png" alt="image-20230527153913282"></p>
 <ul>
-<li>编写.gitlab-ci.yml文件<br>进入项目根目录，新建文件：.gitlab-ci.yml文件，输入如下内容：</li>
-</ul>
+<li><p>编写.gitlab-ci.yml文件<br>进入项目根目录，新建文件：.gitlab-ci.yml文件，输入如下内容：</p>
 <pre><code class="yml">stages:
   - build
   - deploy
@@ -194,6 +213,9 @@ deploy:
     - cd $CI_PROJECT_DIR
     - xcopy build C:\Users\admin\web\tsn /E /C /I /Q /H /R /Y
 </code></pre>
+<p>各部分解释如下：</p>
+</li>
+</ul>
 <p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527165511866.png" alt="image-20230527165511866"></p>
 <ul>
 <li>当提交代码时，便会自动触发gitlab ci/cd，可以在侧边菜单栏查看CI/CD状态<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527165649355.png" alt="image-20230527165649355"></li>
