@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 前端面试</title>
+    <title>摸鱼日志 || gitlab ci/cd 自动部署项目（前端）</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -118,159 +118,99 @@
 
                 <div id="main">
                      
-<div class="categories-tags">
-    
-    <div class="all-s">
-        
-        
-        <span>
-            <a href="/tags/搭建博客/" style=background:#00bcd4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                搭建博客
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/JavaScript/" style=background:#ffa2c4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                JavaScript
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/微信小程序/" style=background:#ff7d73>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                微信小程序
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/工具类/" style=background:#00a596>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                工具类
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/前端面试/" style='background:linear-gradient(120deg, #9abbf7 0%, #ffbbf4 100%)'>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                前端面试
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/算法/" style=background:#03a9f4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                算法
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/手撕代码/" style=background:#ffa2c4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                手撕代码
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/数据结构/" style=background:#00bcd4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                数据结构
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/项目部署/" style=background:#00bcd4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                项目部署
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/前端/" style=background:#03a9f4>
-                <span class="icon">
-                    <a-icon type="tag" theme="filled" />
-                </span>
-                前端
-            </a>
-        </span>
-        
-        
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>gitlab ci/cd 自动部署项目（前端） </h1>
     </div>
-    <div id="archives">
-        
-        <a-timeline>
-            <a-timeline-item color="#a5c2f5">
-                <a-card hoverable>
-                    <div class="item-time">2023/4/1</div>
-                    <a href="/手写发布订阅/">
-                        <h3>手写发布</h3>
-                    </a>
-                    <div class="info">
-                        
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/5/27
+        </span>
 
-                        
-                        <span class="tags">
-                            <span class="icon">
-                                <a-icon type="tags" theme="filled" />
-                            </span>
-                            
-                            <span class="tag">
-                                
-                                <a href="/tags/前端面试" style=color:#00a596>
-                                    前端面试
-                                </a>
-                            </span>
-                            
-                        </span>
-                        
-                    </div>
-                </a-card>
-            </a-timeline-item>
-        </a-timeline>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/项目部署" style=color:#ff7d73>
+                    项目部署
+                </a>
+            </span>
+            
+        </span>
         
     </div>
-    <script>
-        new Vue({
-            el: '#archives'
-        })
-    </script>
+
+    <div class="content" v-pre>
+        <p>项目部署完毕后，若要对项目进行修改，须重新对项目进行打包、将打包后的文件上传到服务器、刷新nginx，比较繁琐，gitlab ci/cd可以将流程自动化，我们只需将修改后的代码推到gitlab上便自动部署。</p>
+<span id="more"></span>
+
+<ul>
+<li>首先安装gitlab-runner（不再赘述）</li>
+<li>注册一个runner，可以使用命令行<code>gitlab-runner register</code> 注册（建议使用），也可配置config.toml，配置文件如下：<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527153207479.png" alt="image-20230527153207479"></li>
+</ul>
+<p>其中，url和token可以在gitlab项目中的设置–&gt;pipeline找到（旧版目录），新版目录在侧边菜单栏：<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527153913282.png" alt="image-20230527153913282"></p>
+<ul>
+<li>编写.gitlab-ci.yml文件<br>进入项目根目录，新建文件：.gitlab-ci.yml文件，输入如下内容：</li>
+</ul>
+<pre><code class="yml">stages:
+  - build
+  - deploy
+  
+build:
+  stage: build
+  tags:
+    - tsn前端
+  script:
+    - cd $CI_PROJECT_DIR
+    - yarn install
+    - yarn build
+  cache:
+    key: $&#123;CI_COMMIT_REF_SLUG&#125;
+    paths:
+      - node_modules/
+      - .yarn/cache/
+  only:
+    - master
+  artifacts:  
+    paths:
+        - build/
+
+deploy:
+  stage: deploy
+  tags:
+    - tsn前端
+  script:
+    - cd $CI_PROJECT_DIR
+    - xcopy build C:\Users\admin\web\tsn /E /C /I /Q /H /R /Y
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527165511866.png" alt="image-20230527165511866"></p>
+<ul>
+<li>当提交代码时，便会自动触发gitlab ci/cd，可以在侧边菜单栏查看CI/CD状态<br><img src="https://raw.githubusercontent.com/LikeFrost/comment/main/img/image-20230527165649355.png" alt="image-20230527165649355"></li>
+</ul>
+<ul>
+<li>success！</li>
+</ul>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
 </div>
                      
 <footer id="footer">
@@ -332,6 +272,21 @@
             }
         }
     })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'zh-CN',
+        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
 </script>
 
 </body>
