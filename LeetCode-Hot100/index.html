@@ -251,6 +251,64 @@ var moveZeroes = function (nums) &#123;
   &#125;
 &#125;;
 </code></pre>
+<ul>
+<li>盛最多水的容器(从两端往中间移动短板，因为多少水是由短板决定的，移动长板并不能改善)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; height
+ * @return &#123;number&#125;
+ */
+var maxArea = function (height) &#123;
+  let result = 0;
+  let left = 0;
+  let right = height.length - 1;
+  while (left &lt; right) &#123;
+    result = Math.max(
+      result,
+      (right - left) * Math.min(height[left], height[right])
+    );
+    if (height[left] &lt; height[right]) &#123;
+      left++;
+    &#125; else &#123;
+      right--;
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>三数之和</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[][]&#125;
+ */
+var threeSum = function (nums) &#123;
+  let result = [];
+  nums.sort((a, b) =&gt; a - b);
+  for (let i = 0; i &lt; nums.length - 2; i++) &#123;
+    if (i === 0 || nums[i] !== nums[i - 1]) &#123;
+      let sum = 0 - nums[i];
+      let left = i + 1;
+      let right = nums.length - 1;
+      while (left &lt; right) &#123;
+        if (nums[left] + nums[right] === sum) &#123;
+          result.push([nums[i], nums[left], nums[right]]);
+          left++;
+          right--;
+          while (left &lt; right &amp;&amp; nums[left] === nums[left - 1]) left++; // 跳过重复元素
+          while (left &lt; right &amp;&amp; nums[right] === nums[right + 1]) right--; // 跳过重复元素
+        &#125; else if (nums[left] + nums[right] &lt; sum) &#123;
+          left++;
+        &#125; else &#123;
+          right--;
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
 
     </div>
 
