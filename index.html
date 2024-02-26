@@ -149,6 +149,135 @@
 
 <div class="post">
 
+    <a href="/LeetCode-Hot100/">
+        <h2>
+            
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2024/2/26
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <p><code>title: LeetCode Hot100 date: 2024-02-26 09:32 tags: 算法</code></p>
+<h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><ul>
+<li>两数之和</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; target
+ * @return &#123;number[]&#125;
+ */
+var twoSum = function (nums, target) &#123;
+  let map = new Map();
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    map.set(nums[i], i);
+  &#125;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (map.has(target - nums[i]) &amp;&amp; map.get(target - nums[i]) !== i) &#123;
+      return [i, map.get(target - nums[i])];
+    &#125;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>字母异位词</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string[]&#125; strs
+ * @return &#123;string[][]&#125;
+ */
+var groupAnagrams = function (strs) &#123;
+  let map = new Map();
+  for (let str of strs) &#123;
+    if (map.has(str.split(&quot;&quot;).sort().join(&quot;&quot;))) &#123;
+      map.get(str.split(&quot;&quot;).sort().join(&quot;&quot;)).push(str);
+    &#125; else &#123;
+      map.set(str.split(&quot;&quot;).sort().join(&quot;&quot;), [str]);
+    &#125;
+  &#125;
+  return Array.from(map.values());
+&#125;;
+</code></pre>
+<ul>
+<li>最长连续序列(使用set和动态规划)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var longestConsecutive = function (nums) &#123;
+  let set = new Set(nums);
+  let result = 0;
+  for (let num of nums) &#123;
+    if (!set.has(num - 1)) &#123;
+      let current = num;
+      let count = 1;
+      while (set.has(current + 1)) &#123;
+        current++;
+        count++;
+      &#125;
+      result = Math.max(result, count);
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var longestConsecutive = function (nums) &#123;
+  if (nums.length == 0) &#123;
+    return 0;
+  &#125;
+  let dp = [];
+  let result = 1;
+  dp[0] = 1;
+  nums.sort((a, b) =&gt; a - b);
+  for (let i = 1; i &lt; nums.length; i++) &#123;
+    dp[i] = 1;
+    if (nums[i] == nums[i - 1]) &#123;
+      dp[i] = dp[i - 1];
+    &#125;
+    if (nums[i] == nums[i - 1] + 1) &#123;
+      dp[i] = dp[i - 1] + 1;
+    &#125;
+    result = Math.max(result, dp[i]);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        
+    </div>
+
+    <a href="/LeetCode-Hot100/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/自动生成接口文档/">
         <h2>
             自动生成接口文档
@@ -186,7 +315,7 @@
         
         <span class="tag">
             
-            <a href="/tags/工具类" style=color:#ffa2c4>
+            <a href="/tags/工具类" style=color:#03a9f4>
                 工具类
             </a>
         </span>
@@ -237,7 +366,7 @@
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#00bcd4>
+            <a href="/tags/项目部署" style=color:#ff7d73>
                 项目部署
             </a>
         </span>
@@ -342,7 +471,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#ff7d73>
+            <a href="/tags/前端" style=color:#00a596>
                 前端
             </a>
         </span>
@@ -444,7 +573,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#03a9f4>
+            <a href="/tags/前端" style=color:#ff7d73>
                 前端
             </a>
         </span>
@@ -498,7 +627,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#ffa2c4>
                 前端
             </a>
         </span>
@@ -549,7 +678,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#ffa2c4>
                 前端
             </a>
         </span>
@@ -600,59 +729,6 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ffa2c4>
-                手撕代码
-            </a>
-        </span>
-        
-    </div>
-
-    <a href="/深浅拷贝/ " class="go-post">
-        阅读全文
-    </a>
-</div>
-
-<div class="post">
-
-    <a href="/防抖和节流/">
-        <h2>
-            防抖和节流
-        </h2>
-    </a>
-
-    <div class="category-and-date">
-
-        
-
-        <span class="date">
-            <span class="icon">
-                <a-icon type="calendar" theme="filled" />
-            </span>
-            2023/3/11
-        </span>
-
-    </div>
-
-    <div class="excerpt">
-        <div class="content" v-pre>
-            
-            <ul>
-<li>防抖：事件触发–&gt;开启定时器–&gt;若再次触发，清除上一个定时器，用新的定时器–&gt;定时器时间到，触发操作</li>
-</ul>
-            
-            
-        </div>
-    </div>
-
-    <div class="post-tags">
-        
-        <span class="icon">
-            <a-icon type="tags" theme="filled" />
-        </span>
-        
-        
-        <span class="tag">
-            
             <a href="/tags/手撕代码" style=color:#00a596>
                 手撕代码
             </a>
@@ -660,7 +736,7 @@
         
     </div>
 
-    <a href="/防抖和节流/ " class="go-post">
+    <a href="/深浅拷贝/ " class="go-post">
         阅读全文
     </a>
 </div>
@@ -792,7 +868,7 @@
 <footer id="footer">
     <div class="footer-wrap">
         <div>
-            © 2021 - 2023 摸鱼日志
+            © 2021 - 2024 摸鱼日志
             <span class="footer-icon">
                 <a-icon type="flag" theme="filled" /></span>
             @Like Frost
