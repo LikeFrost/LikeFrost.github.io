@@ -138,6 +138,8 @@
 
     <div class="content" v-pre>
         <p><code>title: LeetCode Hot100 date: 2024-02-26 09:32 tags: 算法</code></p>
+<span id="more"></span>
+
 <h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><ul>
 <li>两数之和</li>
 </ul>
@@ -224,6 +226,29 @@ var longestConsecutive = function (nums) &#123;
     result = Math.max(result, dp[i]);
   &#125;
   return result;
+&#125;;
+</code></pre>
+<h3 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h3><ul>
+<li>移动零</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;void&#125; Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function (nums) &#123;
+  let a = 0;
+  let b = 0;
+  while (a &lt; nums.length) &#123;
+    if (nums[a] !== 0) &#123;
+      nums[b] = nums[a];
+      b++;
+    &#125;
+    a++;
+  &#125;
+  while (b &lt; nums.length) &#123;
+    nums[b] = 0;
+    b++;
+  &#125;
 &#125;;
 </code></pre>
 
