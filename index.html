@@ -151,7 +151,7 @@
 
     <a href="/LeetCode-Hot100/">
         <h2>
-            
+            LeetCode Hot100
         </h2>
     </a>
 
@@ -171,14 +171,686 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            <p><code>title: LeetCode Hot100 date: 2024-02-26 09:32 tags: 算法</code></p>
             
+            <span id="more"></span>
+
+<h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><ul>
+<li>两数之和</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; target
+ * @return &#123;number[]&#125;
+ */
+var twoSum = function (nums, target) &#123;
+  let map = new Map();
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    map.set(nums[i], i);
+  &#125;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (map.has(target - nums[i]) &amp;&amp; map.get(target - nums[i]) !== i) &#123;
+      return [i, map.get(target - nums[i])];
+    &#125;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>字母异位词</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string[]&#125; strs
+ * @return &#123;string[][]&#125;
+ */
+var groupAnagrams = function (strs) &#123;
+  let map = new Map();
+  for (let str of strs) &#123;
+    if (map.has(str.split(&quot;&quot;).sort().join(&quot;&quot;))) &#123;
+      map.get(str.split(&quot;&quot;).sort().join(&quot;&quot;)).push(str);
+    &#125; else &#123;
+      map.set(str.split(&quot;&quot;).sort().join(&quot;&quot;), [str]);
+    &#125;
+  &#125;
+  return Array.from(map.values());
+&#125;;
+</code></pre>
+<ul>
+<li>最长连续序列(使用set和动态规划)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var longestConsecutive = function (nums) &#123;
+  let set = new Set(nums);
+  let result = 0;
+  for (let num of nums) &#123;
+    if (!set.has(num - 1)) &#123;
+      let current = num;
+      let count = 1;
+      while (set.has(current + 1)) &#123;
+        current++;
+        count++;
+      &#125;
+      result = Math.max(result, count);
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var longestConsecutive = function (nums) &#123;
+  if (nums.length == 0) &#123;
+    return 0;
+  &#125;
+  let dp = [];
+  let result = 1;
+  dp[0] = 1;
+  nums.sort((a, b) =&gt; a - b);
+  for (let i = 1; i &lt; nums.length; i++) &#123;
+    dp[i] = 1;
+    if (nums[i] == nums[i - 1]) &#123;
+      dp[i] = dp[i - 1];
+    &#125;
+    if (nums[i] == nums[i - 1] + 1) &#123;
+      dp[i] = dp[i - 1] + 1;
+    &#125;
+    result = Math.max(result, dp[i]);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<h3 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h3><ul>
+<li>移动零</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;void&#125; Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function (nums) &#123;
+  let a = 0;
+  let b = 0;
+  while (a &lt; nums.length) &#123;
+    if (nums[a] !== 0) &#123;
+      nums[b] = nums[a];
+      b++;
+    &#125;
+    a++;
+  &#125;
+  while (b &lt; nums.length) &#123;
+    nums[b] = 0;
+    b++;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>盛最多水的容器(从两端往中间移动短板，因为多少水是由短板决定的，移动长板并不能改善)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; height
+ * @return &#123;number&#125;
+ */
+var maxArea = function (height) &#123;
+  let result = 0;
+  let left = 0;
+  let right = height.length - 1;
+  while (left &lt; right) &#123;
+    result = Math.max(
+      result,
+      (right - left) * Math.min(height[left], height[right])
+    );
+    if (height[left] &lt; height[right]) &#123;
+      left++;
+    &#125; else &#123;
+      right--;
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>三数之和</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[][]&#125;
+ */
+var threeSum = function (nums) &#123;
+  let result = [];
+  nums.sort((a, b) =&gt; a - b);
+  for (let i = 0; i &lt; nums.length - 2; i++) &#123;
+    if (i === 0 || nums[i] !== nums[i - 1]) &#123;
+      let sum = 0 - nums[i];
+      let left = i + 1;
+      let right = nums.length - 1;
+      while (left &lt; right) &#123;
+        if (nums[left] + nums[right] === sum) &#123;
+          result.push([nums[i], nums[left], nums[right]]);
+          left++;
+          right--;
+          while (left &lt; right &amp;&amp; nums[left] === nums[left - 1]) left++; // 跳过重复元素
+          while (left &lt; right &amp;&amp; nums[right] === nums[right + 1]) right--; // 跳过重复元素
+        &#125; else if (nums[left] + nums[right] &lt; sum) &#123;
+          left++;
+        &#125; else &#123;
+          right--;
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>接雨水(双指针，类似于打擂，永远是强者在台上)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; height
+ * @return &#123;number&#125;
+ */
+var trap = function (height) &#123;
+  let left = 0;
+  let right = height.length - 1;
+  let leftMax = 0;
+  let rightMax = 0;
+  let result = 0;
+  while (left &lt; right) &#123;
+    if (height[left] &lt; height[right]) &#123;
+      if (height[left] &gt;= leftMax) &#123;
+        leftMax = height[left];
+      &#125; else &#123;
+        result += leftMax - height[left];
+      &#125;
+      left++;
+    &#125; else &#123;
+      if (height[right] &gt;= rightMax) &#123;
+        rightMax = height[right];
+      &#125; else &#123;
+        result += rightMax - height[right];
+      &#125;
+      right--;
+    &#125;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><ul>
+<li>无重复字符的最长字串</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; s
+ * @return &#123;number&#125;
+ */
+var lengthOfLongestSubstring = function (s) &#123;
+  let max = 0;
+  let start = 0;
+  let map = new Map();
+  for (let i = 0; i &lt; s.length; i++) &#123;
+    if (map.has(s[i])) &#123;
+      start = Math.max(start, map.get(s[i]) + 1);
+    &#125;
+    max = Math.max(max, i - start + 1);
+    map.set(s[i], i);
+  &#125;
+  return max;
+&#125;;
+</code></pre>
+<ul>
+<li>找到字符串中所有的字母异位词</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; s
+ * @param &#123;string&#125; p
+ * @return &#123;number[]&#125;
+ */
+var findAnagrams = function (s, p) &#123;
+  if (s.length &lt; p.length) return [];
+  let result = [];
+  let pMap = new Array(26).fill(0);
+  let sMap = new Array(26).fill(0);
+  for (let i = 0; i &lt; p.length; i++) &#123;
+    sMap[s.charCodeAt(i) - 97]++;
+    pMap[p.charCodeAt(i) - 97]++;
+  &#125;
+  for (let i = 0; i &lt;= s.length - p.length; i++) &#123;
+    if (sMap.join(&quot;&quot;) === pMap.join(&quot;&quot;)) result.push(i);
+    sMap[s.charCodeAt(i) - 97]--;
+    sMap[s.charCodeAt(i + p.length) - 97]++;
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<h3 id="子串"><a href="#子串" class="headerlink" title="子串"></a>子串</h3><ul>
+<li>和为k的子数组(前缀和优化)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; k
+ * @return &#123;number&#125;
+ */
+var subarraySum = function (nums, k) &#123;
+  let result = 0;
+  let sum = 0;
+  let map = new Map();
+  map.set(0, 1);
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    sum += nums[i];
+    result += map.get(sum - k) || 0;
+    map.set(sum, (map.get(sum) || 0) + 1);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>滑动窗口最大值(单调队列-双端队列)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; k
+ * @return &#123;number[]&#125;
+ */
+var maxSlidingWindow = function (nums, k) &#123;
+  const q = [];
+  const result = [];
+  for (let i = 0; i &lt; k; i++) &#123;
+    while (q.length &amp;&amp; nums[q[q.length - 1]] &lt;= nums[i]) &#123;
+      q.pop();
+    &#125;
+    q.push(i);
+  &#125;
+  result.push(nums[q[0]]);
+
+  for (let i = k; i &lt; nums.length; i++) &#123;
+    while (q.length &amp;&amp; nums[i] &gt;= nums[q[q.length - 1]]) &#123;
+      q.pop();
+    &#125;
+    q.push(i);
+    while (q[0] &lt;= i - k) &#123;
+      q.shift();
+    &#125;
+    result.push(nums[q[0]]);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<h3 id="普通数组"><a href="#普通数组" class="headerlink" title="普通数组"></a>普通数组</h3><ul>
+<li>最大子数组和(类似于dp，当和小于0的时候就丢弃)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var maxSubArray = function (nums) &#123;
+  let max = nums[0];
+  let sum = 0;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (sum &lt; 0) &#123;
+      sum = 0;
+    &#125;
+    sum += nums[i];
+    max = Math.max(max, sum);
+  &#125;
+  return max;
+&#125;;
+</code></pre>
+<ul>
+<li>合并区间（排序）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[][]&#125; intervals
+ * @return &#123;number[][]&#125;
+ */
+var merge = function (intervals) &#123;
+  intervals.sort((a, b) =&gt; a[0] - b[0]);
+  for (let i = 0; i &lt; intervals.length - 1; i++) &#123;
+    if (intervals[i][1] &gt;= intervals[i + 1][0]) &#123;
+      intervals[i][1] = Math.max(intervals[i][1], intervals[i + 1][1]);
+      intervals.splice(i + 1, 1);
+      i--;
+    &#125;
+  &#125;
+  return intervals;
+&#125;;
+</code></pre>
+<ul>
+<li>轮转数组(注意处理k大于数组长度的情况)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; k
+ * @return &#123;void&#125; Do not return anything, modify nums in-place instead.
+ */
+var rotate = function (nums, k) &#123;
+  k = k % nums.length;
+  nums.unshift(...nums.slice(nums.length - k));
+  nums.splice(nums.length - k, k);
+&#125;;
+</code></pre>
+<ul>
+<li>除自身以外数组的乘积(前缀乘积和后缀乘积)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[]&#125;
+ */
+var productExceptSelf = function (nums) &#123;
+  let pre = new Array(nums.length).fill(1);
+  let post = new Array(nums.length).fill(1);
+  let result = [];
+  pre[0] = nums[0];
+  for (let i = 1; i &lt; nums.length; i++) &#123;
+    pre[i] = pre[i - 1] * nums[i];
+  &#125;
+  post[nums.length - 1] = nums[nums.length - 1];
+  for (let i = nums.length - 2; i &gt;= 0; i--) &#123;
+    post[i] = post[i + 1] * nums[i];
+  &#125;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    result.push(
+      i === 0
+        ? post[i + 1]
+        : i === nums.length - 1
+        ? pre[i - 1]
+        : pre[i - 1] * post[i + 1]
+    );
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>空间复杂度为o(1) ，利用输出数组作为后缀乘积</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[]&#125;
+ */
+var productExceptSelf = function (nums) &#123;
+  let post = new Array(nums.length).fill(1);
+  post[nums.length - 1] = nums[nums.length - 1];
+  for (let i = nums.length - 2; i &gt;= 0; i--) &#123;
+    post[i] = post[i + 1] * nums[i];
+  &#125;
+  let pre = 1;
+  for (let i = 0; i &lt; nums.length - 1; i++) &#123;
+    post[i] = post[i + 1] * pre;
+    pre *= nums[i];
+  &#125;
+  post[nums.length - 1] = pre;
+  return post;
+&#125;;
+</code></pre>
+<ul>
+<li>缺失的第一个正数(将现有数组想办法当成hash表)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var firstMissingPositive = function (nums) &#123;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (nums[i] &lt; 1 || nums[i] &gt; nums.length) &#123;
+      nums[i] = Infinity;
+    &#125;
+  &#125;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (
+      nums[i] &lt; Infinity &amp;&amp;
+      nums[i] &gt; -Infinity &amp;&amp;
+      nums[Math.abs(nums[i]) - 1] &gt; 0
+    ) &#123;
+      nums[Math.abs(nums[i]) - 1] = -nums[Math.abs(nums[i]) - 1];
+    &#125;
+  &#125;
+  for (let i = 0; i &lt; nums.length; i++) &#123;
+    if (nums[i] &gt; 0) &#123;
+      return i + 1;
+    &#125;
+  &#125;
+  return nums.length + 1;
+&#125;;
+</code></pre>
+<h3 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h3><ul>
+<li>矩阵置零</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[][]&#125; matrix
+ * @return &#123;void&#125; Do not return anything, modify matrix in-place instead.
+ */
+var setZeroes = function (matrix) &#123;
+  let m = matrix.length;
+  let n = matrix[0].length;
+  for (let i = 0; i &lt; m; i++) &#123;
+    if (matrix[i].includes(0)) &#123;
+      for (let j = 0; j &lt; n; j++) &#123;
+        if (matrix[i][j] !== 0) &#123;
+          matrix[i][j] = &quot;x&quot;;
+        &#125; else &#123;
+          for (let k = 0; k &lt; m; k++) &#123;
+            if (matrix[k][j] !== 0) &#123;
+              matrix[k][j] = &quot;x&quot;;
+            &#125;
+          &#125;
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+  for (let i = 0; i &lt; m; i++) &#123;
+    for (let j = 0; j &lt; n; j++) &#123;
+      if (matrix[i][j] === &quot;x&quot;) &#123;
+        matrix[i][j] = 0;
+      &#125;
+    &#125;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>旋转图像(先镜像再反转等同于旋转90°)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[][]&#125; matrix
+ * @return &#123;void&#125; Do not return anything, modify matrix in-place instead.
+ */
+var rotate = function (matrix) &#123;
+  let n = matrix.length;
+  for (let i = 0; i &lt; n; i++) &#123;
+    for (let j = i; j &lt; n; j++) &#123;
+      [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
+    &#125;
+  &#125;
+  for (let i = 0; i &lt; n; i++) &#123;
+    for (let j = 0; j &lt; n / 2; j++) &#123;
+      [matrix[i][j], matrix[i][n - 1 - j]] = [
+        matrix[i][n - 1 - j],
+        matrix[i][j],
+      ];
+    &#125;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>搜索二维矩阵(对行进行二分)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[][]&#125; matrix
+ * @param &#123;number&#125; target
+ * @return &#123;boolean&#125;
+ */
+var searchMatrix = function (matrix, target) &#123;
+  let m = matrix.length;
+  let n = matrix[0].length;
+  for (let i = 0; i &lt; m; i++) &#123;
+    if (matrix[i][0] &lt;= target &amp;&amp; matrix[i][n - 1] &gt;= target) &#123;
+      let left = 0;
+      let right = n - 1;
+      while (left &lt;= right) &#123;
+        let mid = Math.floor((left + right) / 2);
+        if (matrix[i][mid] === target) &#123;
+          return true;
+        &#125; else if (matrix[i][mid] &lt; target) &#123;
+          left = mid + 1;
+        &#125; else &#123;
+          right = mid - 1;
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+  return false;
+&#125;;
+</code></pre>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><ul>
+<li>相交链表(先记录两个链表的长度)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+
+/**
+ * @param &#123;ListNode&#125; headA
+ * @param &#123;ListNode&#125; headB
+ * @return &#123;ListNode&#125;
+ */
+var getIntersectionNode = function (headA, headB) &#123;
+  let lengthA = 0;
+  let lengthB = 0;
+  let p1 = headA;
+  while (p1) &#123;
+    lengthA++;
+    p1 = p1.next;
+  &#125;
+  let p2 = headB;
+  while (p2) &#123;
+    lengthB++;
+    p2 = p2.next;
+  &#125;
+  if (lengthA &gt; lengthB) &#123;
+    [headA, headB] = [headB, headA];
+    [lengthA, lengthB] = [lengthB, lengthA];
+  &#125;
+  let diff = lengthB - lengthA;
+  while (diff) &#123;
+    headB = headB.next;
+    diff--;
+  &#125;
+  while (headA !== headB) &#123;
+    headA = headA.next;
+    headB = headB.next;
+  &#125;
+  return headA;
+&#125;;
+</code></pre>
+<ul>
+<li>反转链表(prev current next 一开始current指向头，三个一起移动)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var reverseList = function (head) &#123;
+  let prev = null;
+  let current = head;
+  while (current) &#123;
+    let next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  &#125;
+  return prev;
+&#125;;
+</code></pre>
+<ul>
+<li>回文链表（双指针找到中点，然后把后半部分反转）</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;boolean&#125;
+ */
+var isPalindrome = function (head) &#123;
+  let p1 = head;
+  let p2 = head;
+  while (p2 &amp;&amp; p2.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next.next;
+  &#125;
+  let prev = null;
+  let current = p1;
+  while (current) &#123;
+    let next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  &#125;
+  while (prev) &#123;
+    if (prev.val !== head.val) return false;
+    prev = prev.next;
+    head = head.next;
+  &#125;
+  return true;
+&#125;;
+</code></pre>
+<ul>
+<li>环形链表(快慢指针)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;boolean&#125;
+ */
+var hasCycle = function (head) &#123;
+  let p1 = head;
+  let p2 = head;
+  while (p1 &amp;&amp; p2 &amp;&amp; p2.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next.next;
+    if (p1 === p2) return true;
+  &#125;
+  return false;
+&#125;;
+</code></pre>
+
             
         </div>
     </div>
 
     <div class="post-tags">
         
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/算法" style=color:#ff7d73>
+                算法
+            </a>
+        </span>
         
     </div>
 
@@ -277,7 +949,7 @@
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#ff7d73>
+            <a href="/tags/项目部署" style=color:#03a9f4>
                 项目部署
             </a>
         </span>
@@ -331,7 +1003,7 @@
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#00a596>
+            <a href="/tags/项目部署" style=color:#ffa2c4>
                 项目部署
             </a>
         </span>
@@ -382,7 +1054,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#ff7d73>
+            <a href="/tags/前端" style=color:#00bcd4>
                 前端
             </a>
         </span>
@@ -433,7 +1105,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#03a9f4>
+            <a href="/tags/前端" style=color:#00bcd4>
                 前端
             </a>
         </span>
@@ -484,7 +1156,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00a596>
+            <a href="/tags/前端" style=color:#ff7d73>
                 前端
             </a>
         </span>
@@ -589,7 +1261,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#00a596>
                 前端
             </a>
         </span>
@@ -640,7 +1312,7 @@
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ff7d73>
+            <a href="/tags/手撕代码" style=color:#ffa2c4>
                 手撕代码
             </a>
         </span>

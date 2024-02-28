@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摸鱼日志 || 记录一些日常学习及奇奇怪怪的事情</title>
+    <title>摸鱼日志 || LeetCode Hot100</title>
     <meta name="author" content="Like Frost">
     <meta name="description" content="吾生也有涯，而知也无涯 ">
     <meta name="keywords" content="编程,coding,个人博客 ">
@@ -121,7 +121,7 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1> </h1>
+        <h1>LeetCode Hot100 </h1>
     </div>
     <div class="info">
         <span class="date">
@@ -134,11 +134,25 @@
         
 
         
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/算法" style=color:#03a9f4>
+                    算法
+                </a>
+            </span>
+            
+        </span>
+        
     </div>
 
     <div class="content" v-pre>
-        <p><code>title: LeetCode Hot100 date: 2024-02-26 09:32 tags: 算法</code></p>
-<span id="more"></span>
+        <span id="more"></span>
 
 <h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><ul>
 <li>两数之和</li>
@@ -734,6 +748,69 @@ var reverseList = function (head) &#123;
     current = next;
   &#125;
   return prev;
+&#125;;
+</code></pre>
+<ul>
+<li>回文链表（双指针找到中点，然后把后半部分反转）</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;boolean&#125;
+ */
+var isPalindrome = function (head) &#123;
+  let p1 = head;
+  let p2 = head;
+  while (p2 &amp;&amp; p2.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next.next;
+  &#125;
+  let prev = null;
+  let current = p1;
+  while (current) &#123;
+    let next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  &#125;
+  while (prev) &#123;
+    if (prev.val !== head.val) return false;
+    prev = prev.next;
+    head = head.next;
+  &#125;
+  return true;
+&#125;;
+</code></pre>
+<ul>
+<li>环形链表(快慢指针)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;boolean&#125;
+ */
+var hasCycle = function (head) &#123;
+  let p1 = head;
+  let p2 = head;
+  while (p1 &amp;&amp; p2 &amp;&amp; p2.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next.next;
+    if (p1 === p2) return true;
+  &#125;
+  return false;
 &#125;;
 </code></pre>
 
