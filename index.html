@@ -833,6 +833,794 @@ var hasCycle = function (head) &#123;
   return false;
 &#125;;
 </code></pre>
+<ul>
+<li>环形链表II(关键是知道当快慢指针相遇时，再有一个指针从头开始走，会和慢指针相遇在pos处)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) &#123;
+ *     this.val = val;
+ *     this.next = null;
+ * &#125;
+ */
+
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var detectCycle = function (head) &#123;
+  let p1 = head;
+  let p2 = head;
+  let pos = head;
+  while (p1 &amp;&amp; p2 &amp;&amp; p2.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next.next;
+    if (p1 === p2) &#123;
+      while (pos !== p1) &#123;
+        pos = pos.next;
+        p1 = p1.next;
+      &#125;
+      return pos;
+    &#125;
+  &#125;
+  return null;
+&#125;;
+</code></pre>
+<ul>
+<li>合并两个有序列表</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; list1
+ * @param &#123;ListNode&#125; list2
+ * @return &#123;ListNode&#125;
+ */
+var mergeTwoLists = function (list1, list2) &#123;
+  let p1 = list1;
+  let p2 = list2;
+  let newList = new ListNode(0);
+  let head = newList;
+  while (p1 &amp;&amp; p2) &#123;
+    if (p1.val &lt; p2.val) &#123;
+      head.next = p1;
+      p1 = p1.next;
+    &#125; else &#123;
+      head.next = p2;
+      p2 = p2.next;
+    &#125;
+    head = head.next;
+  &#125;
+  while (p1) &#123;
+    head.next = p1;
+    p1 = p1.next;
+    head = head.next;
+  &#125;
+  while (p2) &#123;
+    head.next = p2;
+    p2 = p2.next;
+    head = head.next;
+  &#125;
+  return newList.next;
+&#125;;
+</code></pre>
+<ul>
+<li>两数相加</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; l1
+ * @param &#123;ListNode&#125; l2
+ * @return &#123;ListNode&#125;
+ */
+var addTwoNumbers = function (l1, l2) &#123;
+  let newList = new ListNode(0);
+  let head = newList;
+  let cnt = 0;
+  while (l1 &amp;&amp; l2) &#123;
+    let sum = l1.val + l2.val + cnt;
+    cnt = Math.floor(sum / 10);
+    sum = sum % 10;
+    head.next = new ListNode(sum);
+    head = head.next;
+    l1 = l1.next;
+    l2 = l2.next;
+  &#125;
+  while (l1) &#123;
+    let sum = l1.val + cnt;
+    cnt = Math.floor(sum / 10);
+    sum = sum % 10;
+    head.next = new ListNode(sum);
+    head = head.next;
+    l1 = l1.next;
+  &#125;
+  while (l2) &#123;
+    let sum = l2.val + cnt;
+    cnt = Math.floor(sum / 10);
+    sum = sum % 10;
+    head.next = new ListNode(sum);
+    head = head.next;
+    l2 = l2.next;
+  &#125;
+  if (cnt) &#123;
+    head.next = new ListNode(cnt);
+  &#125;
+  return newList.next;
+&#125;;
+</code></pre>
+<ul>
+<li>删除链表的倒数第N个节点(双指针，第二个指针先走n步)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @param &#123;number&#125; n
+ * @return &#123;ListNode&#125;
+ */
+var removeNthFromEnd = function (head, n) &#123;
+  let p1 = head;
+  let p2 = head;
+  while (n &gt; 0) &#123;
+    p1 = p1.next;
+    n--;
+  &#125;
+  while (p1 &amp;&amp; p1.next) &#123;
+    p1 = p1.next;
+    p2 = p2.next;
+  &#125;
+  if (p1) &#123;
+    p2.next = p2.next.next;
+  &#125; else &#123;
+    head = head.next;
+  &#125;
+  return head;
+&#125;;
+</code></pre>
+<ul>
+<li>两两交换链表中的节点(设置一个前驱节点)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var swapPairs = function (head) &#123;
+  if (!head || !head.next) return head;
+  let newList = new ListNode(0);
+  newList.next = head;
+  let prev = newList;
+  let p1 = head;
+  let p2 = head.next;
+  while (p1 &amp;&amp; p2) &#123;
+    prev.next = p2;
+    p1.next = p2.next;
+    p2.next = p1;
+    prev = p1;
+    p1 = p1.next;
+    p2 = p1 ? p1.next : null;
+  &#125;
+  return newList.next;
+&#125;;
+</code></pre>
+<ul>
+<li>随机链表的复制（使用递归 题解）</li>
+</ul>
+<pre><code class="js">var copyRandomList = function(head, cachedNode = new Map()) &#123;
+    if (head === null) &#123;
+        return null;
+    &#125;
+    if (!cachedNode.has(head)) &#123;
+        cachedNode.set(head, &#123;val: head.val&#125;), Object.assign(cachedNode.get(head), &#123;next: copyRandomList(head.next, cachedNode), random: copyRandomList(head.random, cachedNode)&#125;)
+    &#125;
+    return cachedNode.get(head);
+&#125;
+</code></pre>
+<ul>
+<li>排序链表</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * &#125;
+ */
+/**
+ * @param &#123;ListNode&#125; head
+ * @return &#123;ListNode&#125;
+ */
+var sortList = function (head) &#123;
+  let p1 = head;
+  let arr = [];
+  while (p1) &#123;
+    arr.push(p1.val);
+    p1 = p1.next;
+  &#125;
+  arr.sort((a, b) =&gt; a - b);
+  let ans = new ListNode(0);
+  let p2 = ans;
+  while (arr.length) &#123;
+    p2.next = new ListNode(arr.shift());
+    p2 = p2.next;
+  &#125;
+  return ans.next;
+&#125;;
+</code></pre>
+<ul>
+<li>LRU缓存（双向链表+哈希表）</li>
+</ul>
+<pre><code class="js">function ListNode(key, val) &#123;
+  this.key = key;
+  this.val = val;
+  this.next = null;
+  this.prev = null;
+&#125;
+
+/**
+ * @param &#123;number&#125; capacity
+ */
+var LRUCache = function (capacity) &#123;
+  this.capacity = capacity;
+  this.cache = new Map();
+  this.head = new ListNode(null, null);
+  this.tail = new ListNode(null, null);
+  this.head.next = this.tail;
+  this.tail.prev = this.head;
+&#125;;
+
+/**
+ * @param &#123;number&#125; key
+ * @return &#123;number&#125;
+ */
+LRUCache.prototype.get = function (key) &#123;
+  if (this.cache.has(key)) &#123;
+    const node = this.cache.get(key);
+    this.moveToFront(node);
+    this.cache.set(key, node);
+    return node.val;
+  &#125; else &#123;
+    return -1;
+  &#125;
+&#125;;
+
+/**
+ * @param &#123;number&#125; key
+ * @param &#123;number&#125; value
+ * @return &#123;void&#125;
+ */
+LRUCache.prototype.put = function (key, value) &#123;
+  if (this.cache.has(key)) &#123;
+    const node = this.cache.get(key);
+    node.val = value;
+    this.moveToFront(node);
+    this.cache.set(key, node);
+  &#125; else &#123;
+    if (this.cache.size === this.capacity) &#123;
+      this.cache.delete(this.tail.prev.key);
+      this.removeLast();
+    &#125;
+    const node = new ListNode(key, value);
+    this.addToFront(node);
+    this.cache.set(key, node);
+  &#125;
+&#125;;
+
+LRUCache.prototype.addToFront = function (node) &#123;
+  node.next = this.head.next;
+  this.head.next.prev = node;
+  this.head.next = node;
+  node.prev = this.head;
+&#125;;
+LRUCache.prototype.moveToFront = function (node) &#123;
+  this.removeNode(node);
+  this.addToFront(node);
+&#125;;
+LRUCache.prototype.removeNode = function (node) &#123;
+  node.prev.next = node.next;
+  node.next.prev = node.prev;
+&#125;;
+LRUCache.prototype.removeLast = function () &#123;
+  this.removeNode(this.tail.prev);
+&#125;;
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
+</code></pre>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><ul>
+<li>二叉树的中序遍历</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;number[]&#125;
+ */
+var inorderTraversal = function (root) &#123;
+  let result = [];
+  inOrder(root, result);
+  return result;
+&#125;;
+const inOrder = function (node, result) &#123;
+  if (!node) return;
+  inOrder(node.left, result);
+  result.push(node.val);
+  inOrder(node.right, result);
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树的最大深度</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;number&#125;
+ */
+var maxDepth = function (root) &#123;
+  if (!root) return 0;
+  let left = maxDepth(root.left);
+  let right = maxDepth(root.right);
+  return Math.max(left, right) + 1;
+&#125;;
+</code></pre>
+<ul>
+<li>翻转二叉树</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;TreeNode&#125;
+ */
+var invertTree = function (root) &#123;
+  if (!root) return null;
+  [root.left, root.right] = [invertTree(root.right), invertTree(root.left)];
+  return root;
+&#125;;
+</code></pre>
+<ul>
+<li>对称二叉树</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;boolean&#125;
+ */
+var isSymmetric = function (root) &#123;
+  if (!root) return true;
+  return isMirror(root.left, root.right);
+&#125;;
+var isMirror = function (t1, t2) &#123;
+  if (!t1 &amp;&amp; !t2) return true;
+  if (!t1 || !t2) return false;
+  return (
+    t1.val === t2.val &amp;&amp;
+    isMirror(t1.left, t2.right) &amp;&amp;
+    isMirror(t1.right, t2.left)
+  );
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树的直径（在求深度的过程中维护一个左+右的最大值）</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;number&#125;
+ */
+var diameterOfBinaryTree = function (root) &#123;
+  let ans = 0;
+  const maxDepth = (root) =&gt; &#123;
+    if (!root) return 0;
+    let left = maxDepth(root.left);
+    let right = maxDepth(root.right);
+    ans = Math.max(ans, left + right);
+    return Math.max(left, right) + 1;
+  &#125;;
+  maxDepth(root);
+  return ans;
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树的层序遍历</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;number[][]&#125;
+ */
+var levelOrder = function (root) &#123;
+  if (!root) return [];
+  let result = [];
+  let queue = [root];
+  while (queue.length) &#123;
+    let currentQueue = [];
+    let currentLevel = queue.length;
+    for (let i = 0; i &lt; currentLevel; i++) &#123;
+      let current = queue.shift();
+      currentQueue.push(current.val);
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
+    &#125;
+    result.push(currentQueue);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>将有序数组转换为二叉搜索树</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;TreeNode&#125;
+ */
+var sortedArrayToBST = function (nums) &#123;
+  if (nums.length === 0) return null;
+  const mid = Math.floor(nums.length / 2);
+  const root = new TreeNode(nums[mid]);
+  root.left = sortedArrayToBST(nums.slice(0, mid));
+  root.right = sortedArrayToBST(nums.slice(mid + 1));
+  return root;
+&#125;;
+</code></pre>
+<ul>
+<li>验证二叉搜索树（注意左边所有数字都要小于根）</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;boolean&#125;
+ */
+var isValidBST = function (root) &#123;
+  const helper = (node, min, max) =&gt; &#123;
+    if (!node) return true;
+    if (node.val &lt;= min || node.val &gt;= max) return false;
+    return (
+      helper(node.left, min, node.val) &amp;&amp; helper(node.right, node.val, max)
+    );
+  &#125;;
+  return helper(root, -Infinity, Infinity);
+&#125;;
+</code></pre>
+<ul>
+<li>二叉搜索树中第K小的元素</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @param &#123;number&#125; k
+ * @return &#123;number&#125;
+ */
+var kthSmallest = function (root, k) &#123;
+  let arr = [];
+  function inOrder(node) &#123;
+    if (!node) return null;
+    inOrder(node.left);
+    arr.push(node.val);
+    inOrder(node.right);
+  &#125;
+  inOrder(root);
+  arr.sort((a, b) =&gt; a - b);
+  return arr[k - 1];
+&#125;;
+</code></pre>
+<pre><code class="js">//使用非递归方式进行中序遍历
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @param &#123;number&#125; k
+ * @return &#123;number&#125;
+ */
+var kthSmallest = function (root, k) &#123;
+  const stack = [];
+  while (root || stack.length) &#123;
+    while (root) &#123;
+      stack.push(root);
+      root = root.left;
+    &#125;
+    root = stack.pop();
+    k--;
+    if (k === 0) return root.val;
+    root = root.right;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树的右视图(先层次遍历，然后取每一个的最后一位)</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;number[]&#125;
+ */
+var rightSideView = function (root) &#123;
+  const arr = levelOrder(root);
+  let ans = [];
+  arr.map((item) =&gt; &#123;
+    ans.push(item[item.length - 1]);
+  &#125;);
+  return ans;
+&#125;;
+
+var levelOrder = function (root) &#123;
+  if (!root) return [];
+  const res = [];
+  const queue = [root];
+  let currentLevel = [];
+  while (queue.length) &#123;
+    let length = queue.length;
+    for (let i = 0; i &lt; length; i++) &#123;
+      let node = queue.shift();
+      currentLevel.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    &#125;
+    res.push(currentLevel);
+    currentLevel = [];
+  &#125;
+  return res;
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树展开为链表（前序的顺序展开为链表，使用递归后序遍历）</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @return &#123;void&#125; Do not return anything, modify root in-place instead.
+ */
+var flatten = function (root) &#123;
+  let prev = null;
+  let preOrder = (node) =&gt; &#123;
+    if (!node) return;
+    preOrder(node.right);
+    preOrder(node.left);
+    node.right = prev;
+    node.left = null;
+    prev = node;
+  &#125;;
+  preOrder(root);
+&#125;;
+</code></pre>
+<ul>
+<li>从前序与中序遍历序列构造二叉树</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) &#123;
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * &#125;
+ */
+/**
+ * @param &#123;number[]&#125; preorder
+ * @param &#123;number[]&#125; inorder
+ * @return &#123;TreeNode&#125;
+ */
+var buildTree = function (preorder, inorder) &#123;
+  if (preorder.length === 0) return null;
+  let mid = inorder.indexOf(preorder[0]);
+  let root = new TreeNode(preorder[0]);
+  root.left = buildTree(preorder.slice(1, mid + 1), inorder.slice(0, mid));
+  root.right = buildTree(preorder.slice(mid + 1), inorder.slice(mid + 1));
+  return root;
+&#125;;
+</code></pre>
+<ul>
+<li>二叉树的最近公共祖先</li>
+</ul>
+<pre><code class="js">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) &#123;
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * &#125;
+ */
+/**
+ * @param &#123;TreeNode&#125; root
+ * @param &#123;TreeNode&#125; p
+ * @param &#123;TreeNode&#125; q
+ * @return &#123;TreeNode&#125;
+ */
+var lowestCommonAncestor = function (root, p, q) &#123;
+  if (!root || root === p || root === q) &#123;
+    return root;
+  &#125;
+  let left = lowestCommonAncestor(root.left, p, q);
+  let right = lowestCommonAncestor(root.right, p, q);
+  if (!left) return right;
+  if (!right) return left;
+  return root;
+&#125;;
+</code></pre>
+<h3 id="图论"><a href="#图论" class="headerlink" title="图论"></a>图论</h3><ul>
+<li>岛屿数量（dfs次数）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;character[][]&#125; grid
+ * @return &#123;number&#125;
+ */
+var numIslands = function (grid) &#123;
+  let m = grid.length;
+  let n = grid[0].length;
+  let count = 0;
+  let xx = [-1, 0, 1, 0];
+  let yy = [0, 1, 0, -1];
+  const dfs = (grid, i, j) =&gt; &#123;
+    if (i &lt; 0 || j &lt; 0 || i &gt;= m || j &gt;= n || grid[i][j] !== &quot;1&quot;) &#123;
+      return;
+    &#125;
+    grid[i][j] = &quot;2&quot;;
+    for (let k = 0; k &lt; 4; k++) &#123;
+      dfs(grid, i + xx[k], j + yy[k]);
+    &#125;
+  &#125;;
+  for (let i = 0; i &lt; m; i++) &#123;
+    for (let j = 0; j &lt; n; j++) &#123;
+      if (grid[i][j] === &quot;1&quot;) &#123;
+        count++;
+        dfs(grid, i, j);
+      &#125;
+    &#125;
+  &#125;
+
+  return count;
+&#125;;
+</code></pre>
+<ul>
+<li>腐烂的橘子</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[][]&#125; grid
+ * @return &#123;number&#125;
+ */
+var orangesRotting = function (grid) &#123;
+  let queue = [];
+  let fresh = 0;
+  let time = 0;
+  let m = grid.length;
+  let n = grid[0].length;
+  let move = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+  ];
+  for (let i = 0; i &lt; m; i++) &#123;
+    for (let j = 0; j &lt; n; j++) &#123;
+      if (grid[i][j] === 2) queue.push([i, j]);
+      if (grid[i][j] === 1) fresh++;
+    &#125;
+  &#125;
+  while (queue.length) &#123;
+    let size = queue.length;
+    for (i = 0; i &lt; size; i++) &#123;
+      let [x, y] = queue.shift();
+      for (let [dx, dy] of move) &#123;
+        let xx = x + dx;
+        let yy = y + dy;
+        if (xx &gt;= 0 &amp;&amp; xx &lt; m &amp;&amp; yy &gt;= 0 &amp;&amp; yy &lt; n &amp;&amp; grid[xx][yy] === 1) &#123;
+          grid[xx][yy] = 2;
+          fresh--;
+          queue.push([xx, yy]);
+        &#125;
+      &#125;
+    &#125;
+    time++;
+  &#125;
+  return fresh ? -1 : Math.max(0, time - 1);
+&#125;;
+</code></pre>
 
             
         </div>
@@ -847,7 +1635,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/算法" style=color:#ff7d73>
+            <a href="/tags/算法" style=color:#ffa2c4>
                 算法
             </a>
         </span>
@@ -898,7 +1686,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/工具类" style=color:#ff7d73>
+            <a href="/tags/工具类" style=color:#00bcd4>
                 工具类
             </a>
         </span>
@@ -949,7 +1737,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#03a9f4>
+            <a href="/tags/项目部署" style=color:#00bcd4>
                 项目部署
             </a>
         </span>
@@ -1003,7 +1791,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#ffa2c4>
+            <a href="/tags/项目部署" style=color:#03a9f4>
                 项目部署
             </a>
         </span>
@@ -1105,7 +1893,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#ff7d73>
                 前端
             </a>
         </span>
@@ -1156,7 +1944,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#ff7d73>
+            <a href="/tags/前端" style=color:#ffa2c4>
                 前端
             </a>
         </span>
@@ -1261,7 +2049,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00a596>
+            <a href="/tags/前端" style=color:#00bcd4>
                 前端
             </a>
         </span>
@@ -1312,7 +2100,7 @@ var hasCycle = function (head) &#123;
         
         <span class="tag">
             
-            <a href="/tags/手撕代码" style=color:#ffa2c4>
+            <a href="/tags/手撕代码" style=color:#00a596>
                 手撕代码
             </a>
         </span>
