@@ -149,6 +149,195 @@
 
 <div class="post">
 
+    <a href="/随机面试题/">
+        <h2>
+            随机面试题
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2024/3/6
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <!---more--->
+
+<ul>
+<li><p><strong>JavaScript作用域和闭包</strong><br>Q：解释 JavaScript 中的词法作用域（Lexical Scoping）和闭包（Closure）。闭包是如何工作的，它们在实际开发中有哪些用途？<br>A：词法作用域是指一个函数的内部作用域，闭包是函数以及其周围的此法环境，它通常是一个函数，这个函数能访问外部的变量，因此这个变量一直存续在函数存续期间；在实际开发过程中，闭包可以用于将函数和他词法环境绑定，比如计算长方形的面积，当他的宽固定时，就可以写作：</p>
+<pre><code class="js">function calcArea(width)&#123;
+    return (height)=&gt;&#123;
+        return width*height;
+    &#125;
+&#125;
+const area = calcArea(10);
+area(20);
+</code></pre>
+<p>另外，闭包也用于节流、防抖等，但要注意错误的使用闭包会造成内存泄漏。<br>C：实际应用：数据封装（模拟私有变量）、函数柯里化、事件处理器和回调函数</p>
+</li>
+<li><p><strong>异步编程</strong><br>Q：解释 <code>Promise</code> 和 <code>async/await</code> 在 JavaScript 中的作用。如何使用它们处理异步操作？请给出一个使用 <code>async/await</code> 处理 HTTP 请求并捕获错误的示例代码。<br>A：由于js是单线程的，所以一些网络请求等需求需要异步实现，最早使用的方式是回调函数，但是当一个回调函数依赖于另一个回调函数的时候，就会造成回调地狱，promise为了解决这一问题出现，promise的构造函数接受resolve和reject两个参数；async/await是promise的语法糖，实现了用同步的写法实现异步请求。<br>C：promise是一个代表了异步操作最终完成或失败的对象。</p>
+<p>示例代码：</p>
+<pre><code class="js">async function getData()&#123;
+    try&#123;
+        const res = await axios.get(&quot;xx&quot;);
+        console.log(res);
+    &#125;catch(err)&#123;
+        console.log(err);
+    &#125;
+&#125;
+getData();
+</code></pre>
+</li>
+<li><p><strong>CSS布局</strong><br>Q：描述 Flexbox 和 Grid 布局的主要区别。你更倾向于在什么情况下使用 Flexbox，什么情况下使用 Grid？<br>A：flex是弹性盒子，gird是栅格布局，flex较为灵活。<br>C：flexbox是一种布局方法，意味着它能够处理元素在一个方向上的空间分配，flex设计的初衷是为了提供一种有效的方式来布局、对齐和分配在容器中的项目空间，即使大小是未知或动态变化的。 一维布局；<br>grid是二维布局。</p>
+</li>
+<li><p><strong>前端性能优化</strong><br>Q：列举至少五种你可以用来提高网页性能的方法或技术。请解释为什么这些方法会影响性能，并且你是如何决定哪些方法最适合当前项目的。<br>A：1. 使用精灵图，当前端使用较多小尺寸icon的时候，可以考虑把这些合并成一个较大的精灵图，避免多次请求服务器资源；2. 首屏加载优化，可以使用服务端渲染（ssr），加载首屏时直接渲染服务端返回的html，避免因计算样式或加载js脚本影响加载速度； 3. 减少页面的重排和重绘，尽量避免使用table，因为table中一个小的变化会引起整个页面的重排； 4. 使用缓存，当资源未发生改变时，使用本地缓存可以提高用户体验； 5. 开启gzip加速，前端资源通过gzip打包放在服务器上，减少文件体积，加快获取速度。<br>C：决定使用什么优化技术：分析网站或应用的性能瓶颈。</p>
+</li>
+<li><p><strong>Web安全</strong><br>Q：解释跨站脚本攻击（XSS）和跨站请求伪造（CSRF）的区别。你会如何防御这两种攻击？<br>A： XSS是通过在url、文本字段中注入script脚本实现的，比如在访问页面网址时携带参数，参数内包含script脚本，页面通过参数解析，执行恶意脚本；或者在评论区内提交一段script脚本，看到的用户都会遭受攻击；<br>CSRF是利用用户的授权信息去伪造请求，比如引导用户点击危险网站，恶意脚本会利用用户的身份认证去伪造危险行为。<br>为了防范XSS，可以对js代码进行转义、过滤用户输入等；防范CSRF可以防止页面注入iframe、使用csrf token验证等。</p>
+</li>
+</ul>
+<hr>
+<h3 id="1-实现一个-Promise-all"><a href="#1-实现一个-Promise-all" class="headerlink" title="1. 实现一个 Promise.all"></a>1. 实现一个 Promise.all</h3><p><strong>题目</strong>：请手写实现一个 <code>Promise.all</code> 函数，该函数接收一个 Promise 对象的数组作为参数，并返回一个新的 Promise 实例。新的 Promise 实例在所有输入 Promise 都成功解决时解决，返回值是一个包含所有输入 Promise 解决值的数组。如果任何一个输入 Promise 被拒绝，新的 Promise 立即拒绝，拒绝的原因是第一个拒绝的 Promise 的原因。</p>
+<pre><code class="js">function promiseAll(promises) &#123;
+  let result = new Array(promises.length);
+  let success = 0;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promises.forEach((promise, index) =&gt; &#123;
+      promise
+        .then((res) =&gt; &#123;
+          result[index] = res;
+          success++;
+          if (success === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;)
+        .catch((e) =&gt; &#123;
+          reject(e);
+        &#125;);
+    &#125;);
+  &#125;);
+&#125;
+function promiseAllSettled(promises) &#123;
+  let result = new Array(promises.length);
+  let count = 0;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promises.forEach((promise, index) =&gt; &#123;
+      promise
+        .then((res) =&gt; &#123;
+          result[index] = &#123; state: &quot;fulfilled&quot;, value: res &#125;;
+          count++;
+          if (count === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;)
+        .catch((err) =&gt; &#123;
+          result[index] = &#123; state: &quot;rejected&quot;, err &#125;;
+          count++;
+          if (count === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;);
+    &#125;);
+  &#125;);
+&#125;
+
+let p1 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    resolve(&quot;p1&quot;);
+  &#125;, 1000);
+&#125;);
+let p2 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    resolve(&quot;p2&quot;);
+  &#125;, 2000);
+&#125;);
+let p3 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    reject(&quot;p3&quot;);
+  &#125;, 3000);
+&#125;);
+promiseAll([p1, p2, p3])
+  .then((res) =&gt; &#123;
+    console.log(res);
+  &#125;)
+  .catch((err) =&gt; &#123;
+    console.log(err);
+  &#125;);
+promiseAllSettled([p1, p2, p3])
+  .then((res) =&gt; &#123;
+    console.log(res);
+  &#125;)
+  .catch((err) =&gt; &#123;
+    console.log(err);
+  &#125;);
+</code></pre>
+<h3 id="2-实现一个简单的路由"><a href="#2-实现一个简单的路由" class="headerlink" title="2. 实现一个简单的路由"></a>2. 实现一个简单的路由</h3><p><strong>题目</strong>：在不使用任何前端路由库的情况下，如何实现一个简单的前端路由（SPA）功能？请描述你的思路，并给出基本的实现代码。</p>
+<h3 id="3-实现防抖（Debounce）函数"><a href="#3-实现防抖（Debounce）函数" class="headerlink" title="3. 实现防抖（Debounce）函数"></a>3. 实现防抖（Debounce）函数</h3><p><strong>题目</strong>：请实现一个防抖（Debounce）函数。防抖函数接收一个函数和等待时间作为参数，并返回一个新的函数。返回的新函数在被连续调用时，只有在等待时间过去后才会执行原函数，如果在等待时间内再次被调用，则重新计时。</p>
+<pre><code class="js">function debounce(func, wait) &#123;
+  let timeout = null;
+  return function () &#123;
+    clearTimeout(timeout);
+    let arg = arguments;
+    let _this = this;
+    timeout = setTimeout(() =&gt; &#123;
+      func.apply(_this, arg);
+    &#125;, wait);
+  &#125;;
+&#125;
+
+let add = (a, b) =&gt; &#123;
+  console.log(a + b);
+&#125;;
+const debounceAdd = debounce(add, 1000);
+setTimeout(() =&gt; &#123;
+  debounceAdd(1, 2);
+&#125;, 200);
+setTimeout(() =&gt; &#123;
+  debounceAdd(1, 2);
+&#125;, 200);
+</code></pre>
+<h3 id="4-实现一个简单的模板引擎"><a href="#4-实现一个简单的模板引擎" class="headerlink" title="4. 实现一个简单的模板引擎"></a>4. 实现一个简单的模板引擎</h3><p><strong>题目</strong>：实现一个简单的模板引擎，它能够将类似于 <code>&quot;Hello, &#123;&#123;name&#125;&#125;!&quot;</code> 的模板字符串和一个对象如 <code>&#123;name: &quot;World&quot;&#125;</code> 作为输入，并输出 <code>&quot;Hello, World!&quot;</code>。请描述你的实现思路，并给出代码。</p>
+<h3 id="5-CSS-垂直居中的方法"><a href="#5-CSS-垂直居中的方法" class="headerlink" title="5. CSS 垂直居中的方法"></a>5. CSS 垂直居中的方法</h3><p><strong>题目</strong>：请列举至少三种使得一个元素在其父元素中垂直居中的方法，并简要描述每种方法的原理和使用场景。</p>
+<hr>
+<p>这些题目覆盖了前端开发的几个重要方面，包括异步编程、前端路由、函数式编程技巧、简单的模板处理以及CSS布局技巧。它们不仅考察了候选人的编码能力，也考察了对前端技术的理解和应用能力。在准备面试时，能够解答这些题目将有助于展示你的前端开发技能。</p>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/前端" style=color:#00a596>
+                前端
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/随机面试题/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/LeetCode-Hot100/">
         <h2>
             LeetCode Hot100
@@ -1621,6 +1810,734 @@ var orangesRotting = function (grid) &#123;
   return fresh ? -1 : Math.max(0, time - 1);
 &#125;;
 </code></pre>
+<ul>
+<li>课程表（bfs，记录入度和每个课程的后续课程）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number&#125; numCourses
+ * @param &#123;number[][]&#125; prerequisites
+ * @return &#123;boolean&#125;
+ */
+var canFinish = function (numCourses, prerequisites) &#123;
+  let inDegree = new Array(numCourses).fill(0);
+  let map = new Map();
+  let count = 0;
+  for (let i = 0; i &lt; prerequisites.length; i++) &#123;
+    if (map.has(prerequisites[i][1])) &#123;
+      map.get(prerequisites[i][1]).push(prerequisites[i][0]);
+    &#125; else &#123;
+      map.set(prerequisites[i][1], [prerequisites[i][0]]);
+    &#125;
+    inDegree[prerequisites[i][0]]++;
+  &#125;
+  let queue = [];
+  for (let i = 0; i &lt; numCourses; i++) &#123;
+    if (inDegree[i] === 0) &#123;
+      queue.push(i);
+    &#125;
+  &#125;
+  while (queue.length) &#123;
+    let current = queue.shift();
+    count++;
+    let children = map.get(current);
+    children &amp;&amp;
+      children.map((child) =&gt; &#123;
+        inDegree[child]--;
+        if (inDegree[child] === 0) &#123;
+          queue.push(child);
+        &#125;
+      &#125;);
+  &#125;
+  return count === numCourses;
+&#125;;
+</code></pre>
+<h3 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h3><ul>
+<li>全排列</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[][]&#125;
+ */
+var permute = function (nums) &#123;
+  let res = [];
+  if (!nums.length) return res;
+  const dfs = (path) =&gt; &#123;
+    if (path.length === nums.length) &#123;
+      res.push(path);
+      return;
+    &#125;
+    for (let i = 0; i &lt; nums.length; i++) &#123;
+      if (!path.includes(nums[i])) &#123;
+        dfs(path.concat(nums[i]));
+      &#125;
+    &#125;
+  &#125;;
+  dfs([]);
+  return res;
+&#125;;
+</code></pre>
+<ul>
+<li>子集（重做）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number[][]&#125;
+ */
+var subsets = function (nums) &#123;
+  let result = [];
+  let dfs = (start, path) =&gt; &#123;
+    result.push(path);
+    for (let i = start; i &lt; nums.length; i++) &#123;
+      dfs(i + 1, [...path, nums[i]]);
+    &#125;
+  &#125;;
+  dfs(0, []);
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>电话号码的字母组合</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; digits
+ * @return &#123;string[]&#125;
+ */
+var letterCombinations = function (digits) &#123;
+  if (digits.length === 0) return [];
+  let map = &#123;
+    2: &quot;abc&quot;,
+    3: &quot;def&quot;,
+    4: &quot;ghi&quot;,
+    5: &quot;jkl&quot;,
+    6: &quot;mno&quot;,
+    7: &quot;pqrs&quot;,
+    8: &quot;tuv&quot;,
+    9: &quot;wxyz&quot;,
+  &#125;;
+  let result = [];
+
+  const dfs = (index, str) =&gt; &#123;
+    if (index === digits.length) &#123;
+      result.push(str);
+      return;
+    &#125;
+    for (let i = 0; i &lt; map[digits[index]].length; i++) &#123;
+      dfs(index + 1, str + map[digits[index]][i]);
+    &#125;
+  &#125;;
+  dfs(0, &quot;&quot;);
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>组合总和（先找数再去重）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; candidates
+ * @param &#123;number&#125; target
+ * @return &#123;number[][]&#125;
+ */
+var combinationSum = function (candidates, target) &#123;
+  let set = new Set();
+  let result = [];
+  const dfs = (path, sum) =&gt; &#123;
+    if (sum &gt; target) return;
+    if (sum === target) &#123;
+      path.sort((a, b) =&gt; a - b);
+      set.add(JSON.stringify(path));
+      return;
+    &#125;
+    for (let i = 0; i &lt; candidates.length; i++) &#123;
+      dfs(path.concat(candidates[i]), sum + candidates[i]);
+    &#125;
+  &#125;;
+  dfs([], 0);
+  result = Array.from(set).map((item) =&gt; JSON.parse(item));
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>括号生成(左右括号数量)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number&#125; n
+ * @return &#123;string[]&#125;
+ */
+var generateParenthesis = function (n) &#123;
+  if (n &lt;= 0) return [];
+  let result = [];
+  const dfs = (left, right, str) =&gt; &#123;
+    if (!left &amp;&amp; !right) &#123;
+      result.push(str);
+      return;
+    &#125;
+    if (left === right) &#123;
+      dfs(left - 1, right, str + &quot;(&quot;);
+    &#125; else if (left &lt; right) &#123;
+      if (left &gt; 0) dfs(left - 1, right, str + &quot;(&quot;);
+      dfs(left, right - 1, str + &quot;)&quot;);
+    &#125;
+  &#125;;
+  dfs(n, n, &quot;&quot;);
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>单词搜索</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;character[][]&#125; board
+ * @param &#123;string&#125; word
+ * @return &#123;boolean&#125;
+ */
+var exist = function (board, word) &#123;
+  let m = board.length;
+  let n = board[0].length;
+  let move = [
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0],
+  ];
+  let ans = false;
+  let visited = Array(m)
+    .fill(0)
+    .map(() =&gt; Array(n).fill(false));
+
+  const dfs = (x, y, word) =&gt; &#123;
+    if (board[x][y] !== word[0]) return;
+    if (word.length === 1) &#123;
+      ans = true;
+      return;
+    &#125;
+    visited[x][y] = true;
+    for (let i = 0; i &lt; 4; i++) &#123;
+      let xx = x + move[i][0];
+      let yy = y + move[i][1];
+      if (xx &gt;= 0 &amp;&amp; yy &gt;= 0 &amp;&amp; xx &lt; m &amp;&amp; yy &lt; n &amp;&amp; !visited[xx][yy]) &#123;
+        dfs(xx, yy, word.substring(1));
+        visited[xx][yy] = false;
+      &#125;
+    &#125;
+  &#125;;
+  for (let i = 0; i &lt; m; i++) &#123;
+    let index = board[i].indexOf(word[0]);
+    while (index !== -1 &amp;&amp; !ans) &#123;
+      dfs(i, index, word);
+      visited[i][index] = false;
+      index = board[i].indexOf(word[0], index + 1);
+    &#125;
+  &#125;
+  return ans;
+&#125;;
+</code></pre>
+<h3 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h3><ul>
+<li>搜索插入位置</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; target
+ * @return &#123;number&#125;
+ */
+var searchInsert = function (nums, target) &#123;
+  let left = 0;
+  let right = nums.length - 1;
+  while (left &lt;= right) &#123;
+    let mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) &#123;
+      return mid;
+    &#125; else if (nums[mid] &lt; target) &#123;
+      left = mid + 1;
+    &#125; else &#123;
+      right = mid - 1;
+    &#125;
+  &#125;
+  return left;
+&#125;;
+</code></pre>
+<ul>
+<li>搜索二维矩阵（二维二分，注意 边界）</li>
+</ul>
+<pre><code class="JS">/**
+ * @param &#123;number[][]&#125; matrix
+ * @param &#123;number&#125; target
+ * @return &#123;boolean&#125;
+ */
+var searchMatrix = function (matrix, target) &#123;
+  if (matrix.length === 0 || matrix[0].length === 0) &#123;
+    return false;
+  &#125;
+  if (
+    target &lt; matrix[0][0] ||
+    target &gt; matrix[matrix.length - 1][matrix[0].length - 1]
+  )
+    return false;
+  let m = matrix.length;
+  let n = matrix[0].length;
+
+  const getRow = () =&gt; &#123;
+    let l = 0;
+    let r = m - 1;
+    while (l &lt;= r) &#123;
+      let mid = Math.floor((l + r) / 2);
+      if (matrix[mid][0] &lt;= target &amp;&amp; matrix[mid][n - 1] &gt;= target) &#123;
+        return mid;
+      &#125; else if (matrix[mid][0] &gt; target) &#123;
+        r = mid - 1;
+      &#125; else &#123;
+        l = mid + 1;
+      &#125;
+    &#125;
+    return l;
+  &#125;;
+  const row = getRow();
+  let l = 0;
+  let r = n - 1;
+  while (l &lt;= r) &#123;
+    let mid = Math.floor((l + r) / 2);
+    if (matrix[row][mid] === target) &#123;
+      return true;
+    &#125; else if (matrix[row][mid] &lt; target) &#123;
+      l = mid + 1;
+    &#125; else &#123;
+      r = mid - 1;
+    &#125;
+  &#125;
+  return matrix[row][l] === target;
+&#125;;
+</code></pre>
+<ul>
+<li>在排序数组中查找元素的第一个和最后一个位置(取巧，找target+0.5和-0.5)</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; target
+ * @return &#123;number[]&#125;
+ */
+var searchRange = function (nums, target) &#123;
+  let target1 = target - 0.5;
+  let target2 = target + 0.5;
+
+  const find = (target) =&gt; &#123;
+    let l = 0,
+      r = nums.length - 1;
+    while (l &lt;= r) &#123;
+      let mid = Math.floor((l + r) / 2);
+      if (nums[mid] &lt; target) &#123;
+        l = mid + 1;
+      &#125; else &#123;
+        r = mid - 1;
+      &#125;
+    &#125;
+    return l;
+  &#125;;
+  let left = find(target1);
+  let right = find(target2);
+  if (nums[left] === target &amp;&amp; nums[right - 1] === target) &#123;
+    return [left, right - 1];
+  &#125; else &#123;
+    return [-1, -1];
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>搜索旋转排序数组</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @param &#123;number&#125; target
+ * @return &#123;number&#125;
+ */
+var search = function (nums, target) &#123;
+  let l = 0,
+    r = nums.length - 1;
+  while (l &lt;= r) &#123;
+    let mid = Math.floor((l + r) / 2);
+    if (nums[mid] === target) return mid;
+    if (nums[l] &lt;= nums[mid]) &#123;
+      if (nums[l] &lt;= target &amp;&amp; target &lt; nums[mid]) r = mid - 1;
+      else l = mid + 1;
+    &#125; else &#123;
+      if (nums[mid] &lt; target &amp;&amp; target &lt;= nums[r]) l = mid + 1;
+      else r = mid - 1;
+    &#125;
+  &#125;
+  return -1;
+&#125;;
+</code></pre>
+<ul>
+<li>寻找旋转排序数组中的最小值</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var findMin = function (nums) &#123;
+  let l = 0;
+  let r = nums.length - 1;
+  while (l &lt;= r) &#123;
+    if (l === r) &#123;
+      return nums[l];
+    &#125;
+    let mid = Math.floor((l + r) / 2);
+    if (nums[mid] &lt; nums[r]) &#123;
+      r = mid;
+    &#125; else &#123;
+      l = mid + 1;
+    &#125;
+  &#125;
+  return nums[l];
+&#125;;
+</code></pre>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><ul>
+<li>括号匹配</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; s
+ * @return &#123;boolean&#125;
+ */
+var isValid = function (s) &#123;
+  let stack = [];
+  let map = &#123;
+    &quot;(&quot;: &quot;)&quot;,
+    &quot;&#123;&quot;: &quot;&#125;&quot;,
+    &quot;[&quot;: &quot;]&quot;,
+  &#125;;
+  for (let i = 0; i &lt; s.length; i++) &#123;
+    if (s[i] === &quot;(&quot; || s[i] === &quot;&#123;&quot; || s[i] === &quot;[&quot;) &#123;
+      stack.push(s[i]);
+    &#125; else &#123;
+      let last = stack.pop();
+      if (s[i] !== map[last]) &#123;
+        return false;
+      &#125;
+    &#125;
+  &#125;
+  return stack.length === 0;
+&#125;;
+</code></pre>
+<ul>
+<li>最小栈</li>
+</ul>
+<pre><code class="js">var MinStack = function () &#123;
+  this.stack = [];
+  this.minStack = [];
+&#125;;
+
+/**
+ * @param &#123;number&#125; val
+ * @return &#123;void&#125;
+ */
+MinStack.prototype.push = function (val) &#123;
+  this.stack.push(val);
+  if (
+    this.minStack.length === 0 ||
+    val &lt;= this.minStack[this.minStack.length - 1]
+  ) &#123;
+    this.minStack.push(val);
+  &#125; else &#123;
+    this.minStack.push(this.minStack[this.minStack.length - 1]);
+  &#125;
+&#125;;
+
+/**
+ * @return &#123;void&#125;
+ */
+MinStack.prototype.pop = function () &#123;
+  this.stack.pop();
+  this.minStack.pop();
+&#125;;
+
+/**
+ * @return &#123;number&#125;
+ */
+MinStack.prototype.top = function () &#123;
+  return this.stack[this.stack.length - 1];
+&#125;;
+
+/**
+ * @return &#123;number&#125;
+ */
+MinStack.prototype.getMin = function () &#123;
+  return this.minStack[this.minStack.length - 1];
+&#125;;
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * var obj = new MinStack()
+ * obj.push(val)
+ * obj.pop()
+ * var param_3 = obj.top()
+ * var param_4 = obj.getMin()
+ */
+</code></pre>
+<ul>
+<li>字符串编码</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; s
+ * @return &#123;string&#125;
+ */
+var decodeString = function (s) &#123;
+  let queue = [];
+  let ans = &quot;&quot;;
+  for (let i = 0; i &lt; s.length; i++) &#123;
+    if (s[i] !== &quot;]&quot;) &#123;
+      queue.push(s[i]);
+    &#125; else &#123;
+      let current = queue.pop();
+      let temp = &quot;&quot;;
+      let count = 0;
+      let times = 0;
+      while (current !== &quot;[&quot;) &#123;
+        temp = current + temp;
+        current = queue.pop();
+      &#125;
+      while (queue.length &gt; 0 &amp;&amp; !isNaN(queue[queue.length - 1])) &#123;
+        count = count + Math.pow(10, times) * parseInt(queue.pop());
+        times++;
+      &#125;
+      queue.push(temp.repeat(count));
+    &#125;
+  &#125;
+  return queue.join(&quot;&quot;);
+&#125;;
+</code></pre>
+<ul>
+<li>每日温度</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; temperatures
+ * @return &#123;number[]&#125;
+ */
+var dailyTemperatures = function (temperatures) &#123;
+  let ans = new Array(temperatures.length).fill(0);
+  let queue = [];
+  for (let i = 0; i &lt; temperatures.length; i++) &#123;
+    if (!queue.length) &#123;
+      queue.push(&#123; index: i, value: temperatures[i] &#125;);
+    &#125; else &#123;
+      let top = queue[queue.length - 1];
+      if (temperatures[i] &lt; top.value) &#123;
+        queue.push(&#123; index: i, value: temperatures[i] &#125;);
+      &#125; else &#123;
+        while (
+          queue.length &amp;&amp;
+          temperatures[i] &gt; queue[queue.length - 1].value
+        ) &#123;
+          let top = queue.pop();
+          ans[top.index] = i - top.index;
+        &#125;
+        queue.push(&#123; index: i, value: temperatures[i] &#125;);
+      &#125;
+    &#125;
+  &#125;
+  return ans;
+&#125;;
+</code></pre>
+<h3 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h3><ul>
+<li>买卖股票的最佳时机</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; prices
+ * @return &#123;number&#125;
+ */
+var maxProfit = function(prices) &#123;
+    let min = Infinity;
+    let max = 0;
+    for(let i=0;i&lt;prices.length;i++)&#123;
+        if(prices[i]&lt;min)&#123;
+            min = prices[i];
+        &#125;
+        max = Math.max(max,prices[i]-min);
+    &#125;
+    return max;
+&#125;;
+</code></pre>
+<ul>
+<li>跳跃游戏（倒序遍历）</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;boolean&#125;
+ */
+var canJump = function(nums) &#123;
+    if(nums.length&lt;=1) return true;
+    let len = 1;
+    for(let i = nums.length-2;i&gt;0;i--)&#123;
+        if(nums[i]&gt;=len)&#123;
+            len = 1;
+        &#125;else&#123;
+            len++;
+        &#125;
+    &#125;
+    if(nums[0]&gt;=len) return true;
+    return false;
+&#125;;
+</code></pre>
+<ul>
+<li>跳跃游戏II</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var jump = function(nums) &#123;
+    let ans = 0;
+    let maxPos = 0;
+    let end = 0;
+    for(let i=0;i&lt;nums.length-1;i++)&#123;
+        maxPos = Math.max(maxPos,i+nums[i]);
+        if(end===i)&#123;
+            end = maxPos; 
+            ans++;
+        &#125;
+    &#125;
+    return ans;
+&#125;;
+</code></pre>
+<ul>
+<li>划分字母区间</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;string&#125; s
+ * @return &#123;number[]&#125;
+ */
+var partitionLabels = function(s) &#123;
+    let start = 0;
+    let end = 0;
+    let ans = [];
+    let last = [];
+    for(let i = 0;i&lt;s.length;i++)&#123;
+        last[s[i]] = i;
+    &#125;
+    for(let i=0;i&lt;s.length;i++)&#123;
+        end = Math.max(end,last[s[i]]);
+        if(i===end)&#123;
+            ans.push(end-start+1);
+            start = end+1;
+        &#125;
+    &#125;
+    return ans;
+&#125;;
+</code></pre>
+<ul>
+<li>爬楼梯</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number&#125; n
+ * @return &#123;number&#125;
+ */
+var climbStairs = function (n) &#123;
+  let dp = new Array(n + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = 1;
+  for (let i = 2; i &lt;= n; i++) &#123;
+    dp[i] = dp[i - 1] + dp[i - 2];
+  &#125;
+  return dp[n];
+&#125;;
+</code></pre>
+<ul>
+<li>杨辉三角</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number&#125; numRows
+ * @return &#123;number[][]&#125;
+ */
+var generate = function (numRows) &#123;
+  const result = [];
+  for (let i = 0; i &lt; numRows; i++) &#123;
+    const row = [];
+    for (let j = 0; j &lt;= i; j++) &#123;
+      if (j === 0 || j === i) &#123;
+        row.push(1);
+      &#125; else &#123;
+        row.push(result[i - 1][j - 1] + result[i - 1][j]);
+      &#125;
+    &#125;
+    result.push(row);
+  &#125;
+  return result;
+&#125;;
+</code></pre>
+<ul>
+<li>打家劫舍</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var rob = function (nums) &#123;
+  if (nums.length &lt; 2) &#123;
+    return nums[0];
+  &#125;
+  let dp = new Array(nums.length).fill(0);
+  dp[0] = nums[0];
+  dp[1] = Math.max(nums[0], nums[1]);
+  for (let i = 2; i &lt; nums.length; i++) &#123;
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+  &#125;
+  return dp[nums.length - 1];
+&#125;;
+</code></pre>
+<ul>
+<li>完全平方数</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number&#125; n
+ * @return &#123;number&#125;
+ */
+var numSquares = function (n) &#123;
+  let dp = new Array(n + 1).fill(0);
+  for (let i = 1; i &lt;= n; i++) &#123;
+    let min = Infinity;
+    for (let j = 1; j * j &lt;= i; j++) &#123;
+      min = Math.min(min, dp[i - j * j]);
+    &#125;
+    dp[i] = min + 1;
+  &#125;
+  return dp[n];
+&#125;;
+</code></pre>
+<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
+<li>只出现一次的数字</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var singleNumber = function (nums) &#123;
+  let ans = nums[0];
+  for (let i = 1; i &lt; nums.length; i++) &#123;
+    ans ^= nums[i];
+  &#125;
+  return ans;
+&#125;;
+</code></pre>
+<ul>
+<li>多数元素</li>
+</ul>
+<pre><code class="js">/**
+ * @param &#123;number[]&#125; nums
+ * @return &#123;number&#125;
+ */
+var majorityElement = function(nums) &#123;
+    let ans = 0;
+    let count = 0;
+    for(let i=0;i&lt;nums.length;i++)&#123;
+        if(count===0)&#123;
+            ans = nums[i];
+        &#125;
+        if(ans===nums[i])&#123;
+            count++;
+        &#125;else&#123;
+            count--;
+        &#125;
+    &#125;
+    return ans;
+&#125;;
+</code></pre>
 
             
         </div>
@@ -1635,7 +2552,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/算法" style=color:#ffa2c4>
+            <a href="/tags/算法" style=color:#03a9f4>
                 算法
             </a>
         </span>
@@ -1686,7 +2603,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/工具类" style=color:#00bcd4>
+            <a href="/tags/工具类" style=color:#03a9f4>
                 工具类
             </a>
         </span>
@@ -1737,7 +2654,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#00bcd4>
+            <a href="/tags/项目部署" style=color:#ff7d73>
                 项目部署
             </a>
         </span>
@@ -1791,7 +2708,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/项目部署" style=color:#03a9f4>
+            <a href="/tags/项目部署" style=color:#00a596>
                 项目部署
             </a>
         </span>
@@ -1842,7 +2759,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#03a9f4>
                 前端
             </a>
         </span>
@@ -1893,7 +2810,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#ff7d73>
+            <a href="/tags/前端" style=color:#00a596>
                 前端
             </a>
         </span>
@@ -1944,7 +2861,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#ffa2c4>
+            <a href="/tags/前端" style=color:#00a596>
                 前端
             </a>
         </span>
@@ -1998,7 +2915,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#00a596>
                 前端
             </a>
         </span>
@@ -2049,7 +2966,7 @@ var orangesRotting = function (grid) &#123;
         
         <span class="tag">
             
-            <a href="/tags/前端" style=color:#00bcd4>
+            <a href="/tags/前端" style=color:#03a9f4>
                 前端
             </a>
         </span>
@@ -2057,57 +2974,6 @@ var orangesRotting = function (grid) &#123;
     </div>
 
     <a href="/BFC/ " class="go-post">
-        阅读全文
-    </a>
-</div>
-
-<div class="post">
-
-    <a href="/深浅拷贝/">
-        <h2>
-            深浅拷贝
-        </h2>
-    </a>
-
-    <div class="category-and-date">
-
-        
-
-        <span class="date">
-            <span class="icon">
-                <a-icon type="calendar" theme="filled" />
-            </span>
-            2023/3/11
-        </span>
-
-    </div>
-
-    <div class="excerpt">
-        <div class="content" v-pre>
-            
-            <p>深浅拷贝都<strong>只针对于引用数据类型</strong>，浅拷贝只复制指向某个对象的指针，而不复制对象本身，修改副本会改动原对象，深拷贝不会。</p>
-            
-            
-        </div>
-    </div>
-
-    <div class="post-tags">
-        
-        <span class="icon">
-            <a-icon type="tags" theme="filled" />
-        </span>
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/手撕代码" style=color:#00a596>
-                手撕代码
-            </a>
-        </span>
-        
-    </div>
-
-    <a href="/深浅拷贝/ " class="go-post">
         阅读全文
     </a>
 </div>

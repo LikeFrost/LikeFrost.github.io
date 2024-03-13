@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摸鱼日志 || 随机面试题</title>
+    <meta name="author" content="Like Frost">
+    <meta name="description" content="吾生也有涯，而知也无涯 ">
+    <meta name="keywords" content="编程,coding,个人博客 ">
+    <link rel="icon" href="/images/avatar.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">摸鱼日志</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="outlined" />
+            </span>
+            <span>首页</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="outlined" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="ordered-list" theme="outlined" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>摸鱼日志</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">首页</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="ordered-list" theme="outlined" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>随机面试题 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2024/3/6
+        </span>
+
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/前端" style=color:#ff7d73>
+                    前端
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <!---more--->
+
+<ul>
+<li><p><strong>JavaScript作用域和闭包</strong><br>Q：解释 JavaScript 中的词法作用域（Lexical Scoping）和闭包（Closure）。闭包是如何工作的，它们在实际开发中有哪些用途？<br>A：词法作用域是指一个函数的内部作用域，闭包是函数以及其周围的此法环境，它通常是一个函数，这个函数能访问外部的变量，因此这个变量一直存续在函数存续期间；在实际开发过程中，闭包可以用于将函数和他词法环境绑定，比如计算长方形的面积，当他的宽固定时，就可以写作：</p>
+<pre><code class="js">function calcArea(width)&#123;
+    return (height)=&gt;&#123;
+        return width*height;
+    &#125;
+&#125;
+const area = calcArea(10);
+area(20);
+</code></pre>
+<p>另外，闭包也用于节流、防抖等，但要注意错误的使用闭包会造成内存泄漏。<br>C：实际应用：数据封装（模拟私有变量）、函数柯里化、事件处理器和回调函数</p>
+</li>
+<li><p><strong>异步编程</strong><br>Q：解释 <code>Promise</code> 和 <code>async/await</code> 在 JavaScript 中的作用。如何使用它们处理异步操作？请给出一个使用 <code>async/await</code> 处理 HTTP 请求并捕获错误的示例代码。<br>A：由于js是单线程的，所以一些网络请求等需求需要异步实现，最早使用的方式是回调函数，但是当一个回调函数依赖于另一个回调函数的时候，就会造成回调地狱，promise为了解决这一问题出现，promise的构造函数接受resolve和reject两个参数；async/await是promise的语法糖，实现了用同步的写法实现异步请求。<br>C：promise是一个代表了异步操作最终完成或失败的对象。</p>
+<p>示例代码：</p>
+<pre><code class="js">async function getData()&#123;
+    try&#123;
+        const res = await axios.get(&quot;xx&quot;);
+        console.log(res);
+    &#125;catch(err)&#123;
+        console.log(err);
+    &#125;
+&#125;
+getData();
+</code></pre>
+</li>
+<li><p><strong>CSS布局</strong><br>Q：描述 Flexbox 和 Grid 布局的主要区别。你更倾向于在什么情况下使用 Flexbox，什么情况下使用 Grid？<br>A：flex是弹性盒子，gird是栅格布局，flex较为灵活。<br>C：flexbox是一种布局方法，意味着它能够处理元素在一个方向上的空间分配，flex设计的初衷是为了提供一种有效的方式来布局、对齐和分配在容器中的项目空间，即使大小是未知或动态变化的。 一维布局；<br>grid是二维布局。</p>
+</li>
+<li><p><strong>前端性能优化</strong><br>Q：列举至少五种你可以用来提高网页性能的方法或技术。请解释为什么这些方法会影响性能，并且你是如何决定哪些方法最适合当前项目的。<br>A：1. 使用精灵图，当前端使用较多小尺寸icon的时候，可以考虑把这些合并成一个较大的精灵图，避免多次请求服务器资源；2. 首屏加载优化，可以使用服务端渲染（ssr），加载首屏时直接渲染服务端返回的html，避免因计算样式或加载js脚本影响加载速度； 3. 减少页面的重排和重绘，尽量避免使用table，因为table中一个小的变化会引起整个页面的重排； 4. 使用缓存，当资源未发生改变时，使用本地缓存可以提高用户体验； 5. 开启gzip加速，前端资源通过gzip打包放在服务器上，减少文件体积，加快获取速度。<br>C：决定使用什么优化技术：分析网站或应用的性能瓶颈。</p>
+</li>
+<li><p><strong>Web安全</strong><br>Q：解释跨站脚本攻击（XSS）和跨站请求伪造（CSRF）的区别。你会如何防御这两种攻击？<br>A： XSS是通过在url、文本字段中注入script脚本实现的，比如在访问页面网址时携带参数，参数内包含script脚本，页面通过参数解析，执行恶意脚本；或者在评论区内提交一段script脚本，看到的用户都会遭受攻击；<br>CSRF是利用用户的授权信息去伪造请求，比如引导用户点击危险网站，恶意脚本会利用用户的身份认证去伪造危险行为。<br>为了防范XSS，可以对js代码进行转义、过滤用户输入等；防范CSRF可以防止页面注入iframe、使用csrf token验证等。</p>
+</li>
+</ul>
+<hr>
+<h3 id="1-实现一个-Promise-all"><a href="#1-实现一个-Promise-all" class="headerlink" title="1. 实现一个 Promise.all"></a>1. 实现一个 Promise.all</h3><p><strong>题目</strong>：请手写实现一个 <code>Promise.all</code> 函数，该函数接收一个 Promise 对象的数组作为参数，并返回一个新的 Promise 实例。新的 Promise 实例在所有输入 Promise 都成功解决时解决，返回值是一个包含所有输入 Promise 解决值的数组。如果任何一个输入 Promise 被拒绝，新的 Promise 立即拒绝，拒绝的原因是第一个拒绝的 Promise 的原因。</p>
+<pre><code class="js">function promiseAll(promises) &#123;
+  let result = new Array(promises.length);
+  let success = 0;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promises.forEach((promise, index) =&gt; &#123;
+      promise
+        .then((res) =&gt; &#123;
+          result[index] = res;
+          success++;
+          if (success === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;)
+        .catch((e) =&gt; &#123;
+          reject(e);
+        &#125;);
+    &#125;);
+  &#125;);
+&#125;
+function promiseAllSettled(promises) &#123;
+  let result = new Array(promises.length);
+  let count = 0;
+  return new Promise((resolve, reject) =&gt; &#123;
+    promises.forEach((promise, index) =&gt; &#123;
+      promise
+        .then((res) =&gt; &#123;
+          result[index] = &#123; state: &quot;fulfilled&quot;, value: res &#125;;
+          count++;
+          if (count === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;)
+        .catch((err) =&gt; &#123;
+          result[index] = &#123; state: &quot;rejected&quot;, err &#125;;
+          count++;
+          if (count === promises.length) &#123;
+            resolve(result);
+          &#125;
+        &#125;);
+    &#125;);
+  &#125;);
+&#125;
+
+let p1 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    resolve(&quot;p1&quot;);
+  &#125;, 1000);
+&#125;);
+let p2 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    resolve(&quot;p2&quot;);
+  &#125;, 2000);
+&#125;);
+let p3 = new Promise((resolve, reject) =&gt; &#123;
+  setTimeout(() =&gt; &#123;
+    reject(&quot;p3&quot;);
+  &#125;, 3000);
+&#125;);
+promiseAll([p1, p2, p3])
+  .then((res) =&gt; &#123;
+    console.log(res);
+  &#125;)
+  .catch((err) =&gt; &#123;
+    console.log(err);
+  &#125;);
+promiseAllSettled([p1, p2, p3])
+  .then((res) =&gt; &#123;
+    console.log(res);
+  &#125;)
+  .catch((err) =&gt; &#123;
+    console.log(err);
+  &#125;);
+</code></pre>
+<h3 id="2-实现一个简单的路由"><a href="#2-实现一个简单的路由" class="headerlink" title="2. 实现一个简单的路由"></a>2. 实现一个简单的路由</h3><p><strong>题目</strong>：在不使用任何前端路由库的情况下，如何实现一个简单的前端路由（SPA）功能？请描述你的思路，并给出基本的实现代码。</p>
+<h3 id="3-实现防抖（Debounce）函数"><a href="#3-实现防抖（Debounce）函数" class="headerlink" title="3. 实现防抖（Debounce）函数"></a>3. 实现防抖（Debounce）函数</h3><p><strong>题目</strong>：请实现一个防抖（Debounce）函数。防抖函数接收一个函数和等待时间作为参数，并返回一个新的函数。返回的新函数在被连续调用时，只有在等待时间过去后才会执行原函数，如果在等待时间内再次被调用，则重新计时。</p>
+<pre><code class="js">function debounce(func, wait) &#123;
+  let timeout = null;
+  return function () &#123;
+    clearTimeout(timeout);
+    let arg = arguments;
+    let _this = this;
+    timeout = setTimeout(() =&gt; &#123;
+      func.apply(_this, arg);
+    &#125;, wait);
+  &#125;;
+&#125;
+
+let add = (a, b) =&gt; &#123;
+  console.log(a + b);
+&#125;;
+const debounceAdd = debounce(add, 1000);
+setTimeout(() =&gt; &#123;
+  debounceAdd(1, 2);
+&#125;, 200);
+setTimeout(() =&gt; &#123;
+  debounceAdd(1, 2);
+&#125;, 200);
+</code></pre>
+<h3 id="4-实现一个简单的模板引擎"><a href="#4-实现一个简单的模板引擎" class="headerlink" title="4. 实现一个简单的模板引擎"></a>4. 实现一个简单的模板引擎</h3><p><strong>题目</strong>：实现一个简单的模板引擎，它能够将类似于 <code>&quot;Hello, &#123;&#123;name&#125;&#125;!&quot;</code> 的模板字符串和一个对象如 <code>&#123;name: &quot;World&quot;&#125;</code> 作为输入，并输出 <code>&quot;Hello, World!&quot;</code>。请描述你的实现思路，并给出代码。</p>
+<h3 id="5-CSS-垂直居中的方法"><a href="#5-CSS-垂直居中的方法" class="headerlink" title="5. CSS 垂直居中的方法"></a>5. CSS 垂直居中的方法</h3><p><strong>题目</strong>：请列举至少三种使得一个元素在其父元素中垂直居中的方法，并简要描述每种方法的原理和使用场景。</p>
+<hr>
+<p>这些题目覆盖了前端开发的几个重要方面，包括异步编程、前端路由、函数式编程技巧、简单的模板处理以及CSS布局技巧。它们不仅考察了候选人的编码能力，也考察了对前端技术的理解和应用能力。在准备面试时，能够解答这些题目将有助于展示你的前端开发技能。</p>
+
+    </div>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2021 - 2024 摸鱼日志
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Like Frost
+        </div>
+        <div></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '8249c57ec1e7d39c84e2',
+        clientSecret: 'bdce24bd67025b8164bd420f6412441f3635ebd8',
+        repo: 'comment',      // The repository of store comments,
+        owner: 'LikeFrost',
+        admin: ['LikeFrost'],
+        language: 'zh-CN',
+        id: decodeURI(location.pathname),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
+
+</body>
+
+</html>
