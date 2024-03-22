@@ -142,7 +142,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/前端" style=color:#ff7d73>
+                <a href="/tags/前端" style=color:#00bcd4>
                     前端
                 </a>
             </span>
@@ -152,7 +152,7 @@
     </div>
 
     <div class="content" v-pre>
-        <!---more--->
+        <span id="more"></span>
 
 <ul>
 <li><p><strong>JavaScript作用域和闭包</strong><br>Q：解释 JavaScript 中的词法作用域（Lexical Scoping）和闭包（Closure）。闭包是如何工作的，它们在实际开发中有哪些用途？<br>A：词法作用域是指一个函数的内部作用域，闭包是函数以及其周围的此法环境，它通常是一个函数，这个函数能访问外部的变量，因此这个变量一直存续在函数存续期间；在实际开发过程中，闭包可以用于将函数和他词法环境绑定，比如计算长方形的面积，当他的宽固定时，就可以写作：</p>
@@ -288,8 +288,181 @@ setTimeout(() =&gt; &#123;
 </code></pre>
 <h3 id="4-实现一个简单的模板引擎"><a href="#4-实现一个简单的模板引擎" class="headerlink" title="4. 实现一个简单的模板引擎"></a>4. 实现一个简单的模板引擎</h3><p><strong>题目</strong>：实现一个简单的模板引擎，它能够将类似于 <code>&quot;Hello, &#123;&#123;name&#125;&#125;!&quot;</code> 的模板字符串和一个对象如 <code>&#123;name: &quot;World&quot;&#125;</code> 作为输入，并输出 <code>&quot;Hello, World!&quot;</code>。请描述你的实现思路，并给出代码。</p>
 <h3 id="5-CSS-垂直居中的方法"><a href="#5-CSS-垂直居中的方法" class="headerlink" title="5. CSS 垂直居中的方法"></a>5. CSS 垂直居中的方法</h3><p><strong>题目</strong>：请列举至少三种使得一个元素在其父元素中垂直居中的方法，并简要描述每种方法的原理和使用场景。</p>
-<hr>
-<p>这些题目覆盖了前端开发的几个重要方面，包括异步编程、前端路由、函数式编程技巧、简单的模板处理以及CSS布局技巧。它们不仅考察了候选人的编码能力，也考察了对前端技术的理解和应用能力。在准备面试时，能够解答这些题目将有助于展示你的前端开发技能。</p>
+<ul>
+<li>深拷贝</li>
+</ul>
+<pre><code class="js">const deepClone = (obj) =&gt; &#123;
+  if (obj === null || typeof obj !== &quot;object&quot;) return obj;
+  let result = Array.isArray(obj) ? [] : &#123;&#125;;
+  for (let key in obj) &#123;
+    if (obj.hasOwnProperty(key)) &#123;
+      if (obj[key] &amp;&amp; typeof obj[key] === &quot;object&quot;) &#123;
+        result[key] = deepClone(obj[key]);
+      &#125; else &#123;
+        result[key] = obj[key];
+      &#125;
+    &#125;
+  &#125;
+&#125;;
+</code></pre>
+<ul>
+<li>手写instanceOf</li>
+</ul>
+<pre><code class="js">const myInstance = (left, right) =&gt; &#123;
+  if (left !== &quot;object&quot; || left === null) return false;
+  let proto = Object.getPrototypeOf(left);
+  while (proto) &#123;
+    if (proto === right.prototype) return true;
+    proto = Object.getPrototypeOf(proto);
+  &#125;
+  return false;
+&#125;;
+</code></pre>
+<ul>
+<li>手写new</li>
+</ul>
+<pre><code class="js">function myNew(fn, ...args) &#123;
+  const obj = &#123;&#125;;
+  obj.__proto__ = fn.prototype;
+  let result = fn.apply(fn, args);
+  return result instanceof Object ? result : obj;
+&#125;
+</code></pre>
+<ul>
+<li>实现简单ajax</li>
+</ul>
+<pre><code class="js">function ajax(options) &#123;
+  const xhr = new XMLHttpRequest();
+  options = options || &#123;&#125;;
+  options.type = (options.type || &quot;GET&quot;).toUpperCase();
+  options.dataType = options.dataType || &quot;json&quot;;
+  const params = options.data;
+
+  if (options.type === &quot;GET&quot;) &#123;
+    xhr.open(&quot;GET&quot;, options.url + &quot;?&quot; + params, true);
+    xhr.send(null);
+  &#125; else if (options.type === &quot;POST&quot;) &#123;
+    xhr.open(&quot;POST&quot;, options.url, true);
+    xhr.send(params);
+  &#125;
+
+  xhr.onreadystatechange = function () &#123;
+    if (xhr.readyState === 4) &#123;
+      const status = xhr.status;
+      if (status &gt;= 200 &amp;&amp; status &lt; 300) &#123;
+        options.success &amp;&amp; options.success(xhr.responseText, xhr.responseXML);
+      &#125; else &#123;
+        options.fail &amp;&amp; options.fail(status);
+      &#125;
+    &#125;
+  &#125;;
+&#125;
+
+ajax(&#123;
+  url: &quot;http://localhost:3000/api&quot;,
+  type: &quot;GET&quot;,
+  data: &#123;
+    name: &quot;zhangsan&quot;,
+    age: 18,
+  &#125;,
+  dataType: &quot;json&quot;,
+  success: function (response, xml) &#123;
+    console.log(response);
+  &#125;,
+  fail: function (status) &#123;
+    console.log(status);
+  &#125;,
+&#125;);
+</code></pre>
+<ul>
+<li>函数柯里化</li>
+</ul>
+<pre><code class="js">const curry = function (fn) &#123;
+  return function curried(...args) &#123;
+    if (args.length &gt; fn.length) &#123;
+      return function () &#123;
+        return curried(...args.concat([...arguments]));
+      &#125;;
+    &#125;
+    return fn(...args);
+  &#125;;
+&#125;;
+</code></pre>
+<ul>
+<li>节流和防抖</li>
+</ul>
+<pre><code class="js">function debounce(func, wait) &#123;
+  let timeout = null;
+  return function () &#123;
+    let args = arguments;
+    let _this = this;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() =&gt; &#123;
+      func.apply(_this, args);
+    &#125;, wait);
+  &#125;;
+&#125;
+
+function throttle(func, wait) &#123;
+  let timeout = null;
+  return function () &#123;
+    let args = arguments;
+    let _this = this;
+    if (!timeout) &#123;
+      timeout = setTimeout(() =&gt; &#123;
+        func.apply(_this, args);
+        timeout = null;
+      &#125;, wait);
+    &#125;
+  &#125;;
+&#125;
+
+function throttle(func, wait) &#123;
+  let oldtime = Date.now();
+  return function () &#123;
+    let args = arguments;
+    let _this = this;
+    let newtime = Date.now();
+    if (newtime - oldtime &gt;= wait) &#123;
+      func.apply(_this, args);
+      oldtime = Date.now();
+    &#125;
+  &#125;;
+&#125;
+</code></pre>
+<ul>
+<li>并查集</li>
+</ul>
+<pre><code class="js">function createUnionFind(size) &#123;
+  const parent = new Array(size).fill(0).map((_, i) =&gt; i);
+
+  function find(x) &#123;
+    if (parent[x] === x) &#123;
+      return x;
+    &#125;
+    parent[x] = find(parent[x]);
+    return parent[x];
+  &#125;
+
+  function union(x, y) &#123;
+    let rootX = find(x);
+    let rootY = find(y);
+    if (rootX !== rootY) &#123;
+      parent[rootX] = rootY;
+    &#125;
+  &#125;
+
+  function connected(x, y) &#123;
+    return find(x) === find(y);
+  &#125;
+
+  return &#123;
+    find,
+    union,
+    connected,
+  &#125;;
+&#125;
+</code></pre>
 
     </div>
 
